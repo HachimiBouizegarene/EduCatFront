@@ -3,7 +3,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
   components: {
@@ -15,7 +14,7 @@ export default {
   *{
       padding: 0;
       margin: 0;
-      font-family:'Roboto Mono';
+      font-family:'Roboto Condensed';
   }
   body{
     max-width: 1920px;
