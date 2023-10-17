@@ -10,8 +10,8 @@
                 <h1>MyLearning</h1>
             </div>
             <div class="right-part">
-                <button>S'inscrire</button>
-                <button>Se connecter</button>
+                <router-link  to="/">S'inscrire</router-link>
+                <router-link  to="/login">Se connecter</router-link>
             </div>
         </nav>
     </header>
@@ -22,6 +22,9 @@
 </script>
 
 <style>
+
+
+
 header{
     width:100%;
     height: 50px;
@@ -33,6 +36,7 @@ header nav {
     align-items: center;
     justify-content: space-between;
 }
+
 
 header nav .left-part{
     height: 100%;
@@ -79,14 +83,16 @@ header nav .right-part {
     width: 25%;
 }
 
-header nav .right-part button{
+header nav .right-part a{
+    text-decoration: none;
+    color : black;
     border: none;
     background: none;
     border-radius:6px;
     padding: 10px;
 }
 
-header nav .right-part button:nth-child(1){
+header nav .right-part a:nth-child(1){
     background-color: white;
 }
 </style>
