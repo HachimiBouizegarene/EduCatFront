@@ -32,12 +32,9 @@ export default {
       async onSubmit(){
         const response = await fetch("http://localhost:9090/login", {
           method : "POST",
-          headers : {
-            "Content-Type": "application/json",
-          },
           body :  JSON.stringify({
-                      "user_name" : "GoatName",
-                      "password" : "GoatGoat"
+                      "user_name" : this.user_name,
+                      "password" : this.password
                   })
         })
         const data = await response.json();
