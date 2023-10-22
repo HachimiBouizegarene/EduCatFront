@@ -70,16 +70,9 @@
     left: 0;
     transform: translateX(-30%) translateY(15%);
   }
-   button{
-    color: #4f4e81;
-    background : none;
-    border: none;
-    border-bottom: 1px solid #706fad;
-    cursor: pointer;
-  }
 
   
-    #logo_login{
+  #logo_login{
     width: 250px;
   }
 

@@ -4,7 +4,7 @@
     <div class="left-part">
     <span></span>
       <LogoDeco logo_url="login_page/logo_signin.svg"></LogoDeco>
-      <span></span>
+      <router-link to="/login">Se connecter</router-link>
     </div>
 
     <form @submit.prevent="onSubmit(e)">
@@ -52,13 +52,13 @@ export default {
     methods : {
       async onSubmit(){
         try{
-            const response = await fetch("http://localhost:9090/sig nin", {
+            const response = await fetch("http://localhost:9090/signin", {
             method : "POST",
             body :  JSON.stringify({
                         "user_name" : this.user_name,
                         "user_forename" : this.user_forename,
                         "user_birthday" : this.user_birthday,
-                        "user_mail" : this.user_mail,
+                        "user_email" : this.user_mail,
                         "user_password" : this.user_password,
                     })
           })
@@ -67,8 +67,12 @@ export default {
             this.error= data['error']
             this.$refs.error.style.opacity = "100%"
           }else{
-            this.$cookies.set('jws', data['jws'])
-            this.$router.push("/MembrePage")
+            this.$router.push({
+                path : "/login",
+                query : {
+                    subscribe : true
+                }
+            })
           }
         }catch(e){
           this.error= "Erreur lors de la connexion au serveur"
@@ -190,6 +194,14 @@ body{
     width: 30%;
   }
   
+  a{
+    color: #4f4e81;
+    background : none;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0;
+  }
 }
 
 @media screen and (max-width: 800px) {

@@ -4,7 +4,7 @@
     <div class="left-part">
       <span></span>
       <LogoDeco logo_url="login_page/logo_login.svg"></LogoDeco>
-      <button>S'inscrire</button>
+      <router-link to="/signin">S'inscrire</router-link>
     </div>
 
   <form @submit.prevent="onSubmit(e)">
@@ -13,7 +13,7 @@
 
       <input id="password" placeholder="Mot de passe" v-model="password">
       <button type="submit">Se connecter</button>
-      <span id="error" ref="error">{{ error }}</span>
+      <span id="message" ref="message">{{ message }}</span>
   </form>
   </div>
 
@@ -33,11 +33,19 @@ export default {
       return{
         user_name : '',
         password : '',
-        error : ''
+        message : ''
       }
     },
     created(){
+
       if (this.$cookies.get("jws")) this.$router.push("/MembrePage")
+    },
+    mounted(){
+      if(this.$route.query.subscribe != undefined) {
+        this.message = "Inscription reussie !"
+        this.$refs.message.style.opacity = "100%"
+        this.$refs.message.style.backgroundColor = "rgb(75 255 145)"
+      }
     },
 
     methods : {
@@ -52,18 +60,18 @@ export default {
           })
           const data = await response.json();
           if( Object.keys(data).includes('error')){
-            this.error= data['error']
-            this.$refs.error.style.opacity = "100%"
+            this.message= data['error']
+            this.$refs.message.style.opacity = "100%"
+            this.$refs.message.style.backgroundColor = "rgb(255, 75, 75)"
           }else{
             this.$cookies.set('jws', data['jws'])
             this.$router.push("/MembrePage")
           }
         }catch(e){
-          this.error= "Erreur lors de la connexion au serveur"
-          this.$refs.error.style.opacity = "100%"
+          this.message= "Erreur lors de la connexion au serveur"
+          this.$refs.message.style.opacity = "100%"
+          this.$refs.message.style.backgroundColor = "rgb(255, 75, 75)"
         }
-        
-        // 
         
       }
     }
@@ -106,8 +114,6 @@ export default {
     justify-content: space-around;
     position: relative;
   }
-
- 
 
   .container form {
 
@@ -154,16 +160,24 @@ export default {
     padding: 10px 0 ;
   }
 
-  #error{
+  #message{
     opacity: 0;
     transition: 0.15s ease;
     color: rgb(85, 84, 84);
     padding: 10px;
-    background-color: rgb(255, 75, 75);
     font-size: 14px;
     text-align: center;
     margin-top: 10px;
     border-radius: 100px;
+  }
+
+  a{
+    color: #4f4e81;
+    background : none;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0;
   }
 
   @media screen and (max-width: 1300px) {
@@ -197,6 +211,10 @@ export default {
   .container form input {
     font-size: 10px;
     border-bottom-width: 2px;
+  }
+
+  #message{
+    font-size: 12px;
   }
 }
 
