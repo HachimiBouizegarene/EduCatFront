@@ -7,10 +7,10 @@
                     <span></span>
                     <span></span>
                 </div>
-                <h1>MyLearning</h1>
+                <router-link id="title"  to="/">EduCat</router-link>
             </div>
             <div class="right-part">
-                <router-link  to="/">S'inscrire</router-link>
+                <router-link  to="/signin">S'inscrire</router-link>
                 <router-link  to="/login">Se connecter</router-link>
             </div>
         </nav>
@@ -28,6 +28,7 @@
 header{
     width:100%;
     height: 50px;
+    box-shadow: rgba(100, 100, 111, 0.137) 0px 7px 29px 0px;
 }
 header nav {
     width: 100%;
@@ -42,10 +43,9 @@ header nav .left-part{
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
     width: 30%;
 }
-
 
 
 #burger-menu{
@@ -79,17 +79,20 @@ header nav .right-part {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
     width: 25%;
 }
 
-header nav .right-part a{
+a{
     text-decoration: none;
-    color : black;
+    color : rgb(49, 49, 49);
     border: none;
     background: none;
     border-radius:6px;
     padding: 10px;
+}
+#title{
+    font-size: 25px;
 }
 
 header nav .right-part a:nth-child(1){

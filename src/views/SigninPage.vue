@@ -1,53 +1,65 @@
 <template>
-  <NavBar></NavBar>
+    <NavBar></NavBar>
   <div class="container">
     <div class="left-part">
+    <span></span>
+      <LogoDeco logo_url="login_page/logo_signin.svg"></LogoDeco>
       <span></span>
-      <LogoDeco logo_url="login_page/logo_login.svg"></LogoDeco>
-      <button>S'inscrire</button>
     </div>
 
-  <form @submit.prevent="onSubmit(e)">
-      <h1 id="login-title">Connexion</h1>
-      <input id="user_name" placeholder="Nom d'utilisateur" v-model="user_name">
+    <form @submit.prevent="onSubmit(e)">
+        <h1 id="login-title">Inscription</h1>
 
-      <input id="password" placeholder="Mot de passe" v-model="password">
-      <button type="submit">Se connecter</button>
-      <span id="error" ref="error">{{ error }}</span>
-  </form>
+        <div>
+            <input id="user_name" placeholder="Nom" v-model="user_name">
+            <input id="user_name" placeholder="Prenom" v-model="user_forename">
+        </div>
+        <input id="user_name" placeholder="Date de naissance" v-model="user_birthday">
+        <input id="user_mail" placeholder="Mail" v-model="user_mail">
+
+        <input id="password" placeholder="Mot de passe" v-model="user_password">
+        <input id="password_confirm" placeholder="Confirmer mot de passe" v-model="user_password_confirm">
+        <button type="submit">S'inscrire</button>
+        <span id="error" ref="error">{{ error }}</span>
+    </form>
   </div>
-
 </template>
+
 
 <script>
 import NavBar from "@/components/all/NavBar.vue"
 import LogoDeco from "@/components/log_sign/logoDeco.vue"
 
 export default {
-    name : "LoginPage",
-    components : {
-      NavBar,
-      LogoDeco
-    },
+    name:"SigninPage",
+
     data(){
-      return{
-        user_name : '',
-        password : '',
-        error : ''
-      }
-    },
-    created(){
-      if (this.$cookies.get("jws")) this.$router.push("/MembrePage")
+        return{
+            user_forename : '',
+            user_name : '',
+            user_birthday : '',
+            user_mail : '',
+            user_password : '',
+            user_password_confirm : '',
+            error : ''
+        }
     },
 
+    components : {
+        NavBar,
+        LogoDeco
+    },
     methods : {
       async onSubmit(){
         try{
-            const response = await fetch("http://localhost:9090/login", {
+            const response = await fetch("http://localhost:9090/sig nin", {
             method : "POST",
             body :  JSON.stringify({
                         "user_name" : this.user_name,
-                        "password" : this.password
+                        "user_forename" : this.user_forename,
+                        "user_birthday" : this.user_birthday,
+                        "user_mail" : this.user_mail,
+                        "user_password" : this.user_password,
                     })
           })
           const data = await response.json();
@@ -61,24 +73,19 @@ export default {
         }catch(e){
           this.error= "Erreur lors de la connexion au serveur"
           this.$refs.error.style.opacity = "100%"
-        }
-        
-        // 
-        
+        }        
       }
     }
-  
 }
-
 </script>
+
 <style scoped>
 
-  body{
+body{
     overflow: auto;
   }
 
   .container{
- 
     background-color: rgb(255, 255, 255);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     display: flex;
@@ -112,12 +119,22 @@ export default {
   .container form {
 
     box-sizing: border-box;
-    width: 20%;
+    width: 30%;
     margin: auto;
     display: flex;
     flex-direction: column;
     text-align: left;
     justify-content: center;
+  }
+
+  .container form div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .container form div input{
+    width: 45%;
   }
 
   .container form h1{
@@ -129,7 +146,7 @@ export default {
     padding:10px 0;
     margin-bottom: 30px;
     border: none;
-    border-bottom: 3px rgb(90, 89, 89) solid;
+    border-bottom: 2px rgb(90, 89, 89) solid;
     background: none;
     outline: none;
   }
@@ -168,9 +185,6 @@ export default {
 
   @media screen and (max-width: 1300px) {
 
-  .container{
-    height:600px;
-  }
 
   .container form {
     width: 30%;
@@ -179,10 +193,10 @@ export default {
 }
 
 @media screen and (max-width: 800px) {
-  .container{
-    height:400px;
+    .container{
+    height:600px;
   }
-  
+
   .container form {
     width: 40%;
   }
@@ -203,11 +217,11 @@ export default {
 @media screen and (max-width: 500px) {
   .container{
     flex-direction: column;
-    height: 600px;
+    height: 700px;
   }
   .container .left-part {
     width: 100%;
-    height: 40%;
+    height: 22%;
   }
 
   .container .left-part .circle{
@@ -226,5 +240,4 @@ export default {
   }
    
 }
-  
 </style>

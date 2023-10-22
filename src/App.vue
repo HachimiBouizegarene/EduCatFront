@@ -20,6 +20,7 @@ export default {
     max-width: 1920px;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
   }
 
 </style>
