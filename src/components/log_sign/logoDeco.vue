@@ -71,8 +71,9 @@
     transform: translateX(-30%) translateY(15%);
   }
 
+
   
-  #logo_login{
+    #logo_login{
     width: 250px;
   }
 
