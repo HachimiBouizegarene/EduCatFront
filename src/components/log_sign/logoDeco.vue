@@ -70,7 +70,14 @@
     left: 0;
     transform: translateX(-30%) translateY(15%);
   }
-
+  a {
+  color: #4f4e81;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+}
 
   
     #logo_login{
