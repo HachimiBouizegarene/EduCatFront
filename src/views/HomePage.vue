@@ -50,7 +50,7 @@ export default {
 div.center{
     width: 100%;
     height: 200px;
-    margin-top: 150px;
+    padding-top: 150px;
     display: flex;
     align-items: center;
     flex-direction: column;

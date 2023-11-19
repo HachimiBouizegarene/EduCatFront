@@ -21,6 +21,9 @@ export default {
     margin-left: auto;
     margin-right: auto;
     position: relative;
+    height: 100vh;
   }
-
+  #app{
+    height: 100%;
+  }
 </style>

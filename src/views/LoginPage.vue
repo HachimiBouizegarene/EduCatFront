@@ -166,14 +166,7 @@ body {
   padding: 10px 0;
 }
 
-a {
-  color: #4f4e81;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
-  padding: 0;
-}
+
 
 @media screen and (max-width: 1300px) {
 
