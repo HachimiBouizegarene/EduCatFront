@@ -30,8 +30,8 @@ header{
     z-index: 99999;
     width:100%;
     height: 50px;
-    box-shadow: rgba(100, 100, 111, 0.137) 0px 7px 29px 0px;
-    background-color: white;
+
+    background: none ;
 }
 header nav {
     width: 100%;
@@ -102,4 +102,3 @@ header nav .right-part a:nth-child(1){
     background-color: white;
 }
 </style>
-
