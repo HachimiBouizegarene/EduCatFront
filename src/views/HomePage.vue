@@ -508,4 +508,10 @@ div.levels-container h1{
   }
 
 }
+
+@media screen and (max-width: 200px) {
+  body{
+    background-color: red;
+  }
+}
 </style>

@@ -5,7 +5,7 @@ import Membre from "@/views/MembrePage.vue"
 import Signin from "@/views/SigninPage.vue"
 import Labyrinth from "@/views/games/LabyrinthPage.vue"
 import Test from "@/views/TestPage.vue"
-
+import Maze from "@/views/games/MazePage.vue";
 const routes = [
     {
         path: "/Lab",
@@ -37,6 +37,11 @@ const routes = [
         path: "/test",
         name : "TestPage",
         component : Test
+    },
+    {
+        path : "/maze",
+        name: "MazePage",
+        component : Maze
     }
 ]
 
