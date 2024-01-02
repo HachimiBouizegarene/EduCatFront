@@ -7,16 +7,21 @@
 </template>
 
 <script>
-
+    export default{
+        name : "FooterComp"
+    }
 </script>
 
-<style>
+<style scoped>
 footer{
-    background-color: rgb(115, 230, 250);
+    background-color: #43acfd;
     width: 100%;
     height: 100px;
     display: flex;
     align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 footer .img-container{
     margin-left: 150px;
@@ -28,4 +33,6 @@ footer .img-container{
 footer .img-container img{
     width: 30px;
 }
+
+
 </style>

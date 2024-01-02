@@ -3,16 +3,19 @@ import Home from "@/views/HomePage.vue"
 import Login from "@/views/LoginPage.vue"
 import Membre from "@/views/MembrePage.vue"
 import Signin from "@/views/SigninPage.vue"
-import Labyrinth from "@/views/games/LabyrinthPage.vue"
-import Test from "@/views/TestPage.vue"
-import Maze from "@/views/games/MazePage.vue";
+import HomeRemake from '@/views/HomePageRemake.vue'
+import MazeRemake from "@/views/games/MazePageRemake.vue"
 const routes = [
     {
-        path: "/Lab",
-        name : "LabPage",
-        component : Labyrinth
-    }
-    ,
+        path : "/mazeRemake",
+        name : "MazePageRemake",
+        component : MazeRemake
+    },
+    {
+        path : "/home",
+        name : "HomePageRemake",
+        component : HomeRemake
+    },
     {
         path : "/", 
         name : "HomePage",
@@ -32,16 +35,6 @@ const routes = [
         path : "/signin",
         name : "SiginPage",
         component : Signin
-    }
-    ,{
-        path: "/test",
-        name : "TestPage",
-        component : Test
-    },
-    {
-        path : "/maze",
-        name: "MazePage",
-        component : Maze
     }
 ]
 

@@ -188,13 +188,30 @@ export default class Maze {
    
   }
 
+  remove_obstacle_cible(){
+    for (let i = 0; i < this.grid.length; i++) {
+      for (let j = 0; j < this.grid[i].length; j++) {
+        if (this.grid[i][j] == -3) {
+          this.grid[i][j] = -2
+        }
+      }
+    }
+  }
+
   generateObstacles(nb){
-    nb
     let path_list_replique = this.path_list
     for(let i = 0 ; i < nb ; i++){
       let random = Math.floor(Math.random() * path_list_replique.length)
       this.grid[path_list_replique[random][0]][path_list_replique[random][1]] = -2
       path_list_replique.splice(random, 1)
+    }
+
+    for (let i = 0; i < this.grid.length; i++) {
+      for (let j = 0; j < this.grid[i].length; j++) {
+        if (this.grid[i][j] >= 0) {
+          this.grid[i][j] = Math.floor(Math.random() * 11);
+        }
+      }
     }
   }
 

@@ -42,7 +42,6 @@ export default {
   },
   mounted() {
     if (this.$route.query.subscribe != undefined) {
-      console.log("caca");
       this.$refs.messageContainer.message({ success: "Inscription reussie" })
     }
   },

@@ -54,7 +54,7 @@
 
 <script>
 import NavBar from "@/components/all/NavBar.vue"
-import FooterV from "@/components/all/FooterV.vue"
+import FooterV from "@/components/all/FooterComp.vue"
 import HomeLevel from "@/components/home/HomeLevel.vue"
 
 
