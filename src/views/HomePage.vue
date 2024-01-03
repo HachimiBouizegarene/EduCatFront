@@ -1,6 +1,8 @@
 <template>
     <NavBar></NavBar>
 
+    <img src="@/assets/images/footer/Instagram.svg">
+
     <div id="flaque">
     <img src=".\images\yellow-bg.png" alt="flaque image">
     </div>
@@ -64,7 +66,11 @@ export default {
         NavBar,
         HomeLevel,
         FooterV
-    }
+    },
+
+    mounted() {
+      
+    },
 }
 </script>
 
