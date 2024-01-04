@@ -28,7 +28,7 @@
         </div>
 
         <div class="maze-container">
-            <MazeComponent  @obstacle="obstacle" ref="maze"></MazeComponent>
+            <MazeComponent @win="win"  @obstacle="obstacle" ref="maze"></MazeComponent>
         </div>
         <div id="fight-button" :class="{ unabled: !this.possible_attack }">
             <img @click="attack" v-if="attacking == false" src="@/assets/images/games/Maze/contour_attack.png">
@@ -70,13 +70,20 @@ export default {
             ],
             health : 3,
             x_attacking_ostacle : undefined,
-            y_attacking_ostacle: undefined
+            y_attacking_ostacle: undefined,
+            difficulty : undefined,
+            difficultys : ["FACILE", "MOYEN", "DIFFICILE"]
         }
     },
     methods: {
-        menuClicked(message, level_choosen){
-            level_choosen
-            if(message== 'CONJUGAISON' || message == "GAME OVER"){
+        win(){
+            console.log("won");
+            this.$refs.menu.open('VICTOIRE',  this.difficultys, 'REJOUER')
+        },
+        menuClicked(message, level_choosen_index){
+            console.log(level_choosen_index);
+            this.difficulty = level_choosen_index;
+            if(message== 'CONJUGAISON' || message == "GAME OVER" || message == "VICTOIRE"){
                 this.$refs.maze.generate(7, 3);
                 this.health = 3
             }
@@ -86,16 +93,25 @@ export default {
             this.attacking = false
             this.$refs.maze.verifieOstacle()
         },
-        attack() {
+        async attack() {
             if (this.possible_attack) {
                 this.attacking = true
-                this.$refs.popup.appear('JOUER', 'FUTUR', 'salut ca ____ ou pas', ['1', '2', '3', '4'], 0)
+                const body = JSON.stringify({
+                        'difficulty' : this.difficulty
+                    });
+                let data =  await fetch("http://localhost:9090/conjugation", {
+                    method : 'POST',
+                    body : body
+                }).then((res)=>{
+                    return res.json()
+                })
+                this.$refs.popup.appear(data)
             }
 
         },
         loseHeath(){
             this.health--
-            if(this.health <= 0) this.$refs.menu.open('GAME OVER',  [], 'REJOUER')
+            if(this.health <= 0) this.$refs.menu.open('GAME OVER',  undefined, 'REJOUER')
 
         },
         obstacle(bool, y, x) {
@@ -119,7 +135,8 @@ export default {
         document.querySelector("body").style.backgroundColor= "#8ea7c5"
         document.querySelector("body").style.minHeight= "350px"
         document.querySelector("body").style.height= "100vh"
-        this.$refs.menu.open('CONJUGAISON',  [], 'JOUER')
+
+        this.$refs.menu.open('CONJUGAISON',  this.difficultys, 'JOUER')
     },
     beforeUnmount() {
         window.removeEventListener('resize', this.handleResizeMaze);
@@ -134,10 +151,15 @@ export default {
 
 
 main {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     background-color: #8ea7c5;
     width: 100%;
     max-width: 1920px;
-    min-height: 49vw;
+    min-height: 47.5vw;
     height: 100vh;
     max-height: 1200px !important;
     box-sizing: border-box;
@@ -400,26 +422,27 @@ img.runner {
         min-height: 160vw;
         top: 0;
         transform: none;
+        height: 100vh;
     }
 
     h1 {
         width: 45%;
-        top: 13vw;
+        top: 23vw;
         font-size: 4.5vw;
         left: 32%;
         transform: translateX(-50%);
     }
 
     .maze-container {
-        top: 65vw;
-        width: 65%;
-        left: 38%;
+        top: 96vw;
+        width: 80%;
+        left: 50%;
     }
 
     #fight-button {
         width: 20%;
-        top: 63vw;
-        left: 75%;
+        top: 150vw;
+        left: 40%;
     }
 
     img.runner {
@@ -433,22 +456,22 @@ img.runner {
     #structure {
         width: 75%;
         left: 54%;
-        top: -13vw;
+        top: -3vw;
     }
 
     #scene {
-        top: 70vw;
+        top: 130vw;
         width: 80%;
         left: 30%;
     }
 
     #runner-1 {
-        top: 21vw;
+        top: 35vw;
         left: 10%;
     }
 
     #runner-3 {
-        top: 7vw;
+        top:17vw;
         left: 70%;
     }
 
@@ -457,20 +480,19 @@ img.runner {
     }
 
     #fracture-1 {
-        top: 73vw;
+        top: 140vw;
         z-index: 111;
         left: 74%;
     }
 
     #fracture-2 {
-        top: 120vw;
-        left: 35%;
-        z-index: 22;
+        top: 40vw;
+        z-index: 10;
     }
 
     #big-fracture {
         width: 20%;
-        top: 100vw;
+        top: 150vw;
         z-index: 111;
         left: 13%;
     }

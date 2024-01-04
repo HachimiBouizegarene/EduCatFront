@@ -42,6 +42,7 @@ main{
 .paralaxe {
     display: block;
     height: 100vh;
+    min-height: 900px;
     max-height: 1200px;
     width: auto;
     overflow: hidden;

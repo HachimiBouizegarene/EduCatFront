@@ -64,7 +64,7 @@ export default {
       player_x: 0,
       player_y: 1,
       random_ground: 0,
-      moving_player: false
+      moving_player: true
 
     };
   },
@@ -127,11 +127,13 @@ export default {
       return this.random_ground
     },
     generate(dimension, nb_obstacles) {
+      this.moving_player= true
       this.reset();
       this.maze_dimension = parseInt(dimension);
       this.lab = new Maze(dimension)
       this.lab.generateObstacles(nb_obstacles);
       this.verifieOstacle();
+      this.moving_player= false
     },
     verifieOstacle() {
       const directions = [
@@ -189,6 +191,9 @@ export default {
           this.player_x += direction.x;
           this.player_y += direction.y;
           this.verifieOstacle();
+          if(this.player_x == this.lab.getSize()-1 &&  this.player_y == this.lab.getSize()-2){
+            this.$emit("win");
+          }
           this.moving_player = false
         }, 300);
       }

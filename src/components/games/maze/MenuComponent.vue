@@ -5,11 +5,12 @@
             <h3>MENU</h3>
             <h4 class="message">{{ message }}</h4>
 
-            <div class="levels">
-                <button v-for="(level, key) in levels" :key="key" @click="level_choosen = key"
-                    :class="{ choosen: level_choosen == key }">{{ level }}</button>
+            <div class="difficultys">
+                <button v-for="(level, key) in difficultys" :key="key" @click="difficulty_choosen = key"
+                    :class="{ choosen: difficulty_choosen == key }">{{ level }}</button>
             </div>
-            <button @click="this.$emit('menu-clicked', message ,levels[level_choosen]); close()" id="launch">{{ button_text }}</button>
+            <button :class="{unabled : difficultys !== undefined && difficulty_choosen === undefined}"
+              @click="emitClicked" id="launch">{{ button_text }}</button>
         </div>
     </div>
 </template>
@@ -25,10 +26,10 @@ export default {
 
     data() {
         return {
-            level_choosen: undefined,
-            closed: false,
+            difficulty_choosen: undefined,
+            closed: true,
             message: undefined,
-            levels: undefined,
+            difficultys: undefined,
             button_text: undefined
         }
     },
@@ -37,11 +38,21 @@ export default {
         close() {
             this.closed = true
         },
-        open(message, levels, button_text) {
+        open(message, difficultys, button_text) {
             this.message = message
-            this.levels = levels
+            this.difficultys = difficultys
             this.button_text = button_text
             this.closed = false
+
+        },
+        emitClicked(){
+            if(!(this.difficultys !== undefined && this.difficulty_choosen === undefined)){
+                this.$emit('menu-clicked', this.message ,this.difficulty_choosen, 
+                this.difficultys === undefined ? undefined : this.difficultys[this.difficulty_choosen]);
+                this.close()
+            }else{
+                console.log('caca');
+            }
 
         }
     },
@@ -51,6 +62,11 @@ export default {
 
 <style scoped>
 .menu {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -101,7 +117,7 @@ h4 {
     text-align: center;
 }
 
-.levels {
+.difficultys {
     flex-wrap: wrap;
     display: flex;
     gap: 2.2vw;
@@ -111,7 +127,7 @@ h4 {
     margin-bottom: 3vw;
 }
 
-.levels button {
+.difficultys button {
     cursor: pointer;
     text-transform: uppercase;
     cursor: pointer;
@@ -122,7 +138,7 @@ h4 {
     padding: 1vw 2vw;
 }
 
-.levels button.choosen {
+.difficultys button.choosen {
     background-color: rgb(255, 153, 0);
 }
 
@@ -136,6 +152,10 @@ h4 {
     background-color: rgb(32, 216, 32);
     color: white;
     cursor: pointer;
+}
+#launch.unabled{
+    background-color: grey ; 
+    pointer-events: none;
 }
 
 #home-icon img {

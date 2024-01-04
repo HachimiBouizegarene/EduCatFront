@@ -7,7 +7,8 @@
         <div v-html="mapSVGPixeled"></div>
         <div v-html="mapSVGHidden"></div>
 
-        <img src="@/assets/images/games/GeographieMaps/Abbandon_Button.gif" id="stopButton" class="hiddenStopButton" @click="stopGame">
+        <img src="@/assets/images/games/GeographieMaps/Abbandon_Button.gif" id="stopButton" class="hiddenStopButton"
+            @click="stopGame">
         <img class="cloud-cadre" src="@/assets/images/games/GeographieMaps/clouds/cloud_cadre_left.png">
         <img class="cloud-cadre cloud_cadre_right" src="@/assets/images/games/GeographieMaps/clouds/cloud_cadre_right.png">
         <span v-if="gameInProgress == true" id="ProgressBar"></span>
@@ -142,7 +143,7 @@ svg image {
     top: 50%;
     left: 23%;
     transform: translate(0%, -50%) scale(1);
-    z-index: 1000;
+    z-index: 100;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -401,7 +402,7 @@ svg image {
         top: 75%;
         left: 50%;
     }
-  
+
     #randomRegionButton img {
         width: 65vw;
     }
@@ -500,7 +501,7 @@ svg image {
     position: absolute;
     animation: cloud 85s linear infinite;
     animation-delay: -25000ms;
-    z-index: 100;
+    z-index: 101;
     pointer-events: none;
     transition: 0.3s ease-in;
 }
@@ -524,7 +525,7 @@ svg image {
 }
 
 #cloud3 {
-    top: 45%;
+    top: 35%;
     animation-delay: -50000ms;
     animation-duration: 120s;
 }
@@ -556,9 +557,8 @@ export default {
     name: "GeographieMapGamePage",
 
     mounted() {
-        this.$nextTick(() => {
-            document.getElementById('randomRegionButton').addEventListener('click', this.startGame);
-        });
+        document.getElementById('randomRegionButton').addEventListener('click', this.startGame);
+        window.addEventListener('resize', this.adjustFontSize);
     },
 
     data() {
@@ -595,8 +595,30 @@ export default {
 
             const buttonTextElement = document.getElementById('randomRegionButtonText');
             buttonTextElement.textContent = randomRegion;
+            this.adjustFontSize();
 
+        },
 
+        adjustFontSize() {
+            var button = document.getElementById('randomRegionButtonText');
+            var text = button.innerText;
+
+            // You can customize these values as needed
+            var baseFontSize = 3; // Base font size in vw
+            var maxSize = 7; // Maximum font size in vw
+            var minSize = 2; // Minimum font size in vw
+            var maxLength = 10; // Maximum length before reducing font size
+
+            if (window.innerWidth < 510) {
+                baseFontSize += 10;
+            } else if (window.innerWidth < 920) {
+                baseFontSize += 3;
+            } // else: No need to explicitly mention baseFontSize here
+
+            var fontSize = baseFontSize - (text.length > maxLength ? (text.length - maxLength) * 0.1 : 0);
+            fontSize = Math.max(minSize, Math.min(maxSize, fontSize));
+
+            button.style.fontSize = fontSize + 'vw';
         },
 
         startGame() {
@@ -620,6 +642,8 @@ export default {
 
                 // Mise à jour de la classe CSS pour l'angle de rotation
                 const percentage = (this.rotation % 360) / 360 * 100;
+                document.getElementById("ProgressBar").style.setProperty("--nouvelle-largeur", percentage + '%');
+
                 // Exécutez le code que vous souhaitez ici après chaque rotation complète
                 if (percentage === 0) {
                     document.getElementById('randomRegionButton').classList.add("shake");
