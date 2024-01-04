@@ -28,7 +28,7 @@
         </div>
 
         <div class="maze-container">
-            <MazeComponent  @obstacle="obstacle" ref="maze"></MazeComponent>
+            <MazeComponent @win="win"  @obstacle="obstacle" ref="maze"></MazeComponent>
         </div>
         <div id="fight-button" :class="{ unabled: !this.possible_attack }">
             <img @click="attack" v-if="attacking == false" src="@/assets/images/games/Maze/contour_attack.png">
@@ -71,14 +71,19 @@ export default {
             health : 3,
             x_attacking_ostacle : undefined,
             y_attacking_ostacle: undefined,
-            difficulty : undefined
+            difficulty : undefined,
+            difficultys : ["FACILE", "MOYEN", "DIFFICILE"]
         }
     },
     methods: {
+        win(){
+            console.log("won");
+            this.$refs.menu.open('VICTOIRE',  this.difficultys, 'REJOUER')
+        },
         menuClicked(message, level_choosen_index){
             console.log(level_choosen_index);
             this.difficulty = level_choosen_index;
-            if(message== 'CONJUGAISON' || message == "GAME OVER"){
+            if(message== 'CONJUGAISON' || message == "GAME OVER" || message == "VICTOIRE"){
                 this.$refs.maze.generate(7, 3);
                 this.health = 3
             }
@@ -100,8 +105,7 @@ export default {
                 }).then((res)=>{
                     return res.json()
                 })
-                console.log(data);
-                this.$refs.popup.appear({response_index: 0, pronom: 'ils/elles', verb: 'endurcir', responses: ['soumiettopentdsa','soumiettopentdsa','soumiettopentdsa','soumiettopentdsa'], time: 'present'})
+                this.$refs.popup.appear(data)
             }
 
         },
@@ -125,15 +129,14 @@ export default {
     }
     },    
     mounted() {
-        this.$refs.maze.generate(7, 3);
         const mazeContainer = document.querySelector('.maze-container')
         mazeContainer.style.height = mazeContainer.offsetWidth + "px";
         window.addEventListener('resize', this.handleResizeMaze)
         document.querySelector("body").style.backgroundColor= "#8ea7c5"
         document.querySelector("body").style.minHeight= "350px"
         document.querySelector("body").style.height= "100vh"
-        // this.$refs.menu.open('CONJUGAISON',  ["FACILE", "MOYEN", "DIFFICILE"], 'JOUER')
-        this.$refs.popup.appear({response_index: 0, pronom: 'ils/elles', verb: 'endurcir', responses: ['soumiettopentdsa','soumiettopentdsa','soumiettopentdsa','soumiettopentdsa'], time: 'present'})
+
+        this.$refs.menu.open('CONJUGAISON',  this.difficultys, 'JOUER')
     },
     beforeUnmount() {
         window.removeEventListener('resize', this.handleResizeMaze);
@@ -148,10 +151,15 @@ export default {
 
 
 main {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     background-color: #8ea7c5;
     width: 100%;
     max-width: 1920px;
-    min-height: 49vw;
+    min-height: 47.5vw;
     height: 100vh;
     max-height: 1200px !important;
     box-sizing: border-box;

@@ -340,19 +340,20 @@ h4 {
         box-sizing: border-box;
         width: 100%;
         margin: auto;
-        font-size: 150%;
-        padding: 5%;;
+        font-size: 140%;
+        padding: 8% 0;;
     }
 
     #choices{
-        width: 50%;
-        gap: 5% 0;
+        width: 70%;
+        gap: 0;
         box-sizing: border-box;
+        padding: 0 10%;
     }
 }
 
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1600px) and (min-height: 85vw) {
 
 
     .popup{
@@ -389,11 +390,6 @@ h4 {
         padding: 0.6vw 1.6vw
     }
 
-    .choice{
-        font-size: 1.6vw;
-        width: 11vw;
-        padding: 0.8vw;
-    }
 }
 
 

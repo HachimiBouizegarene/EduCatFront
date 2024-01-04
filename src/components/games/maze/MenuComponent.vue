@@ -62,6 +62,11 @@ export default {
 
 <style scoped>
 .menu {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     position: fixed;
     width: 100vw;
     height: 100vh;
