@@ -10,7 +10,7 @@
             <h4>Informations personnelles</h4>
             <div class="line" id="profile-img-line">
                 <div id="profile-img-container">
-                    <img id="profile-img" src="@/assets/images/test-profile.jpeg">
+                    <img ref="profil_img" id="profile-img" :src="profil_img_url">
                     <img class="edit-img"  src="@/assets/images/profile/edit.png">
                 </div>
                 
@@ -52,7 +52,8 @@ export default {
             data_classe : "",
             name : "",
             forename : "",
-            classe : ""
+            classe : "",
+            profil_img_url : ""
         }
     },
 
@@ -64,6 +65,10 @@ export default {
              this.data_forename !== this.forename || this.classe !== this.data_classe)
             return difference && !empty
             
+        },init(data){
+            let blob = new Blob([new Uint8Array(data.PhotoProfil)], {type : "image/jpg"})
+            let url = URL.createObjectURL(blob);
+            this.profil_img_url=url
         }
     }
 

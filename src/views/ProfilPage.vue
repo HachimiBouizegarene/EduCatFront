@@ -7,7 +7,7 @@
             </section>
         </div>
         <div class="parameter-container">
-            <GeneralParameterComp v-if="selected_parameter == 0"></GeneralParameterComp>
+            <GeneralParameterComp ref="generalPrameter" v-if="selected_parameter == 0"></GeneralParameterComp>
             <SecurityParameterComp  v-if="selected_parameter == 1"></SecurityParameterComp>
         </div>
      </main>
@@ -26,16 +26,18 @@ export default {
     },
     async mounted(){
         document.querySelector("body").style.backgroundColor = "#f8f8f8"
-
         const data = await fetch("http://localhost:9090/profile", {
             method : "POST", 
+            body : JSON.stringify({
+                jws : "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEifQ.jNMRR_-F2T0jHL2K2S1RLFOMhPsq4Ty7aQCd9PhHVq8"
+            })
         }).then((res)=>{
             return res.json();
-        })
-        console.log(data[0].PhotoProfil);
-        let blob = new Blob([new Uint8Array(data[0].PhotoProfil)], {type : "image/jpg"})
+        })  
+        this.$refs.generalPrameter.init(data);
 
-        console.log (URL.createObjectURL(blob))
+  
+
     },
 
     beforeUnmount(){
