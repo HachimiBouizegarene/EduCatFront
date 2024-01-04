@@ -16,7 +16,7 @@
       <!-- <span id="message" ref="message">{{ message }}</span> -->
       <messageContainer ref="messageContainer"></messageContainer>
     </form>
-    <FooterComp></FooterComp>
+    <!-- <FooterComp></FooterComp> -->
   </div>
 </template>
 
@@ -24,7 +24,7 @@
 import NavBar from "@/components/all/NavBar.vue"
 import LogoDeco from "@/components/log_sign/logoDeco.vue"
 import messageContainer from "@/components/log_sign/messageContainer.vue"
-import FooterComp from "@/components/all/FooterComp.vue"
+// import FooterComp from "@/components/all/FooterComp.vue"
 
 export default {
   name: "LoginPage",
@@ -32,7 +32,7 @@ export default {
     NavBar,
     LogoDeco,
     messageContainer,
-    FooterComp
+    // FooterComp
   },
   data() {
     return {

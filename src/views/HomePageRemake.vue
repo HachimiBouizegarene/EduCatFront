@@ -9,21 +9,21 @@
             <P>DE NOMBREUX JEUX IMAGINES PAR DES ETUDIANTS, POUR DES ETUDIANTS AFIN DE REUSSIR AU MIEUX A COMPRENDRE TOUT EN
                 S'AMUSANT !</P>
         </section>
-        <FooterComp></FooterComp>
+        <!-- <FooterComp></FooterComp> -->
     </main>
 </template>
 
 <script>
 import navBar from "@/components/all/NavBar.vue"
 import ParalaxComp from "@/components/home/ParalaxComp.vue";
-import FooterComp from "@/components/all/FooterComp.vue"
+// import FooterComp from "@/components/all/FooterComp.vue"
 
 export default {
     name: "HomePageRemake",
     components: {
         navBar,
         ParalaxComp,
-        FooterComp
+        // FooterComp
     },
 }
 </script>

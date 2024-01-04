@@ -2,7 +2,7 @@
     <!-------------------------------Pied de la Page------------------------------->
     <footer id="Pied_de_Page">
         <div id="Contenu_Pied_Page">
-            <div id="Les_Listes_du_Footer">
+            <!-- <div id="Les_Listes_du_Footer">
                 <ul class="ListeStyle">
                     <li><a href="#" class="Premier_de_Liste">AIDE</a></li>
                     <li><a href="#" class="Reste_de_Liste">Statut de commande</a></li>
@@ -28,7 +28,7 @@
                     <li><a href="#" class="Reste_de_Liste">Creators Club</a></li>
                 </ul>
             </div>
-            <p id="Copyright_Alerte">&copy; Tout droits réservés. Mahydine - 2021</p>
+            <p id="Copyright_Alerte">&copy; Tout droits réservés. Mahydine - 2021</p> -->
         </div>
     </footer>
 </template>

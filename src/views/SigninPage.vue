@@ -22,7 +22,7 @@
       <button type="submit">S'inscrire</button>
       <MessageContainer ref="messageContainer"></MessageContainer>
     </form>
-    <FooterComp></FooterComp>
+    <!-- <FooterComp></FooterComp> -->
   </div>
 </template>
 
@@ -31,7 +31,7 @@
 import NavBar from "@/components/all/NavBar.vue"
 import LogoDeco from "@/components/log_sign/logoDeco.vue"
 import MessageContainer from "@/components/log_sign/messageContainer.vue"
-import FooterComp from "@/components/all/FooterComp.vue"
+// import FooterComp from "@/components/all/FooterComp.vue"
 
 export default {
   name: "SigninPage",
@@ -52,7 +52,7 @@ export default {
     NavBar,
     LogoDeco,
     MessageContainer,
-    FooterComp
+    // FooterComp
   },
   methods: {
     async onSubmit() {
