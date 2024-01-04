@@ -108,7 +108,7 @@ export default {
 }
 
 .gameButton img {
-    border-radius: 12px;
+    border-radius: 8px;
     object-fit: contain;
     width: 150px;
 }
