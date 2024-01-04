@@ -1,8 +1,11 @@
 <template>
     <header>
         <nav>
-            <router-link  to="/signin">S'INSCRIRE</router-link>
-            <router-link  to="/login">SE CONNECTER</router-link>
+            <router-link id="NavBarLogo" to="/"><img src="@/assets/images/navbar/Educat_Logo.webp" alt="logo Educat"></router-link>
+            <div>
+                <router-link  to="/signin">S'INSCRIRE</router-link>
+                <router-link  to="/login">SE CONNECTER</router-link>
+            </div>
         </nav>
     </header>
 </template>
@@ -21,7 +24,20 @@ header{
     height: 50px;
     background: none ;
 }
+
 header nav {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    box-sizing: border-box;
+    padding: 50px;
+    gap: 30px;
+    padding-right: 1.5%;
+}
+
+header nav div{
     width: 100%;
     height: 100%;
     display: flex;
@@ -32,6 +48,19 @@ header nav {
     gap: 30px;
     padding-right: 1.5%;
 }
+
+#NavBarLogo {
+    all: unset;
+    cursor: pointer;
+}
+
+#NavBarLogo img { 
+    width: 10vw;
+    image-rendering: pixelated;
+    min-width: 100px;
+    max-width: 210px;
+}
+
 
 a{
 
@@ -50,17 +79,15 @@ a:hover{
    border: 4px solid rgb(255, 187, 0);
    color : rgb(49, 49, 49);
 }
-#title{
-    font-size: 25px;
-}
 
-a:nth-child(1){
+a:nth-child(2){
     background-color: rgb(255, 187, 0);
 }
-a:nth-child(1):hover{
+a:nth-child(2):hover{
     background-color: white;
     border: 4px solid rgb(255, 255, 255);
 }
+
 @media screen and (max-width : 900px) {
     header nav {
         gap: 15px;
@@ -73,7 +100,7 @@ a:nth-child(1):hover{
 }
 
 @media screen and (max-width : 550px) {
-    header nav {
+    header nav div{
         gap: 10px;
         padding: 10px;
     }

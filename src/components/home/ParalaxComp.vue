@@ -17,18 +17,49 @@
         </div>
         <img class="clouds" id="clouds_1" src="@/assets/images/home/clouds.webp">
         <img class="clouds" id="clouds_2" src="@/assets/images/home/clouds.webp">
-        <img id="man" src="@/assets/images/home/man.gif">
+        <img id="man" src="@/assets/images/home/man.gif" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Profil">
+    </div>
+
+    <div v-if="isHovered" class="hover-text" :style="{ top: mouseY - 25 + 'px', left: mouseX + 25 + 'px' }">
+        {{ altText }}
     </div>
 </template>
 
 <script>
-export default{
-    name : "ParalaxeComp"
+export default {
+    name: "ParalaxeComp",
+
+    data() {
+        return {
+            isHovered: false,
+            mouseX: 0,
+            mouseY: 0,
+            altText: '',
+        }
+    },
+
+    methods: {
+        showAltText(event) {
+            console.log('test');
+            this.isHovered = true;
+            this.updateMousePosition(event);
+            this.altText = event.target.alt || ''; // Récupérer le texte de l'attribut alt
+        },
+        hideAltText() {
+            console.log('test');
+            this.isHovered = false;
+        },
+        updateMousePosition(event) {
+            console.log('test');
+            this.mouseX = event.clientX;
+            this.mouseY = event.clientY;
+        },
+    },
 }
 </script>
 
 <style scoped>
-h1{
+h1 {
     position: absolute;
     left: 55%;
     transform: translateX(-50%);
@@ -36,7 +67,7 @@ h1{
     font-size: 260px;
     color: rgb(44, 55, 75);
     text-align: right;
-    top :-20%;
+    top: -20%;
     z-index: -1;
 }
 
@@ -90,20 +121,21 @@ h1{
     transition: 0.5s ease;
 }
 
-.birds{
+.birds {
     width: 100vw;
     height: 100%;
     margin: auto;
     position: relative;
 }
 
-.bird{
+.bird {
     filter: blur(1px);
     width: 20px;
     position: absolute;
     animation: bird 120s linear infinite;
 }
-#bird_1{
+
+#bird_1 {
     filter: blur(0px);
     top: 40%;
     animation-duration: 40s;
@@ -111,20 +143,22 @@ h1{
     z-index: 1;
     width: 2%;
 }
-#bird_2{
+
+#bird_2 {
     top: 5%;
 }
 
-#bird_3{
+#bird_3 {
     top: 20%;
     animation-delay: -60000ms;
 }
 
 @keyframes bird {
-    from{
+    from {
         right: -50px;
     }
-    to{
+
+    to {
         right: 105%;
     }
 }
@@ -139,7 +173,7 @@ h1{
 }
 
 .subject {
-    filter:blur(0px) brightness(1) drop-shadow(0rem 0rem 1rem rgba(255, 155, 61, 0.747));
+    filter: blur(0px) brightness(1) drop-shadow(0rem 0rem 1rem rgba(255, 155, 61, 0.747));
     display: block;
     animation: idle 1s ease infinite;
     z-index: 1;
@@ -156,7 +190,7 @@ h1{
 .subject:hover {
     animation: none;
     padding: 0;
-    filter:blur(0px) brightness(1.2) ;
+    filter: blur(0px) brightness(1.2);
     transition: 0.5s ease;
 
 }
@@ -211,6 +245,14 @@ h1{
     top: 120px;
 }
 
+.hover-text {
+    /* Ajoutez vos styles pour le texte ici */
+    position: absolute;
+    padding: 5px;
+    background-color: #fff;
+    border: 1px solid #000;
+}
+
 @keyframes clouds {
     from {
         transform: translateX(0);
@@ -237,7 +279,7 @@ h1{
 
 @media screen and (max-width: 1400px) {
 
-    h1{
+    h1 {
         left: 53.5%;
         font-size: 150px;
     }
@@ -288,19 +330,21 @@ h1{
 
 
     @media screen and (max-width: 900px) {
-        .bird{
+        .bird {
             width: 10px;
         }
-        #bird_1{
+
+        #bird_1 {
             top: 50%;
             width: 22px;
             animation-duration: 30s;
         }
 
-        h1{
+        h1 {
             left: 52.3%;
             font-size: 100px;
         }
+
         #mountain {
             width: 47%;
         }
@@ -334,16 +378,17 @@ h1{
         #geo {
             right: 37.2%;
         }
-        
+
     }
 
 
     @media screen and (max-width: 550px) {
 
-        h1{
+        h1 {
             left: 51.3%;
             font-size: 60px;
         }
+
         #mountain {
             width: 29%;
         }
