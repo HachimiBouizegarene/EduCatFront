@@ -532,21 +532,6 @@ svg image {
 
 /* ------------------- FONTS FACES ---------------------*/
 
-@font-face {
-    font-family: 'pixel';
-    /* Nom de la police */
-    src: url('@/assets/fonts/pixel.ttf') format('truetype');
-    /* Chemin vers le fichier WOFF */
-    /* Ajoute d'autres formats de fichiers de police si nécessaire */
-}
-
-@font-face {
-    font-family: 'VT323';
-    /* Nom de la police */
-    src: url('@/assets/fonts/VT323-Regular.ttf') format('truetype');
-    /* Chemin vers le fichier WOFF */
-    /* Ajoute d'autres formats de fichiers de police si nécessaire */
-}
 </style>
 
 <script>

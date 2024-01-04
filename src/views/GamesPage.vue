@@ -2,7 +2,6 @@
 <template>
     <NavBar></NavBar>
 
-    <MazeComponent />
     <div id="gamesPage">
         <div id="gameMenu">
 
@@ -13,114 +12,105 @@
                 </div>
             </div>
 
-            <div id="gamesList">
+            <div id="gamesListBar">
+                <!-- <div class="arrowScrollButton" @click="scrollGamesList('left')">←</div> -->
                 <router-link v-for="(jeu, key) in jeux" :key="key" :to="{ name: jeu.NomJeu }">
                     <div class="gameButton">
-                    <img :src="jeu.imageUrl" :alt="jeu.NomJeu">
-                    <h5>{{ jeu.NomJeu }}</h5>
-                </div>
+                        <img :src="jeu.ImageJeu" :alt="jeu.NomJeu">
+                        <h5>{{ jeu.NomJeu }}</h5>
+                    </div>
                 </router-link>
+                <!-- <div class="arrowScrollButton" @click="scrollGamesList('right')">→</div> -->
+            </div>
+
+            <div id="gamesListBar">
+                <!-- <div class="arrowScrollButton" @click="scrollGamesList('left')">←</div> -->
+                <router-link v-for="(jeu, key) in jeux" :key="key" :to="{ name: jeu.NomJeu }">
+                    <div class="gameButton">
+                        <img :src="jeu.ImageJeu" :alt="jeu.NomJeu">
+                        <h5>{{ jeu.NomJeu }}</h5>
+                    </div>
+                </router-link>
+                <!-- <div class="arrowScrollButton" @click="scrollGamesList('right')">→</div> -->
             </div>
 
         </div>
     </div>
 
-    <FooterV></FooterV>
+    <!-- <FooterComp></FooterComp> -->
 </template>
 
 
 <script>
 import NavBar from "@/components/all/NavBar.vue"
-import FooterV from "@/components/all/FooterComp.vue"
+// import FooterComp from "@/components/all/FooterComp.vue"
 
 export default {
     name: "GamesPage",
 
     components: {
         NavBar,
-        FooterV
+        // FooterComp   
     },
 
     mounted() {
-        this.genererBoutonsJeux();
+        this.getGamesInfos();
+
+
     },
 
     data() {
         return {
             jeux: [],
+            
         };
     },
 
     methods: {
 
-        async genererBoutonsJeux() {
+        async getGamesInfos() {
             try {
-                const response = await fetch("http://localhost:9090/getGamesInfos", { method: "POST" });
-                const jeuxData = await response.json();
+                await fetch("http://localhost:9090/getGamesInfos", { method: "POST" })
+                    .then((res) => res.json())
+                    .then((jeuxData) => { if (Array.isArray(jeuxData)) this.jeux = jeuxData; });
 
-                if (Array.isArray(jeuxData)) {
-                    this.jeux = jeuxData;
-                }
-
-
-
-                // Attendre que toutes les images soient récupérées avant de créer les boutons
-                await Promise.all(this.jeux.map(async (jeu) => {
-                    jeu.imageUrl = await this.getImageJeuURL(jeu.IdJeu);
-                }));
-                
-                console.log(this.jeux);
-            } catch (e) {
-                console.error(e);
+            } catch (error) {
+                console.error("Erreur d'accès à l'API", error);
             }
-        },
 
-        async getImageJeuURL(id) {
-            const response = await fetch("http://localhost:9090/getGamesImages", {
-                method: "POST",
-                body: JSON.stringify({
-                    "IdJeu": id.toString(),
-                })
+            // remplacer l'ancienne valeur de l'image par l'url correcte !
+            this.jeux.forEach(jeu => {
+                if (Array.isArray(jeu.ImageJeu)) {
+                    try {
+                        const imageBlob = new Blob([new Uint8Array(jeu.ImageJeu)], { type: "image/webp" });
+                        const imageUrl = URL.createObjectURL(imageBlob);
+                        jeu.ImageJeu = imageUrl;
+
+                    } catch (error) {
+                        console.error("Erreur de convertion de l'image reçue en BD", error);
+                    }
+                } else {
+                    // Image par défaut
+                    jeu.ImageJeu = require("@/assets/images/games_menu/no_images.png");
+                }
             });
 
-            const imageBlob = await response.blob();
-            const imageUrl = URL.createObjectURL(imageBlob);
+        },
 
-            console.log(imageUrl);
+        scrollGamesList(direction) {
+            const gamesListContainer = document.getElementById('gamesListBar');
+            const scrollAmount = 200; // Ajustez la quantité de défilement selon vos préférences
+            const currentScrollLeft = gamesListContainer.scrollLeft;
 
-            return imageUrl;
+            if (direction === 'left') {
+                gamesListContainer.scrollLeft = currentScrollLeft - scrollAmount;
+            } else if (direction === 'right') {
+                gamesListContainer.scrollLeft = currentScrollLeft + scrollAmount;
+            }
         },
     }
 }
 </script>
-
-<style>
-/* Game Button */
-
-.gameButton {
-    width: 150px;
-    height: 182px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin: auto;
-}
-
-.gameButton img {
-    border-radius: 8px;
-    object-fit: contain;
-    width: 150px;
-}
-
-.gameButton h5 {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1em;
-    overflow: hidden;
-    font-family: 'gamePage', 'Roboto Condensed';
-}
-</style>
 
 <style scoped>
 #gamesPage {
@@ -137,11 +127,14 @@ export default {
 
 #gameMenu {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     flex-direction: column;
     margin: auto;
-    width: 90%;
-    max-width: 800px;
-    margin-top: 10%;
+    width: 80vw;
+    position: relative;
+    margin-top: 120px;
+
 }
 
 /* Game MenuTopBar */
@@ -153,6 +146,8 @@ export default {
     justify-content: space-between;
     width: 100%;
     padding: 12px;
+    height: 50px;
+    background-color: rgb(155, 155, 155);
 }
 
 #gameMenuTopBar h2 {
@@ -161,16 +156,69 @@ export default {
     text-align: center;
 }
 
-/* Game List */
+/* Game List Bar */
 
-#gamesList {
-    column-gap: 12px;
-    display: grid;
+#gamesListBar {
+    display: flex;
+    overflow-x: auto;
+    /* display: grid;
     grid-column-gap: 12px;
     grid-row-gap: 24px;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); */
     width: 100%;
     padding: 12px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.arrowScrollButton {
+
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    color: #ffffff;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.arrowScrollButton:nth-child(2) {}
+
+/* Game Button */
+
+.gameButton {
+    width: 150px;
+    height: 182px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: auto;
+    border: 2px solid rgba(22, 22, 22, 0);
+    border-radius: 8px;
+    padding: 3px;
+}
+
+.gameButton:hover {
+    border: 2px solid rgba(22, 22, 22, 0.40);
+}
+
+.gameButton img {
+    border-radius: 8px;
+    object-fit: contain;
+    width: 150px;
+}
+
+.gameButton h5 {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1em;
+    overflow: hidden;
+    font-family: 'gamePage', 'Roboto Condensed';
 }
 
 
@@ -222,36 +270,16 @@ export default {
 
 /* ------------------- Media Query ---------------------*/
 
-@media only screen and (max-width: 920px) {}
-
-@media only screen and (max-width: 550px) {
-    #gameMenuTopBar h2 {
-        font-size: 30px;
-    }
-
-}
-
-/* Media queries pour les petits écrans (mobiles) */
-@media only screen and (max-width: 480px) {
-    #gameMenuTopBar h2 {
-        font-size: 25px;
-    }
-
-    #searchBar {
-        width: 176px;
-    }
-
-    #searchBar input {
-        font-size: 12px;
-    }
-
+@media only screen and (max-width: 800px) {
     #gameMenuTopBar {
         flex-direction: column;
-        width: auto;
-        height: 100px;
-        justify-content: space-around;
     }
 }
+
+@media only screen and (max-width: 550px) {}
+
+/* Media queries pour les petits écrans (mobiles) */
+@media only screen and (max-width: 480px) {}
 
 
 
@@ -308,30 +336,4 @@ export default {
 
 
 @media only screen and (max-width: 390px) {}
-
-/* ------------------- FONTS FACES ---------------------*/
-
-@font-face {
-    font-family: 'pixel';
-    /* Nom de la police */
-    src: url('@/assets/fonts/pixel.ttf') format('truetype');
-    /* Chemin vers le fichier WOFF */
-    /* Ajoute d'autres formats de fichiers de police si nécessaire */
-}
-
-@font-face {
-    font-family: 'gamePage';
-    /* Nom de la police */
-    src: url('@/assets/fonts/gamePage.ttf') format('truetype');
-    /* Chemin vers le fichier WOFF */
-    /* Ajoute d'autres formats de fichiers de police si nécessaire */
-}
-
-@font-face {
-    font-family: 'VT323';
-    /* Nom de la police */
-    src: url('@/assets/fonts/VT323-Regular.ttf') format('truetype');
-    /* Chemin vers le fichier WOFF */
-    /* Ajoute d'autres formats de fichiers de police si nécessaire */
-}
 </style>

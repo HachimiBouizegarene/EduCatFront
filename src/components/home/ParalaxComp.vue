@@ -9,18 +9,18 @@
         <div id="mountain-container">
             <h1>EDUCAT</h1>
             <img id="mountain" src="@/assets/images/home/mountain.webp">
-            <img class="subject" id="math" src="@/assets/images/home/math.webp">
-            <img class="subject" id="french" src="@/assets/images/home/french.webp">
-            <img class="subject" id="culture" src="@/assets/images/home/culture.webp">
-            <img class="subject" id="history" src="@/assets/images/home/history.webp">
-            <img class="subject" id="geo" src="@/assets/images/home/geo.webp">
+            <img class="subject" id="math" src="@/assets/images/home/math.webp" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Mathématiques">
+            <img class="subject" id="french" src="@/assets/images/home/french.webp" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Français">
+            <img class="subject" id="culture" src="@/assets/images/home/culture.webp" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Culture">
+            <img class="subject" id="history" src="@/assets/images/home/history.webp" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Histoire">
+            <img class="subject" id="geo" src="@/assets/images/home/geo.webp" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Géographie" >
         </div>
         <img class="clouds" id="clouds_1" src="@/assets/images/home/clouds.webp">
         <img class="clouds" id="clouds_2" src="@/assets/images/home/clouds.webp">
         <img id="man" src="@/assets/images/home/man.gif" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Profil">
     </div>
 
-    <div v-if="isHovered" class="hover-text" :style="{ top: mouseY - 25 + 'px', left: mouseX + 25 + 'px' }">
+    <div v-if="isHovered" class="hover-text" :style="{ top: mouseY - 85 + 'px', left: mouseX + 5 + 'px' }">
         {{ altText }}
     </div>
 </template>
@@ -247,10 +247,22 @@ h1 {
 
 .hover-text {
     /* Ajoutez vos styles pour le texte ici */
-    position: absolute;
-    padding: 5px;
-    background-color: #fff;
-    border: 1px solid #000;
+    all: unset;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('@/assets/images/home/cadre.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 198px;
+    height: 78px;
+    image-rendering: pixelated;
+    text-align: center;
+    color: #ffffff;
+    font-family: gamePage;
+    font-size: 20px;
 }
 
 @keyframes clouds {
