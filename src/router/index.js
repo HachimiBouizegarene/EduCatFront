@@ -5,13 +5,13 @@ import Signin from "@/views/SigninPage.vue"
 import HomeRemake from '@/views/HomePageRemake.vue'
 import MazeRemake from "@/views/games/MazePageRemake.vue"
 import GeographieMapGamePage from "@/views/games/GeographieMapGamePage.vue"
-import GamePage from "@/views/GamePage.vue"
+import GamesPage from "@/views/GamesPage.vue"
 import ProfilPage from "@/views/ProfilPage.vue"
 
 const routes = [
     {
         path: "/mazeRemake",
-        name: "MazePageRemake",
+        name: "Conjugue pour Fuir !",
         component: MazeRemake
     },
     {
@@ -20,13 +20,13 @@ const routes = [
         component: ProfilPage
     },
     {
-        path: "/GamePage",
-        name: "GamePage",
-        component: GamePage
+        path: "/GamesPage",
+        name: "GamesPage",
+        component: GamesPage
     },
     {
         path: "/GeographieMapGamePage",
-        name: "GeographieMapGamePage",
+        name: "Maître du Monde !",
         component: GeographieMapGamePage
     },
     {
