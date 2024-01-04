@@ -1,0 +1,90 @@
+.parameter-comp.container {
+    padding: 2vw;
+    box-sizing: border-box;
+}
+
+.parameter-comp .title h3 {
+    font-size: 1.5vw;
+    padding-bottom: 1vw;
+}
+
+.parameter-comp .title p {
+    font-size: 1.1vw
+}
+
+
+.parameter-comp form {
+    padding-top: 4vw;
+    font-size: 1vw;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+}
+
+.parameter-comp form h4 {
+    font-size: 1.1vw;
+    margin-bottom: 0.4vw;
+}
+
+
+.parameter-comp form .line {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2.5vw;
+    padding-top: 1vw;
+    height: auto;
+}
+
+.parameter-comp form button{
+    border :none;
+    padding : 1vw;
+    font-size : 1vw;
+    width : 15vw;
+    border-radius : 3px;
+    font-weight : 700;
+    color : white;
+    background-color : rgba(248, 168, 19, 0.637);
+    pointer-events : none;
+    cursor : pointer
+
+}
+
+.parameter-comp form button.activated{
+    background-color : rgba(255, 166, 0, 0.856);
+    pointer-events : all;
+    transition : 0.2s ease;
+}
+
+.parameter-comp form button.activated:hover{
+    background-color : rgba(230, 151, 4, 0.877);
+}
+
+.parameter-comp form section {
+    margin: 1vw 0;
+    height: auto;
+    border: 0.1vw solid rgb(78, 78, 78);
+    filter: grayscale(1);
+    border-radius: 2px;
+    padding: 0.6vw;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.parameter-comp form section label {
+    font-size: 0.7vw;
+    padding-bottom: 0.2vw;
+    color: rgb(66, 66, 66);
+}
+
+.parameter-comp input,
+.parameter-comp select {
+    width: 100%;
+    height: 1vw;
+    border: none;
+    padding: 0.3vw 0;
+}
+.parameter-comp input:focus{
+    outline : none;
+}
+

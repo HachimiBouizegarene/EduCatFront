@@ -43,15 +43,12 @@ export default {
             this.difficultys = difficultys
             this.button_text = button_text
             this.closed = false
-
         },
         emitClicked(){
             if(!(this.difficultys !== undefined && this.difficulty_choosen === undefined)){
                 this.$emit('menu-clicked', this.message ,this.difficulty_choosen, 
                 this.difficultys === undefined ? undefined : this.difficultys[this.difficulty_choosen]);
                 this.close()
-            }else{
-                console.log('caca');
             }
 
         }
