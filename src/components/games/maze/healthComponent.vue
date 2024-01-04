@@ -25,7 +25,7 @@
         align-items: center;
         justify-content: center;
         padding:0.6vw 1vw;
-        background-color: rgba(236, 236, 236, 0.664);
+        background-color: rgba(54, 54, 54, 0.664);
         box-shadow: -0.2vw 0 0 0 rgb(44, 44, 44), 0.2vw 0 0 0 rgb(44, 44, 44), 0 -0.2vw 0 0 rgb(44, 44, 44), 0 0.2vw 0 0 rgb(44, 44, 44);
     }
 

@@ -7,12 +7,18 @@ import MazeRemake from "@/views/games/MazePageRemake.vue"
 import GeographieMapGamePage from "@/views/games/GeographieMapGamePage.vue"
 import JeuTest from "@/views/games/JeuTest.vue"
 import GamesPage from "@/views/GamesPage.vue"
+import ProfilPage from "@/views/ProfilPage.vue"
 
 const routes = [
     {
         path: "/mazeRemake",
         name: "Conjugue pour Fuir !",
         component: MazeRemake
+    },
+    {
+        path: "/profil",
+        name: "ProfilPage",
+        component: ProfilPage
     },
     {
         path: "/GamesPage",
