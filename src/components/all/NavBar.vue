@@ -1,7 +1,7 @@
 <template>
     <header>
         <nav>
-            <router-link  :to="{name : 'MazePageRemake'}">S'INSCRIRE</router-link>
+            <router-link  to="/signin">S'INSCRIRE</router-link>
             <router-link  to="/login">SE CONNECTER</router-link>
         </nav>
     </header>

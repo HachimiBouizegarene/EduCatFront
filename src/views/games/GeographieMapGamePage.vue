@@ -61,7 +61,6 @@
 }
 
 #mapSVGHidden {
-    width: 750px;
     opacity: 0;
 }
 

@@ -8,11 +8,18 @@
 
             <div id="gameMenuTopBar">
                 <h2>TOUS LES JEUX</h2>
-                <div id="searchBar"><input type="text" name="searchBar"><img src="@/assets/images/games_menu/searchBar.png">
+                <div id="searchBar"><input type="text" name="searchBar">
+                    <img src="@/assets/images/games_menu/searchBar.png">
                 </div>
             </div>
 
             <div id="gamesList">
+                <router-link v-for="(jeu, key) in jeux" :key="key" :to="{ name: jeu.NomJeu }">
+                    <div class="gameButton">
+                    <img :src="jeu.imageUrl" :alt="jeu.NomJeu">
+                    <h5>{{ jeu.NomJeu }}</h5>
+                </div>
+                </router-link>
             </div>
 
         </div>
@@ -27,9 +34,9 @@ import NavBar from "@/components/all/NavBar.vue"
 import FooterV from "@/components/all/FooterComp.vue"
 
 export default {
-    name: "GamePage",
+    name: "GamesPage",
 
-    components : {
+    components: {
         NavBar,
         FooterV
     },
@@ -40,7 +47,6 @@ export default {
 
     data() {
         return {
-            NavBar,
             jeux: [],
         };
     },
@@ -56,43 +62,16 @@ export default {
                     this.jeux = jeuxData;
                 }
 
-                console.log(this.jeux);
+
 
                 // Attendre que toutes les images soient récupérées avant de créer les boutons
                 await Promise.all(this.jeux.map(async (jeu) => {
                     jeu.imageUrl = await this.getImageJeuURL(jeu.IdJeu);
                 }));
-
-                // Maintenant, vous pouvez créer les boutons en utilisant les URLs d'images
-                this.createGameButtons();
+                
+                console.log(this.jeux);
             } catch (e) {
                 console.error(e);
-            }
-        },
-
-        createGameButtons() {
-            const gamesListContainer = document.getElementById("gamesList");
-
-            for (let i = 0; i < this.jeux.length; i++) {
-                const game = this.jeux[i];
-
-                // Créer les éléments HTML dynamiquement
-                const gameButton = document.createElement("div");
-                gameButton.classList.add("gameButton");
-
-                const imageElement = document.createElement("img");
-                imageElement.src = game.imageUrl; // Utiliser l'URL d'image stockée
-                imageElement.alt = "";
-
-                const h2Element = document.createElement("h2");
-                h2Element.textContent = game.NomJeu;
-
-                // Ajouter les éléments à gameButton
-                gameButton.appendChild(imageElement);
-                gameButton.appendChild(h2Element);
-
-                // Ajouter gameButton à gamesListContainer
-                gamesListContainer.appendChild(gameButton);
             }
         },
 
@@ -134,7 +113,7 @@ export default {
     width: 150px;
 }
 
-.gameButton h2 {
+.gameButton h5 {
     font-size: 16px;
     font-weight: 400;
     line-height: 1em;
@@ -214,7 +193,7 @@ export default {
 #searchBar input {
     all: unset;
     color: #000000;
-    text-align: center;
+    text-align: left;
     font-family: 'gamePage', 'Roboto Condensed';
     font-size: 20px;
     font-style: normal;
