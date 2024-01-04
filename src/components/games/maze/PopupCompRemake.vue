@@ -24,13 +24,13 @@
                     <p >{{temps}}</p>
                 </div>
             </section>
-            <p id="sentence">{{phrase}}</p>
+            <p id="sentence">{{pronom}} ______</p>
             <div id="choices">
                 <span :class="{correct :response == 0 && correct, incorrect :  response == 0 && !correct , unabled : response!== 0 && response !== undefined }"  @click="respond(0)" class="choice" ref="choice_1">
-                    <img src="@/assets/images/games/Maze/choice_background.png" />{{choix_possibles[0]}}</span>
-                <span :class="{correct :response == 1 && correct, incorrect :  response == 1 && !correct, unabled : response!== 1 && response !== undefined }" @click="respond(1)"  class="choice"><img src="@/assets/images/games/Maze/choice_background.png" />{{choix_possibles[1]}}</span>
-                <span :class="{correct :response == 2 && correct, incorrect :  response == 2 && !correct , unabled : response!== 2 && response !== undefined }" @click="respond(2)"  class="choice"><img src="@/assets/images/games/Maze/choice_background.png" />{{choix_possibles[2]}}</span>
-                <span :class="{correct :response == 3 && correct, incorrect :  response == 3 && !correct , unabled : response!== 3 && response !== undefined }"  @click="respond(3)" class="choice"><img src="@/assets/images/games/Maze/choice_background.png" />{{choix_possibles[3]}}</span>
+                    <img src="@/assets/images/games/Maze/choice_background.png" />{{responses[0]}}</span>
+                <span :class="{correct :response == 1 && correct, incorrect :  response == 1 && !correct, unabled : response!== 1 && response !== undefined }" @click="respond(1)"  class="choice"><img src="@/assets/images/games/Maze/choice_background.png" />{{responses[1]}}</span>
+                <span :class="{correct :response == 2 && correct, incorrect :  response == 2 && !correct , unabled : response!== 2 && response !== undefined }" @click="respond(2)"  class="choice"><img src="@/assets/images/games/Maze/choice_background.png" />{{responses[2]}}</span>
+                <span :class="{correct :response == 3 && correct, incorrect :  response == 3 && !correct , unabled : response!== 3 && response !== undefined }"  @click="respond(3)" class="choice"><img src="@/assets/images/games/Maze/choice_background.png" />{{responses[3]}}</span>
             </div>
         </div>
     </div>
@@ -42,10 +42,10 @@ export default {
     data(){
         return{
             verbe : '',
-            phrase : '',
+            pronom : '',
             temps : '',
             reponse_index : 0,
-            choix_possibles : [],
+            responses : [],
             hidden : true,
             correct : undefined,
             response : undefined
@@ -53,12 +53,14 @@ export default {
     },
 
     methods: {
-        appear(verbe, temps, phrase, choix_possibles, reponse_index){
-            this.temps = temps
-            this.verbe = verbe
-            this.phrase = phrase
-            this.choix_possibles = choix_possibles
-            this.reponse_index = reponse_index
+        appear(data){
+            this.temps = (data.time)
+            this.verbe = data.verb.toUpperCase()
+            this.pronom = data.pronom
+            this.responses = data.responses
+            this.reponse_index = data.response_index
+            // this.choix_possibles = choix_possibles
+            // this.reponse_index = reponse_index
             this.hidden = false
         },
 
@@ -99,7 +101,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
 
 * {
-    font-family: 'pixel';
+    font-family: 'pixel2';
     color: rgb(182, 182, 182);
 
 }
@@ -182,6 +184,7 @@ h4 img,
     position: relative;
     transition: 0.3s ease;
     cursor: pointer;
+    font-family: 'pixel2';
 }
 
 .info:hover {
@@ -235,14 +238,15 @@ h4 img,
 .choice {
     font-family: "pixel2";
     text-align: center;
-    width: 8vw;
-    font-size: 1.5vw;
+    width: 13vw;
+    font-weight: 700;
+    font-size: 1.2vw;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     position: relative;
-    padding: 1vw;
+    padding: 1.4vw;
     transition: 0.2s ease;
     cursor: pointer;
 }
