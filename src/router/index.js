@@ -5,6 +5,7 @@ import Signin from "@/views/SigninPage.vue"
 import HomeRemake from '@/views/HomePageRemake.vue'
 import MazeRemake from "@/views/games/MazePageRemake.vue"
 import GeographieMapGamePage from "@/views/games/GeographieMapGamePage.vue"
+import JeuTest from "@/views/games/JeuTest.vue"
 import GamesPage from "@/views/GamesPage.vue"
 
 const routes = [
@@ -37,6 +38,11 @@ const routes = [
         path: "/membre",
         name: "MembrePage",
         component: Membre
+    },
+    {
+        path: "/JeuTest",
+        name: "JeuTest",
+        component: JeuTest
     },
     {
         path: "/signin",

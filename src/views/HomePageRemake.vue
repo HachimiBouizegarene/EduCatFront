@@ -31,7 +31,6 @@ export default {
 main {
     background: linear-gradient(0deg, rgba(156, 205, 245, 1) 0%, rgba(255, 255, 255, 1) 100%);
     min-height: 100vh;
-    padding-bottom: 200px;
 }
 
 .paralaxe {
