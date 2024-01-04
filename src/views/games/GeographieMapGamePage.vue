@@ -7,7 +7,7 @@
         <div v-html="mapSVGPixeled"></div>
         <div v-html="mapSVGHidden"></div>
 
-        <img src="@/assets/images/games/GeographieMaps/Abbandon_Button.gif" id="stopButton" @click="stopGame">
+        <img src="@/assets/images/games/GeographieMaps/Abbandon_Button.gif" id="stopButton" class="hiddenStopButton" @click="stopGame">
         <img class="cloud-cadre" src="@/assets/images/games/GeographieMaps/clouds/cloud_cadre_left.png">
         <img class="cloud-cadre cloud_cadre_right" src="@/assets/images/games/GeographieMaps/clouds/cloud_cadre_right.png">
         <span v-if="gameInProgress == true" id="ProgressBar"></span>
@@ -53,9 +53,9 @@
 #mapSVGHidden {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 62%;
     transform: translate(-50%, -50%);
-    width: 800px;
+    width: 45vw;
     transition: 0.2s ease-in;
 }
 
@@ -86,16 +86,17 @@ svg image {
 
     #mapSVGPixeled,
     #mapSVGHidden {
-        width: 500px;
+        width: 64vw;
         top: 45%;
+        left: 50%;
     }
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 510px) {
 
     #mapSVGPixeled,
     #mapSVGHidden {
-        width: 370px;
+        width: 90vw;
         top: 45%;
     }
 }
@@ -104,8 +105,9 @@ svg image {
 
     #mapSVGPixeled,
     #mapSVGHidden {
-        width: 330px;
+        width: 79vw;
         top: 45%;
+
     }
 }
 
@@ -138,7 +140,7 @@ svg image {
     position: absolute;
     /* overflow: hidden; */
     top: 50%;
-    left: 20%;
+    left: 23%;
     transform: translate(0%, -50%) scale(1);
     z-index: 1000;
     display: flex;
@@ -149,7 +151,7 @@ svg image {
 
 #randomRegionButton img {
     image-rendering: pixelated;
-    width: 300px;
+    width: 22vw;
     position: absolute;
     z-index: 1;
     transition: 0.2s ease-in;
@@ -159,18 +161,19 @@ svg image {
     color: #FFF;
     text-align: center;
     font-family: 'VT323', 'Roboto Condensed';
-    font-size: 45px;
+    font-size: 3vw;
     font-style: normal;
     font-weight: 700;
     letter-spacing: -0.48px;
     position: absolute;
     z-index: 2;
-    margin-bottom: 22px;
+    margin-bottom: 2vw;
     white-space: nowrap;
     /* Empêche le texte de revenir à la ligne */
     overflow: hidden;
     /* Cache le texte qui dépasse la largeur du conteneur */
     text-overflow: ellipsis;
+    transition: 0.3s ease-out;
 }
 
 /* PROGRESS BAR */
@@ -277,13 +280,18 @@ svg image {
     transition: 0.3s ease-out;
 }
 
+#stopButton.hiddenStopButton {
+    left: -14%;
+    bottom: -10%;
+}
+
 #stopButton {
     width: 300px;
     height: fit-content;
     image-rendering: pixelated;
     position: absolute;
-    bottom: 3%;
-    right: 1%;
+    bottom: 2%;
+    left: 4%;
     filter: brightness(0.75);
     transition: 0.15s ease-in;
 }
@@ -292,7 +300,7 @@ svg image {
     cursor: pointer;
     filter: brightness(1.1);
     bottom: 8%;
-    right: 5%;
+    left: 8%;
 }
 
 .popup {
@@ -320,6 +328,110 @@ svg image {
     image-rendering: pixelated;
     transition: 0.1s ease-in-out;
 }
+
+/* ------------------- Media Query ---------------------*/
+
+@media only screen and (max-width: 920px) {
+    #randomRegionButton {
+        top: 80%;
+        left: 50%;
+    }
+
+    #randomRegionButton img {
+        width: 45vw;
+    }
+
+    #randomRegionButton h3 {
+        font-size: 7vw;
+        margin-bottom: 3vw;
+    }
+
+    #counterLeftQuestion {
+        top: 89%;
+        left: 50%;
+    }
+
+    #stopButton {
+        width: 300px;
+        bottom: 80%;
+        left: 0%;
+        filter: brightness(1);
+    }
+
+    .decoration {
+        width: 60px;
+    }
+}
+
+@media only screen and (max-width: 710px) {
+    .cloud-cadre {
+        opacity: 0.6;
+    }
+
+    .cloud {
+        opacity: 0.7;
+    }
+
+    #randomRegionButton h3 {
+        font-size: 8.5vw;
+        margin-bottom: 4vw;
+    }
+
+    #stopButton {
+        width: 250px;
+    }
+
+    .decoration {
+        width: 40px;
+    }
+}
+
+/* Media queries pour les petits écrans (mobiles) */
+@media only screen and (max-width: 510px) {
+
+    .cloud-cadre {
+        opacity: 0.2;
+    }
+
+    #counterLeftQuestion {
+        top: 85%;
+    }
+
+    #randomRegionButton {
+        top: 75%;
+        left: 50%;
+    }
+  
+    #randomRegionButton img {
+        width: 65vw;
+    }
+
+    #randomRegionButton h3 {
+        font-size: 8.5vw;
+        margin-bottom: 4.5vw;
+    }
+
+    .decoration {
+        width: 30px;
+    }
+}
+
+@media only screen and (max-width: 390px) {
+
+    #counterLeftQuestion {
+        top: 85%;
+    }
+
+    #randomRegionButton {
+        top: 75%;
+        left: 50%;
+    }
+
+    .decoration {
+        width: 20px;
+    }
+}
+
 
 /* ------------------- KeyFrame ---------------------*/
 
@@ -417,99 +529,6 @@ svg image {
     animation-duration: 120s;
 }
 
-/* ------------------- Media Query ---------------------*/
-
-@media only screen and (max-width: 920px) {
-    #randomRegionButton {
-        top: 80%;
-        left: 50%;
-    }
-
-    #counterLeftQuestion {
-        top: 89%;
-        left: 50%;
-    }
-
-    #stopButton {
-        width: 300px;
-        bottom: 80%;
-        right: 0%;
-        filter: brightness(1);
-    }
-
-    #stopButton:hover {
-        bottom: 80%;
-        right: 2%;
-    }
-
-    .decoration {
-        width: 60px;
-    }
-}
-
-@media only screen and (max-width: 768px) {
-    .cloud-cadre {
-        opacity: 0.6;
-    }
-
-    .cloud {
-        opacity: 0.7;
-    }
-
-    #stopButton {
-        width: 250px;
-    }
-
-    .decoration {
-        width: 40px;
-    }
-}
-
-/* Media queries pour les petits écrans (mobiles) */
-@media only screen and (max-width: 480px) {
-
-    .cloud-cadre {
-        opacity: 0.2;
-    }
-
-    #counterLeftQuestion {
-        top: 85%;
-    }
-
-    #randomRegionButton {
-        top: 75%;
-        left: 50%;
-    }
-
-    #randomRegionButton img {
-        width: 290px;
-    }
-
-    .decoration {
-        width: 30px;
-    }
-}
-
-@media only screen and (max-width: 390px) {
-
-    #counterLeftQuestion {
-        top: 85%;
-    }
-
-    #randomRegionButton {
-        top: 75%;
-        left: 50%;
-    }
-
-    #randomRegionButton img {
-        width: 240px;
-    }
-
-    .decoration {
-        width: 20px;
-    }
-}
-
 
 /* ------------------- FONTS FACES ---------------------*/
 
@@ -577,17 +596,7 @@ export default {
             const buttonTextElement = document.getElementById('randomRegionButtonText');
             buttonTextElement.textContent = randomRegion;
 
-            // Ajuster la taille de police en fonction de la longueur du texte
-            const textLength = randomRegion.length;
-            const maxSize = 45; // Taille de police maximale
-            const minSize = 20; // Taille de police minimale
 
-            let fontSize = maxSize - textLength; // Ajustez cela selon vos besoins
-
-            // Limiter la taille de police minimale
-            fontSize = Math.max(fontSize, minSize);
-
-            buttonTextElement.style.fontSize = fontSize + 'px';
         },
 
         startGame() {
@@ -600,6 +609,7 @@ export default {
             this.toursTimer = 0;
 
             document.getElementById('randomRegionButton').classList.remove("bubble");
+            document.getElementById('stopButton').classList.remove("hiddenStopButton");
             // document.getElementById('counterLeftQuestion').textContent = this.toursTimer + "/" + this.totalRotations;
 
             this.loadClickablePath();
@@ -610,8 +620,6 @@ export default {
 
                 // Mise à jour de la classe CSS pour l'angle de rotation
                 const percentage = (this.rotation % 360) / 360 * 100;
-                if (document.getElementById('randomRegionButton').style.background != "red")
-                    document.getElementById("ProgressBar").style.setProperty('--nouvelle-largeur', percentage + '%');
                 // Exécutez le code que vous souhaitez ici après chaque rotation complète
                 if (percentage === 0) {
                     document.getElementById('randomRegionButton').classList.add("shake");
@@ -719,9 +727,9 @@ export default {
             clearInterval(this.timer);
             this.rotation = 0;
             document.getElementById('randomRegionButton').classList.add("bubble");
+            document.getElementById('stopButton').classList.add("hiddenStopButton");
             document.getElementById("ProgressBar").style.setProperty('--nouvelle-largeur', 0 + '%');
             document.getElementById('randomRegionButtonText').textContent = "COMMENCER";
-            document.getElementById('randomRegionButtonText').style.fontSize = '45px';
 
             document.getElementById('counterLeftQuestion').textContent = 0 + "/" + this.totalRotations;
             // logique pour la fin du jeu
@@ -729,13 +737,13 @@ export default {
             // Sélectionnez la div contenant l'élément SVG
             var pathElements = document.getElementById("mapSVGHidden").getElementsByTagName("path");
             for (var i = 0; i < pathElements.length; i++) {
-                pathElements[i].classList.add("hovered");
+                pathElements[i].classList.remove("hovered");
 
                 // Uniquement visuel pour pouvoir hover la map pixelisée
-                pathElements[i].addEventListener('mouseenter', (e) => {
+                pathElements[i].removeEventListener('mouseenter', (e) => {
                     document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.add("hovered");
                 });
-                pathElements[i].addEventListener('mouseout', (e) => {
+                pathElements[i].removeEventListener('mouseout', (e) => {
                     document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.remove("hovered");
                 });
             }

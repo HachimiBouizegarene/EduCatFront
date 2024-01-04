@@ -1,6 +1,7 @@
 <template>
     <header>
         <nav>
+            <img src="" alt="">
             <router-link  to="/signin">S'INSCRIRE</router-link>
             <router-link  to="/login">SE CONNECTER</router-link>
         </nav>
