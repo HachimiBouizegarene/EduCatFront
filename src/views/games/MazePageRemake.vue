@@ -105,6 +105,7 @@ export default {
                 }).then((res)=>{
                     return res.json()
                 })
+                console.log(data);
                 this.$refs.popup.appear(data)
             }
 

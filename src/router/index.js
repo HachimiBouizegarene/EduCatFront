@@ -6,12 +6,18 @@ import HomeRemake from '@/views/HomePageRemake.vue'
 import MazeRemake from "@/views/games/MazePageRemake.vue"
 import GeographieMapGamePage from "@/views/games/GeographieMapGamePage.vue"
 import GamePage from "@/views/GamePage.vue"
+import ProfilPage from "@/views/ProfilPage.vue"
 
 const routes = [
     {
         path: "/mazeRemake",
         name: "MazePageRemake",
         component: MazeRemake
+    },
+    {
+        path: "/profil",
+        name: "ProfilPage",
+        component: ProfilPage
     },
     {
         path: "/GamePage",
