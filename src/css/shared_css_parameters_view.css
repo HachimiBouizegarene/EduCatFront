@@ -19,6 +19,7 @@
     flex-wrap: wrap;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .parameter-comp form h4 {
@@ -46,7 +47,6 @@
     background-color : rgba(248, 168, 19, 0.637);
     pointer-events : none;
     cursor : pointer
-
 }
 
 .parameter-comp form button.activated{
@@ -63,13 +63,39 @@
     margin: 1vw 0;
     height: auto;
     border: 0.1vw solid rgb(78, 78, 78);
-    filter: grayscale(1);
+    position: relative;
     border-radius: 2px;
     padding: 0.6vw;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
+div#res-container{
+    position: absolute;
+    bottom: 0;
+    right: 1vw;
+    width: max-content;
+    height: 2.9vw;
+    max-width: 35vw;
+    border-radius: 0.4vw;
+    overflow: hidden;
+}
+/* .parameter-comp form span{
+    color: white;
+    padding: 1vw;
+    width: fit-content;
+    position: absolute;
+    bottom: 0;
+    opacity: 0;
+    right: 0.6vw;
+    pointer-events: none;
+    background-color: red;
+}
+
+.parameter-comp form  span.visible{
+    opacity: 1;
+
+} */
 
 .parameter-comp form section label {
     font-size: 0.7vw;
@@ -79,11 +105,18 @@
 
 .parameter-comp input,
 .parameter-comp select {
+    font-size: 1vw;
     width: 100%;
     height: 1vw;
     border: none;
     padding: 0.3vw 0;
 }
+
+.parameter-comp input:disabled {
+
+    color: #5c5c5c; 
+    background: none;
+  }
 .parameter-comp input:focus{
     outline : none;
 }

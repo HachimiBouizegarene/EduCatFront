@@ -5,7 +5,7 @@
             <p>Gérez les informations sensibles de votre compte.</p>
         </section>
 
-        <form id="password-form">
+        <form  @submit.prevent="change_user_password" id="password-form">
             <h4>Changer votre mot de passe :</h4>
             <section>
                 <label>Mot de passe actuel :</label>
@@ -20,17 +20,31 @@
                 <input v-model="new_password_conf"  type="password">
             </section>
             <button :class="{ activated : verifPassword()}" type="submit">ENREGISTRER</button>
+            <div id="res-container">
+                <messageContainer ref="res"></messageContainer>
+            </div>
         </form>
     </div>
 </template>
 
 <script >
+import messageContainer from "@/components/log_sign/messageContainer.vue"
 export default {
     name: "SecurityParameterComp",
+    components : {
+        messageContainer
+    },
     methods : {
+        response(data){
+            this.$refs.res.message(data)
+        },
         verifPassword(){
             return (this.actual_password !== "" && this.new_password !== "" 
             && this.new_password_conf === this.new_password) 
+        },
+        change_user_password(){
+            this.$emit("change_user_password", {old_password : this.actual_password,
+                                             new_password : this.new_password })
         }
     },
 

@@ -11,11 +11,11 @@
             <div class="line" id="profile-img-line">
                 <div id="profile-img-container">
                     <img ref="profil_img" id="profile-img" :src="profil_img_url">
-                    <img @click="clickFileInput" class="edit-img"  src="@/assets/images/profile/edit.png">
+                    <img  @click="clickFileInput" class="edit-img"  src="@/assets/images/profile/edit.png">
                 </div>
                 <div id="pseudo-container">
-                    <input v-model="pseudo">
-                    <img  class="edit-img"  src="@/assets/images/profile/edit_2.png">
+                    <input @focusout="inputUnfocus" ref="pseudo_input" v-model="pseudo" disabled>
+                    <img @click="editPseudo"  class="edit-img"  src="@/assets/images/profile/edit_2.png">
                 </div>
                 
             </div>
@@ -23,33 +23,41 @@
             <div class="line">
                 <section>
                     <label for="name">Nom</label>
-                    <input  v-model="name" id="name">
+                    <input @focusout="inputUnfocus" v-model="name" id="name" disabled>
+                    <img   @click="editTarget" class="edit-img"  src="@/assets/images/profile/edit_2.png">
                 </section>
     
                 <section>
                     <label for="forename">Prenom</label>
-                    <input v-model="forename" id="forename">
+                    <input @focusout="inputUnfocus" v-model="forename" id="forename" disabled>
+                    <img  @click="editTarget" class="edit-img"  src="@/assets/images/profile/edit_2.png">
                 </section>
             </div>
 
             <section>
                 <label for="classe">Classe</label>
-                <input v-model="classe" id="classe">
-                <!-- <select v-model="classe" >
-                </select> -->
+                <input @focusout="inputUnfocus" v-model="classe" id="classe" disabled>
+                <img  @click="editTarget" class="edit-img"  src="@/assets/images/profile/edit_2.png">
             </section>
 
             <button :class="{activated : verifInfos()}" >MODIFIER</button>
+            <div id="res-container">
+                <messageContainer ref="res"></messageContainer>
+            </div>
         </form>
     </div>
 
 </template>
 
 <script>
+import messageContainer from "@/components/log_sign/messageContainer.vue"
+
 export default {
     name : "GeneralParameterComp",
+    components : {
+        messageContainer
+    },
     mounted(){
-        
     },
 
     data(){
@@ -65,11 +73,27 @@ export default {
             profil_img_url : "",
             profil_imb_blob : Blob,
             pseudo : "",
-            
+            visble : false
         }
     },
 
     methods : {
+        response(data){
+            this.$refs.res.message(data)
+        },
+        editTarget(e){
+            let input = e.target.parentNode.querySelector("input")
+            input.disabled = false
+            input.focus()
+        },
+        inputUnfocus(e){
+            e.target.disabled = true
+        },
+        editPseudo(){
+            if( this.$refs.pseudo_input.value == "Modifier pseudo")  this.$refs.pseudo_input.value = ""
+            this.$refs.pseudo_input.disabled = false
+            this.$refs.pseudo_input.focus()
+        },
         async handleFileChange(e){
             const image = e.target.files[0];
             const blob = new Blob([image], {type : "image/jpeg"});
@@ -82,9 +106,9 @@ export default {
             this.$refs.file_getter.click()
         },
         verifInfos(){
-            let empty = (this.classe==="" &&  this.forename==="" &&  this.name === "")
-            empty
-            let difference =(this.data_name !== this.name ||
+            let empty = (this.classe==="" ||  this.forename==="" ||  this.name === "" || this.pseudo=== "") 
+
+            let difference =(this.data_name !== this.name || this.pseudo !== this.data_pseudo ||
              this.data_forename !== this.forename || this.classe !== this.data_classe ||this.profil_img_url !== this.data_profil_img_url)
             return difference && !empty
             
@@ -104,7 +128,6 @@ export default {
                 const arr = new Uint8Array(data);
                 const regularArr = Array.from(arr);
                 ret.PhotoProfil = regularArr
-
                 // let blob = new Blob([new Uint8Array(regularArr)], {type : "image/jpg"})
                 // let url = URL.createObjectURL(blob);
                 // console.log(url);
@@ -129,6 +152,7 @@ export default {
 @import  '@/css/shared_css_parameters_view.css';
 
     *{
+   
         font-family : "pixel2";
         box-sizing : border-box;
     }
@@ -163,7 +187,7 @@ export default {
         width: 2.5vw;
         position: absolute;
         right: 0;
-        top: -0.7vw;
+        top: -0.6vw;
     }
 
 
@@ -181,6 +205,7 @@ export default {
         z-index : 2;
         width : 5vw;
         border : 5px solid rgb(255, 255, 255);
+        background-color: white;
         height : 5vw;
         border-radius : 100%;
         transition : .3s;
@@ -212,12 +237,24 @@ export default {
     }
 
     img.edit-img{
+        position: absolute;
         cursor: pointer;
         width: 1.8vw;
         opacity: 0.6;
         padding: 0.5vw;
         border-radius: 100%;
         overflow: visible;
+    }
+
+    section img.edit-img{
+        right: 0;
+        top: 0;
+        width: 3.5vw;
+        padding: 0.9vw;
+        height: 100%;
+        object-fit: cover;
+        background-color: rgb(255, 239, 216);
+        border-radius: 0.1px;
     }
 
     img.edit-img:hover{

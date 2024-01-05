@@ -8,12 +8,15 @@
         </div>
         <div class="parameter-container">
             <GeneralParameterComp @send_user_data="send_user_data" :data="user_data" ref="generalParameter" v-show="selected_parameter == 0"></GeneralParameterComp>
-            <SecurityParameterComp  v-if="selected_parameter == 1"></SecurityParameterComp>
+            <SecurityParameterComp @change_user_password="change_user_password"  ref="securityParameter" v-if="selected_parameter == 1"></SecurityParameterComp>
         </div>
+    
+
      </main>
 </template>
 
 <script>
+
 import NavBar from "@/components/all/NavBar.vue"
 import GeneralParameterComp from "@/components/profile/GeneralParameterComp.vue"
 import SecurityParameterComp from "@/components/profile/SecurityParameterComp.vue"
@@ -60,21 +63,30 @@ export default {
         }
     },
     methods : {
+        async change_user_password(data){
+            const jws = this.$cookies.get("jws")
+            data.jws = jws;
+            let body_res = await fetch("http://localhost:9090/updatePassword",{
+                method : "POST",
+                body : JSON.stringify(data)
+            }).then((res)=>{
+                return res.json();
+            })
+            this.$refs.securityParameter.response(body_res)
+        },
         initGeneralParameter(){
             this.$refs.generalParameter.init(this.user_data);
         },
         async send_user_data(data){
             const jws = this.$cookies.get("jws")
             data.jws = jws
-            console.log(data);
-
-            let body = await fetch("http://localhost:9090/updateProfile", {
-            method : "POST", 
-            body : JSON.stringify(data)
+            let body_res = await fetch("http://localhost:9090/updateProfile", {
+                method : "POST", 
+                body : JSON.stringify(data)
             }).then((res)=>{
                 return res.json();
             })  
-            body
+            this.$refs.generalParameter.response(body_res)
         }
     }
 }
@@ -83,6 +95,7 @@ export default {
 <style scoped> 
 
     main{
+        user-select: none;
         padding: 5vw;
         padding-top: calc(100px + 2vw);
         height: 100%;

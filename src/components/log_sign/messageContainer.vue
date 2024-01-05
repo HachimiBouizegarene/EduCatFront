@@ -1,5 +1,5 @@
 <template>
-    <span id="message" ref="message">{{ messageContent }}</span>
+    <span :class="{visible : visible, success : success, error : error}" id="message" ref="message">{{ messageContent }}</span>
 </template>
 
 <script>
@@ -7,25 +7,32 @@ export default {
     name: "messageContainer",
     data() {
         return {
-            messageContent: ""
+            messageContent: "dad",
+            visible : false,
+            success : false,
+            error : false,
         }
     },
+    mounted(){ 
+
+    },
+
     methods: {
         message(messageJson) {
             if (messageJson['error']) {
+                this.error = true
+                this.success = false
                 this.messageContent = messageJson['error']
-                this.$refs.message.classList.remove('animation-success')
-                this.$refs.message.classList.remove('animation-error')
-                this.$refs.message.offsetWidth
-                this.$refs.message.classList.add('animation-error')
             }
             if (messageJson['success']) {
+                this.error = false
+                this.success = true
                 this.messageContent = messageJson['success']
-                this.$refs.message.classList.remove('animation-success')
-                this.$refs.message.classList.remove('animation-error')
-                this.$refs.message.offsetWidth
-                this.$refs.message.classList.add('animation-success')
             }
+            this.visible = true
+            setTimeout(()=>{
+                this.visible =false
+            }, 3000)
         }
     },
 }
@@ -34,78 +41,31 @@ export default {
 
 <style scoped>
 #message {
-    opacity: 0;
     transition: 0.15s ease;
-    color: rgb(85, 84, 84);
-    padding: 10px 15px;
-    font-size: 14px;
+    color: rgb(255, 255, 255);
+    font-size: 1vw;
     text-align: center;
-    margin-top: 10px;
-    border-radius: 100px;
     animation: none;
+    height: 100%;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1vw;
+    pointer-events: none;
+    opacity: 0;
+    transition: 0.5s ease;
+}
+#message.error{
+    background-color: rgb(255, 0, 0);
 }
 
-#message.animation-error {
-    animation: 3s linear 0s error;
-    background-color: rgb(255, 75, 75);
+#message.success{
+    background-color: rgb(26, 226, 0);
+}
+#message.visible{
+    opacity: 1;
 }
 
-#message.animation-success {
-    animation: 3s linear 0s success;
-    background-color: rgb(75 255 145);
-}
 
-@keyframes error {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-
-    2.5% {
-        transform: translateX(-10px);
-    }
-
-    5% {
-        transform: translateX(10px);
-    }
-
-    7.5% {
-        transform: translateX(-10px);
-    }
-
-    10% {
-        transform: translateX(10px);
-    }
-
-    12.5% {
-        transform: translateX(0);
-    }
-
-    95% {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-@keyframes success {
-    from {
-        opacity: 1;
-    }
-
-    95% {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-@media screen and (max-width: 800px) {
-    #message {
-        font-size: 12px;
-    }
-}</style>
+</style>

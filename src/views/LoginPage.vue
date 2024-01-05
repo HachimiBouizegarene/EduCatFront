@@ -42,7 +42,7 @@ export default {
   },
   created() {
 
-    if (this.$cookies.get("jws")) this.$router.push("/MembrePage")
+    if (this.$cookies.get("jws")) this.$router.push("/Profil")
   },
   mounted() {
     if (this.$route.query.subscribe != undefined) {
