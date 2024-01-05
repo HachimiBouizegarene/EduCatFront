@@ -17,12 +17,13 @@
         </div>
         <img class="clouds" id="clouds_1" src="@/assets/images/home/clouds.webp">
         <img class="clouds" id="clouds_2" src="@/assets/images/home/clouds.webp">
-        <img id="man" src="@/assets/images/home/man.gif" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Profil">
+        <img id="man" src="@/assets/images/home/man.gif" @click="this.$router.push('/profil')" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Profil">
     </div>
 
     <div v-if="isHovered" class="hover-text" :style="{ top: mouseY - 85 + 'px', left: mouseX + 5 + 'px' }">
         {{ altText }}
     </div>
+    
 </template>
 
 <script>

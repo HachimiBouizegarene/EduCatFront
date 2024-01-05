@@ -57,7 +57,7 @@ header nav div{
 #NavBarLogo img { 
     width: 10vw;
     image-rendering: pixelated;
-    min-width: 100px;
+    min-width: 55px;
     max-width: 210px;
 }
 

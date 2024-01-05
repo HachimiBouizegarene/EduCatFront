@@ -2,15 +2,24 @@
     <div :class="{ closed: closed }" class="menu">
         <div class="container">
             <router-link id="home-icon" to="/"><img src="@/assets/images/menu-home.png"></router-link>
+            <router-link id="home-icon" to="/"><img src="@/assets/images/menu-home.png"></router-link>
             <h3>MENU</h3>
             <h4 class="message">{{ message }}</h4>
 
-            <div class="difficultys">
-                <button v-for="(level, key) in difficultys" :key="key" @click="difficulty_choosen = key"
-                    :class="{ choosen: difficulty_choosen == key }">{{ level }}</button>
+            <h5 class="score">{{ score }}</h5>
+
+            <div class="levels">
+                <button v-for="(level, key) in levels" :key="key" @click="level_choosen = key"
+                    :class="{ choosen: level_choosen == key }">{{ level }}</button>
             </div>
-            <button :class="{unabled : difficultys !== undefined && difficulty_choosen === undefined}"
-              @click="emitClicked" id="launch">{{ button_text }}</button>
+
+            <div class="difficulties">
+                <button v-for="(difficulty, key) in difficulties" :key="key" @click="difficulty_choosen = key"
+                    :class="{ choosen: difficulty_choosen == key }">{{ difficulty }}</button>
+            </div>
+
+            <button :class="{ unabled: (difficulties !== undefined && difficulty_choosen === undefined) || (levels !== undefined && level_choosen === undefined) }" @click="emitClicked"
+                id="launch">{{ button_text }}</button>
         </div>
     </div>
 </template>
@@ -21,16 +30,19 @@
 export default {
     name: 'menuComponenent',
     props: {
-      
+
     },
 
     data() {
         return {
             difficulty_choosen: undefined,
-            closed: true,
+            difficulties: undefined,
+            level_choosen: undefined,
+            levels: undefined,
             message: undefined,
-            difficultys: undefined,
-            button_text: undefined
+            score: undefined,
+            button_text: undefined,
+            closed: true,
         }
     },
 
@@ -38,19 +50,27 @@ export default {
         close() {
             this.closed = true
         },
-        open(message, difficultys, button_text) {
+        open(message, difficulties, button_text, levels, score) {
             this.message = message
-            this.difficultys = difficultys
+            this.difficulties = difficulties
             this.button_text = button_text
+            this.score = score
             this.closed = false
+            this.levels = levels
         },
-        emitClicked(){
-            if(!(this.difficultys !== undefined && this.difficulty_choosen === undefined)){
-                this.$emit('menu-clicked', this.message ,this.difficulty_choosen, 
-                this.difficultys === undefined ? undefined : this.difficultys[this.difficulty_choosen]);
-                this.close()
+        emitClicked() {
+            if (!(this.difficulties !== undefined && this.difficulty_choosen === undefined)) {
+                if (!(this.levels !== undefined && this.level_choosen === undefined)) {
+                    this.$emit('menu-clicked', 
+                    this.message, 
+                    this.difficulty_choosen,
+                    this.difficulties === undefined ? undefined : this.difficulties[this.difficulty_choosen], 
+                    this.level_choosen === undefined ? undefined : this.levels[this.level_choosen], 
+                    this.score);
+                    
+                    this.close()
+                }
             }
-
         }
     },
 
@@ -114,7 +134,16 @@ h4 {
     text-align: center;
 }
 
-.difficultys {
+h5 {
+    margin-top: 2%;
+    text-transform: uppercase;
+    color: rgb(255, 174, 0);
+    font-size: 4vw;
+    font-family: 'pixel';
+    text-align: center;
+}
+
+.difficulties, .levels {
     flex-wrap: wrap;
     display: flex;
     gap: 2.2vw;
@@ -124,7 +153,7 @@ h4 {
     margin-bottom: 3vw;
 }
 
-.difficultys button {
+.difficulties button, .levels button {
     cursor: pointer;
     text-transform: uppercase;
     cursor: pointer;
@@ -135,7 +164,7 @@ h4 {
     padding: 1vw 2vw;
 }
 
-.difficultys button.choosen {
+.difficulties button.choosen, .levels button.choosen {
     background-color: rgb(255, 153, 0);
 }
 
@@ -150,8 +179,9 @@ h4 {
     color: white;
     cursor: pointer;
 }
-#launch.unabled{
-    background-color: grey ; 
+
+#launch.unabled {
+    background-color: grey;
     pointer-events: none;
 }
 
