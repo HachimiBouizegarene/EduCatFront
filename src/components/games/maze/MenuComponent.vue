@@ -2,17 +2,23 @@
     <div :class="{ closed: closed }" class="menu">
         <div class="container">
             <router-link id="home-icon" to="/"><img src="@/assets/images/menu-home.png"></router-link>
+            <router-link id="home-icon" to="/"><img src="@/assets/images/menu-home.png"></router-link>
             <h3>MENU</h3>
             <h4 class="message">{{ message }}</h4>
 
             <h5 class="score">{{ score }}</h5>
 
-            <div class="difficultys">
-                <button v-for="(level, key) in difficultys" :key="key" @click="difficulty_choosen = key"
-                    :class="{ choosen: difficulty_choosen == key }">{{ level }}</button>
+            <div class="levels">
+                <button v-for="(level, key) in levels" :key="key" @click="level_choosen = key"
+                    :class="{ choosen: level_choosen == key }">{{ level }}</button>
             </div>
 
-            <button :class="{ unabled: difficultys !== undefined && difficulty_choosen === undefined }" @click="emitClicked"
+            <div class="difficulties">
+                <button v-for="(difficulty, key) in difficulties" :key="key" @click="difficulty_choosen = key"
+                    :class="{ choosen: difficulty_choosen == key }">{{ difficulty }}</button>
+            </div>
+
+            <button :class="{ unabled: (difficulties !== undefined && difficulty_choosen === undefined) || (levels !== undefined && level_choosen === undefined) }" @click="emitClicked"
                 id="launch">{{ button_text }}</button>
         </div>
     </div>
@@ -30,11 +36,13 @@ export default {
     data() {
         return {
             difficulty_choosen: undefined,
-            closed: true,
+            difficulties: undefined,
+            level_choosen: undefined,
+            levels: undefined,
             message: undefined,
             score: undefined,
-            difficultys: undefined,
-            button_text: undefined
+            button_text: undefined,
+            closed: true,
         }
     },
 
@@ -42,20 +50,27 @@ export default {
         close() {
             this.closed = true
         },
-        open(message, difficultys, button_text, score) {
+        open(message, difficulties, button_text, levels, score) {
             this.message = message
-            this.difficultys = difficultys
+            this.difficulties = difficulties
             this.button_text = button_text
             this.score = score
             this.closed = false
+            this.levels = levels
         },
         emitClicked() {
-            if (!(this.difficultys !== undefined && this.difficulty_choosen === undefined)) {
-                this.$emit('menu-clicked', this.message, this.difficulty_choosen,
-                    this.difficultys === undefined ? undefined : this.difficultys[this.difficulty_choosen], this.score);
-                this.close()
+            if (!(this.difficulties !== undefined && this.difficulty_choosen === undefined)) {
+                if (!(this.levels !== undefined && this.level_choosen === undefined)) {
+                    this.$emit('menu-clicked', 
+                    this.message, 
+                    this.difficulty_choosen,
+                    this.difficulties === undefined ? undefined : this.difficulties[this.difficulty_choosen], 
+                    this.level_choosen === undefined ? undefined : this.levels[this.level_choosen], 
+                    this.score);
+                    
+                    this.close()
+                }
             }
-
         }
     },
 
@@ -128,7 +143,7 @@ h5 {
     text-align: center;
 }
 
-.difficultys {
+.difficulties, .levels {
     flex-wrap: wrap;
     display: flex;
     gap: 2.2vw;
@@ -138,7 +153,7 @@ h5 {
     margin-bottom: 3vw;
 }
 
-.difficultys button {
+.difficulties button, .levels button {
     cursor: pointer;
     text-transform: uppercase;
     cursor: pointer;
@@ -149,7 +164,7 @@ h5 {
     padding: 1vw 2vw;
 }
 
-.difficultys button.choosen {
+.difficulties button.choosen, .levels button.choosen {
     background-color: rgb(255, 153, 0);
 }
 

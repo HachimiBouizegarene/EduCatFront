@@ -23,14 +23,14 @@
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('right')">→</div> -->
             </div>
 
-            <div id="gamesListBar">
+            <div v-for="(matiere, key) in matieres" :key="key" id="gamesListBar">
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('left')">←</div> -->
-                <router-link v-for="(jeu, key) in jeux" :key="key" :to="{ name: jeu.NomJeu }">
+                <!-- <router-link  v-for="(jeu, key) in jeux" v-if="jeu.matiere == matiere" :key="key" :to="{ name: jeu.NomJeu }">
                     <div class="gameButton">
                         <img :src="jeu.ImageJeu" :alt="jeu.NomJeu">
                         <h5>{{ jeu.NomJeu }}</h5>
                     </div>
-                </router-link>
+                </router-link> -->
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('right')">→</div> -->
             </div>
 
@@ -55,14 +55,12 @@ export default {
 
     mounted() {
         this.getGamesInfos();
-
-
     },
 
     data() {
         return {
             jeux: [],
-            
+            matieres: [],
         };
     },
 
@@ -85,7 +83,6 @@ export default {
                         const imageBlob = new Blob([new Uint8Array(jeu.ImageJeu)], { type: "image/webp" });
                         const imageUrl = URL.createObjectURL(imageBlob);
                         jeu.ImageJeu = imageUrl;
-
                     } catch (error) {
                         console.error("Erreur de convertion de l'image reçue en BD", error);
                     }
@@ -93,6 +90,10 @@ export default {
                     // Image par défaut
                     jeu.ImageJeu = require("@/assets/images/games_menu/no_images.png");
                 }
+
+                let matiere = jeu['NomMatiere'];
+                if(!this.matieres.includes(matiere))
+                    this.matieres.push(matiere);
             });
 
         },
@@ -147,12 +148,12 @@ export default {
     width: 100%;
     padding: 12px;
     height: 50px;
-    background-color: rgb(155, 155, 155);
+    background-color: rgb(255, 187, 0);
 }
 
 #gameMenuTopBar h2 {
     font-family: 'pixel', 'Roboto Condensed';
-    font-size: 35px;
+    font-size: 31px;
     text-align: center;
 }
 
@@ -211,6 +212,7 @@ export default {
     border-radius: 8px;
     object-fit: contain;
     width: 150px;
+    min-width: 110px;
 }
 
 .gameButton h5 {
@@ -221,13 +223,11 @@ export default {
     font-family: 'gamePage', 'Roboto Condensed';
 }
 
-
 /* Search bar */
 
 #searchBar {
     border: none;
     transition: 0.3s ease-out;
-    transform: translate(0%, -50%) scale(1);
     z-index: 1000;
     display: flex;
     justify-content: center;
@@ -235,7 +235,6 @@ export default {
     cursor: pointer;
     width: 25vw;
     max-width: 200px;
-    background-color: #c44040;
 }
 
 #searchBar input {
@@ -247,9 +246,6 @@ export default {
     font-style: normal;
     font-weight: 700;
     letter-spacing: -0.48px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     z-index: 2;
     white-space: nowrap;
     overflow: hidden;
@@ -257,29 +253,38 @@ export default {
     font-weight: 400;
     max-width: 180px;
     width: 100%;
+    position: absolute;
 }
 
 #searchBar img {
     image-rendering: pixelated;
-    position: absolute;
-    right: 0;
     z-index: 1;
     transition: 0.2s ease-in;
     width: 100%;
+    object-fit: contain;
 }
 
 /* ------------------- Media Query ---------------------*/
 
 @media only screen and (max-width: 800px) {
-    #gameMenuTopBar {
-        flex-direction: column;
+    #gameMenuTopBar h2 {
+        font-size: 5vw;
     }
 }
 
 @media only screen and (max-width: 550px) {}
 
 /* Media queries pour les petits écrans (mobiles) */
-@media only screen and (max-width: 480px) {}
+@media only screen and (max-width: 360px) {
+    #gameMenuTopBar {
+        flex-direction: column;
+    }
+
+    #gameMenuTopBar h2 {
+        font-size: 7vw;
+    }
+
+}
 
 
 

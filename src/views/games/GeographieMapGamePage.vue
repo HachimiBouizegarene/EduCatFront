@@ -27,7 +27,7 @@
         <img src="@/assets/images/games/GeographieMaps/clouds/cloud2.png" id="cloud2" class="cloud">
         <img src="@/assets/images/games/GeographieMaps/clouds/cloud4.png" id="cloud3" class="cloud">
 
-        <p v-if="gameInProgress == true" id="counterLeftQuestion">{{ score }}/{{ totalRotations }}</p>
+        <p v-if="gameInProgress == true" id="counterLeftQuestion">{{ score }}/{{ nbTours }}</p>
 
         <img v-for="index in 2" :key="index"
             :style="{ top: this.decoration_positions[index].top, left: this.decoration_positions[index].left }"
@@ -50,7 +50,7 @@ export default {
         document.getElementById('randomRegionButton').addEventListener('click', this.startGame);
         window.addEventListener('resize', this.adjustFontSize);
 
-        this.$refs.menu.open('CHOISISSEZ VOTRE MAP', ['France', 'Europe'], 'JOUER');
+        this.$refs.menu.open('CHOISISSEZ VOTRE MAP', ['France', 'Europe'], 'JOUER', this.avalaibleLevels);
     },
 
     components: {
@@ -63,13 +63,15 @@ export default {
             timer: null,
             gameInProgress: false,
             score: 0,
-            totalRotations: 2, // Nombre total de toursTimer avant la fin du jeu
+            nbTours: 1, // Nombre total de toursTimer avant la fin du jeu
             RegionsCliquables: [],
             randomRegion: null,
             toursTimer: 0,
             wrongRegionAndAntiSpam: false,
             svgMap: MapsSvgJson,
+            mapChoisie: null,
             avalaibleMaps: ['France', 'Europe'],
+            avalaibleLevels: ['2', '5', '8'],
             decoration_positions: [
                 {},
                 { top: '60%', left: '8%' },
@@ -87,13 +89,18 @@ export default {
 
     methods: {
 
-        menuClicked(message, level_choosen_index, map) {
-            this.svgMap = MapsSvgJson[map];
+        menuClicked(message, level_choosen_index, level_choosen_name, nbTours) {
+            this.mapChoisie = level_choosen_name;
+            this.svgMap = MapsSvgJson[level_choosen_name];
+            this.nbTours = nbTours;
         },
 
         setRandomRegion() {
             const randomIndex = Math.floor(Math.random() * this.RegionsCliquables.length);
             this.randomRegion = this.RegionsCliquables[randomIndex];
+            this.$nextTick(() => {
+                this.adjustFontSize();
+            });
         },
 
         adjustFontSize() {
@@ -107,9 +114,9 @@ export default {
             var maxLength = 10; // Maximum length before reducing font size
 
             if (window.innerWidth < 510) {
-                baseFontSize += 10;
+                baseFontSize += 4;
             } else if (window.innerWidth < 920) {
-                baseFontSize += 3;
+                baseFontSize += 2.2;
             } // else: No need to explicitly mention baseFontSize here
 
             var fontSize = baseFontSize - (text.length > maxLength ? (text.length - maxLength) * 0.1 : 0);
@@ -122,7 +129,6 @@ export default {
             if (this.gameInProgress) {
                 return; // Empêche de démarrer un nouveau jeu pendant que le jeu est en cours
             }
-
             this.gameInProgress = true;
             this.score = 0;
             this.toursTimer = 0;
@@ -130,12 +136,16 @@ export default {
             document.getElementById('randomRegionButton').classList.remove("bubble");
             document.getElementById('stopButton').classList.remove("hiddenStopButton");
 
+            this.$nextTick(() => {
+                this.adjustFontSize();
+            });
+
             this.loadClickablePath();
             this.setRandomRegion();
 
             this.timer = setInterval(() => {
                 this.rotation += 36;
-                
+
                 // Mise à jour de la classe CSS pour l'angle de rotation
                 const percentage = (this.rotation % 360) / 360 * 100;
                 document.getElementById("ProgressBar").style.setProperty("--nouvelle-largeur", percentage + '%');
@@ -163,7 +173,7 @@ export default {
         nextTourTimer() {
             this.toursTimer++;
             this.setRandomRegion();
-            if (this.toursTimer >= this.totalRotations) {
+            if (this.toursTimer >= this.nbTours) {
                 this.stopGame();
             }
         },
@@ -237,10 +247,12 @@ export default {
                 return;
             }
 
-            if (this.toursTimer < this.totalRotations)
-                this.$refs.menu.open('Vous avez abandonné', this.avalaibleMaps, 'JOUER');
-            else
-                this.$refs.menu.open('Fin de partie', this.avalaibleMaps, 'REJOUER', "SCORE : " + this.score + " / " + this.totalRotations);
+            if (this.toursTimer < this.nbTours)
+                this.$refs.menu.open('Vous avez abandonné', this.avalaibleMaps, 'JOUER', this.avalaibleLevels);
+            else {
+                this.$refs.menu.open('Fin de partie', this.avalaibleMaps, 'REJOUER', this.avalaibleLevels, "SCORE : " + this.score + " / " + this.nbTours);
+                this.registerPartie();
+            }
 
             // document.getElementById('scoreRegionsFound').textContent = "test";
             // this.afficherPopup("EndGame");
@@ -280,7 +292,21 @@ export default {
                 }, 0);
             }
         },
-    }
+
+        async registerPartie() {
+            const response = await fetch("http://localhost:9090/insertPartie", {
+                method: "POST",
+                body: JSON.stringify({
+                    "ScorePartie": (this.score + "/" + this.nbTours).toString(),
+                    "LibelleDifficultePartie": this.mapChoisie,
+                    "IdUser": "1",
+                    "IdJeu": "1"
+                })
+            })
+            response;
+        }
+    },
+
 }
 </script>
 
@@ -537,8 +563,8 @@ svg image {
 #stopButton:hover {
     cursor: pointer;
     filter: brightness(1.1);
-    bottom: 8%;
-    left: 8%;
+    /* bottom: 8%;
+    left: 8%; */
 }
 
 .popup {
