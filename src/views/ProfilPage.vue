@@ -7,7 +7,7 @@
             </section>
         </div>
         <div class="parameter-container">
-            <GeneralParameterComp ref="generalPrameter" v-if="selected_parameter == 0"></GeneralParameterComp>
+            <GeneralParameterComp @send_user_data="send_user_data" :data="user_data" ref="generalParameter" v-show="selected_parameter == 0"></GeneralParameterComp>
             <SecurityParameterComp  v-if="selected_parameter == 1"></SecurityParameterComp>
         </div>
      </main>
@@ -25,33 +25,57 @@ export default {
         SecurityParameterComp
     },
     async mounted(){
+        
+    },
+    async created(){
         document.querySelector("body").style.backgroundColor = "#f8f8f8"
-        const data = await fetch("http://localhost:9090/profile", {
+        //faire les verifications et rediriger si jws existe pas
+        const jws = this.$cookies.get("jws")
+        const data = await fetch("http://localhost:9090/getProfile", {
             method : "POST", 
             body : JSON.stringify({
-                jws : "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEifQ.jNMRR_-F2T0jHL2K2S1RLFOMhPsq4Ty7aQCd9PhHVq8"
+                jws : jws
             })
         }).then((res)=>{
             return res.json();
         })  
-        this.$refs.generalPrameter.init(data);
-
-  
-
+        //image
+        let blob = new Blob([new Uint8Array(data.PhotoProfil)], {type : "image/jpg"})
+        let url = URL.createObjectURL(blob);
+        data.img_url = url
+        this.user_data = data;
+       this.initGeneralParameter()
     },
+    
 
     beforeUnmount(){
-
         document.querySelector("body").style.backgroundColor = "";
     },
 
     data(){
         return {
             parameters : ["Paramètres généraux", "sécurité"],
-            selected_parameter : 0
+            selected_parameter : 0,
+            user_data : Array
         }
     },
     methods : {
+        initGeneralParameter(){
+            this.$refs.generalParameter.init(this.user_data);
+        },
+        async send_user_data(data){
+            const jws = this.$cookies.get("jws")
+            data.jws = jws
+            console.log(data);
+
+            let body = await fetch("http://localhost:9090/updateProfile", {
+            method : "POST", 
+            body : JSON.stringify(data)
+            }).then((res)=>{
+                return res.json();
+            })  
+            body
+        }
     }
 }
 </script>
