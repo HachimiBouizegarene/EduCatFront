@@ -36,6 +36,9 @@ export default {
     },
     methods : {
         response(data){
+            if(data.success !== undefined) {
+                this.actual_password = this.new_password_conf = this.new_password = ""
+            }
             this.$refs.res.message(data)
         },
         verifPassword(){

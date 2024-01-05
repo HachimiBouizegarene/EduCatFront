@@ -79,6 +79,13 @@ export default {
 
     methods : {
         response(data){
+            if(data.success !== undefined) {
+                this.data_name = this.name
+                this.data_forename = this.forename
+                this.data_pseudo = this.pseudo
+                this.data_classe= this.classe
+                this.data_profil_img_url = this.profil_img_url
+            }
             this.$refs.res.message(data)
         },
         editTarget(e){
@@ -128,11 +135,6 @@ export default {
                 const arr = new Uint8Array(data);
                 const regularArr = Array.from(arr);
                 ret.PhotoProfil = regularArr
-                // let blob = new Blob([new Uint8Array(regularArr)], {type : "image/jpg"})
-                // let url = URL.createObjectURL(blob);
-                // console.log(url);
-
-
             }
             
             ret.Nom = this.data_name !== this.name  ? this.name : undefined
