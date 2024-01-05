@@ -5,12 +5,15 @@
             <h3>MENU</h3>
             <h4 class="message">{{ message }}</h4>
 
+            <h5 class="score">{{ score }}</h5>
+
             <div class="difficultys">
                 <button v-for="(level, key) in difficultys" :key="key" @click="difficulty_choosen = key"
                     :class="{ choosen: difficulty_choosen == key }">{{ level }}</button>
             </div>
-            <button :class="{unabled : difficultys !== undefined && difficulty_choosen === undefined}"
-              @click="emitClicked" id="launch">{{ button_text }}</button>
+
+            <button :class="{ unabled: difficultys !== undefined && difficulty_choosen === undefined }" @click="emitClicked"
+                id="launch">{{ button_text }}</button>
         </div>
     </div>
 </template>
@@ -21,7 +24,7 @@
 export default {
     name: 'menuComponenent',
     props: {
-      
+
     },
 
     data() {
@@ -29,6 +32,7 @@ export default {
             difficulty_choosen: undefined,
             closed: true,
             message: undefined,
+            score: undefined,
             difficultys: undefined,
             button_text: undefined
         }
@@ -38,16 +42,17 @@ export default {
         close() {
             this.closed = true
         },
-        open(message, difficultys, button_text) {
+        open(message, difficultys, button_text, score) {
             this.message = message
             this.difficultys = difficultys
             this.button_text = button_text
+            this.score = score
             this.closed = false
         },
-        emitClicked(){
-            if(!(this.difficultys !== undefined && this.difficulty_choosen === undefined)){
-                this.$emit('menu-clicked', this.message ,this.difficulty_choosen, 
-                this.difficultys === undefined ? undefined : this.difficultys[this.difficulty_choosen]);
+        emitClicked() {
+            if (!(this.difficultys !== undefined && this.difficulty_choosen === undefined)) {
+                this.$emit('menu-clicked', this.message, this.difficulty_choosen,
+                    this.difficultys === undefined ? undefined : this.difficultys[this.difficulty_choosen], this.score);
                 this.close()
             }
 
@@ -114,6 +119,15 @@ h4 {
     text-align: center;
 }
 
+h5 {
+    margin-top: 2%;
+    text-transform: uppercase;
+    color: rgb(255, 174, 0);
+    font-size: 4vw;
+    font-family: 'pixel';
+    text-align: center;
+}
+
 .difficultys {
     flex-wrap: wrap;
     display: flex;
@@ -150,8 +164,9 @@ h4 {
     color: white;
     cursor: pointer;
 }
-#launch.unabled{
-    background-color: grey ; 
+
+#launch.unabled {
+    background-color: grey;
     pointer-events: none;
 }
 

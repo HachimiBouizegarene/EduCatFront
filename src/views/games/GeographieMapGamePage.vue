@@ -1,11 +1,12 @@
 <template>
+    <MenuComponent ref="menu" @menu-clicked="menuClicked"></MenuComponent>
     <div id="game">
+
         <!-- <h1 id="leftTitlecenterGamePage">Tu dois trouver la région indiquée avant que le chronomètre ne s’écoule !</h1> -->
         <!-- faire un pop up qui dure 3s qui prévient que la game va commencer -->
         <!-- <button class="randomRegionButtonStopped" id="randomRegionButton">Lancer</button> -->
 
-        <div v-html="mapSVGPixeled"></div>
-        <div v-html="mapSVGHidden"></div>
+        <div v-html="svgMap"></div>
 
         <img src="@/assets/images/games/GeographieMaps/Abbandon_Button.gif" id="stopButton" class="hiddenStopButton"
             @click="stopGame">
@@ -18,7 +19,7 @@
             <img v-if="wrongRegionAndAntiSpam == false" src="@/assets/images/games/GeographieMaps/Region_Button.gif" />
             <img v-if="wrongRegionAndAntiSpam != false"
                 src="@/assets/images/games/GeographieMaps/Region_Button-False.gif" />
-            <h3 id="randomRegionButtonText">COMMENCER</h3>
+            <h3 id="randomRegionButtonText">{{ !gameInProgress ? "COMMENCER" : randomRegion }}</h3>
         </div>
 
         <img src="@/assets/images/games/GeographieMaps/clouds/cloud1.png" id="cloud0" class="cloud">
@@ -26,7 +27,7 @@
         <img src="@/assets/images/games/GeographieMaps/clouds/cloud2.png" id="cloud2" class="cloud">
         <img src="@/assets/images/games/GeographieMaps/clouds/cloud4.png" id="cloud3" class="cloud">
 
-        <p v-if="gameInProgress == true" id="counterLeftQuestion">-/-</p>
+        <p v-if="gameInProgress == true" id="counterLeftQuestion">{{ score }}/{{ totalRotations }}</p>
 
         <img v-for="index in 2" :key="index"
             :style="{ top: this.decoration_positions[index].top, left: this.decoration_positions[index].left }"
@@ -35,17 +36,254 @@
 
         <img id="greenCheck" src="@/assets/images/games/GeographieMaps/green_check.png" class="displayHidden"
             alt="greenCheck" />
-
-        <div class="overlayPopup"></div>
-        <div id="EndGame" class="popup">
-            <span class="close" @click="fermerPopup('EndGame')">&times;</span>
-            <h2>SCORE :</h2>
-            <P>Régions trouvées :
-            <p id="scoreRegionsFound"></p>
-            </P>
-        </div>
     </div>
 </template>
+
+<script>
+import MapsSvgJson from '@/assets/images/games/GeographieMaps/geographie_svg_map.json';
+import MenuComponent from "@/components/games/maze/MenuComponent.vue";
+
+export default {
+    name: "GeographieMapGamePage",
+
+    mounted() {
+        document.getElementById('randomRegionButton').addEventListener('click', this.startGame);
+        window.addEventListener('resize', this.adjustFontSize);
+
+        this.$refs.menu.open('CHOISISSEZ VOTRE MAP', ['France', 'Europe'], 'JOUER');
+    },
+
+    components: {
+        MenuComponent,
+    },
+
+    data() {
+        return {
+            rotation: 0,
+            timer: null,
+            gameInProgress: false,
+            score: 0,
+            totalRotations: 2, // Nombre total de toursTimer avant la fin du jeu
+            RegionsCliquables: [],
+            randomRegion: null,
+            toursTimer: 0,
+            wrongRegionAndAntiSpam: false,
+            svgMap: MapsSvgJson,
+            avalaibleMaps: ['France', 'Europe'],
+            decoration_positions: [
+                {},
+                { top: '60%', left: '8%' },
+                { top: '20%', left: '9%' },
+                { top: '80%', left: '90%' },  // Ajusté à '90%'
+                { top: '29%', left: '10%' },  // Ajusté à '10%'
+                { top: '35%', left: '4%' }, // Ajusté à '5%'
+                { top: '50%', left: '95%' },  // Ajusté à '90%'
+                { top: '44.5%', left: '5%' }, // Ajusté à '5%'
+                { top: '12%', left: '97%' },  // Ajusté à '90%'
+            ],
+
+        };
+    },
+
+    methods: {
+
+        menuClicked(message, level_choosen_index, map) {
+            this.svgMap = MapsSvgJson[map];
+        },
+
+        setRandomRegion() {
+            const randomIndex = Math.floor(Math.random() * this.RegionsCliquables.length);
+            this.randomRegion = this.RegionsCliquables[randomIndex];
+        },
+
+        adjustFontSize() {
+            var button = document.getElementById('randomRegionButtonText');
+            var text = button.innerText;
+
+            // You can customize these values as needed
+            var baseFontSize = 3; // Base font size in vw
+            var maxSize = 7; // Maximum font size in vw
+            var minSize = 2; // Minimum font size in vw
+            var maxLength = 10; // Maximum length before reducing font size
+
+            if (window.innerWidth < 510) {
+                baseFontSize += 10;
+            } else if (window.innerWidth < 920) {
+                baseFontSize += 3;
+            } // else: No need to explicitly mention baseFontSize here
+
+            var fontSize = baseFontSize - (text.length > maxLength ? (text.length - maxLength) * 0.1 : 0);
+            fontSize = Math.max(minSize, Math.min(maxSize, fontSize));
+
+            button.style.fontSize = fontSize + 'vw';
+        },
+
+        startGame() {
+            if (this.gameInProgress) {
+                return; // Empêche de démarrer un nouveau jeu pendant que le jeu est en cours
+            }
+
+            this.gameInProgress = true;
+            this.score = 0;
+            this.toursTimer = 0;
+
+            document.getElementById('randomRegionButton').classList.remove("bubble");
+            document.getElementById('stopButton').classList.remove("hiddenStopButton");
+
+            this.loadClickablePath();
+            this.setRandomRegion();
+
+            this.timer = setInterval(() => {
+                this.rotation += 36;
+                
+                // Mise à jour de la classe CSS pour l'angle de rotation
+                const percentage = (this.rotation % 360) / 360 * 100;
+                document.getElementById("ProgressBar").style.setProperty("--nouvelle-largeur", percentage + '%');
+
+                // Exécutez le code que vous souhaitez ici après chaque rotation complète
+                if (percentage === 0) {
+                    document.getElementById('randomRegionButton').classList.add("shake");
+                    this.nextTourTimer();
+                }
+            }, 1000);
+        },
+
+        afficherPopup(id) {
+            document.getElementById("overlayPopup").style.display = "block";
+            var popup = document.getElementById(id);
+            popup.style.display = 'block';
+        },
+
+        fermerPopup(id) {
+            document.getElementById("overlayPopup").style.display = "none";
+            var popup = document.getElementById(id);
+            popup.style.display = 'none';
+        },
+
+        nextTourTimer() {
+            this.toursTimer++;
+            this.setRandomRegion();
+            if (this.toursTimer >= this.totalRotations) {
+                this.stopGame();
+            }
+        },
+
+        loadClickablePath() {
+            // Sélectionnez la div contenant l'élément SVG
+            var pathElements = document.getElementById("mapSVGHidden").getElementsByTagName("path");
+
+            for (var i = 0; i < pathElements.length; i++) {
+                var idValue = pathElements[i].getAttribute("id");
+                if (idValue) {
+                    if (/^[A-ZÀ-ÖØ-Ý]$/.test(idValue[0])) {
+                        pathElements[i].classList.add("hovered");
+
+                        // Uniquement visuel pour pouvoir hover la map pixelisée
+                        pathElements[i].addEventListener('mouseenter', (e) => {
+                            document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.add("hovered");
+                        });
+                        pathElements[i].addEventListener('mouseout', (e) => {
+                            document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.remove("hovered");
+                        });
+
+                        // la region va dans le tableau des regions
+                        this.RegionsCliquables.push(idValue);
+
+                        // Ajoutez un event listener à chaque région
+                        pathElements[i].addEventListener("click", this.clicSurUneRegion);
+                    }
+                }
+            }
+        },
+
+        clicSurUneRegion(event) {
+            if (!this.gameInProgress || this.wrongRegionAndAntiSpam) {
+                return; // Ignorer les clics si le jeu n'est pas en cours ou si le joueur a déjà cliquer très récemment
+            }
+
+            var clickedRegion = event.target.getAttribute("id");
+            console.log("Région cliquée :", clickedRegion);
+            // vérifier si la région cliquée est correcte
+            if (clickedRegion == this.randomRegion) {
+                this.score++;
+                this.nextTourTimer();
+                this.rotation = 0;
+                setTimeout(() => {
+                    document.getElementById('greenCheck').classList.remove("displayHidden");
+                    document.getElementById('mapSVGPixeled').classList.add("noirEtBlancFilter");
+
+                    // délai de 1000 millisecondes (1 seconde)
+                    setTimeout(() => {
+                        document.getElementById('greenCheck').classList.add("displayHidden");
+                        document.getElementById('mapSVGPixeled').classList.remove("noirEtBlancFilter");
+                    }, 800);
+                }, 0);
+            } else {
+                setTimeout(() => {
+                    document.getElementById('randomRegionButton').classList.add("shake");
+                    this.wrongRegionAndAntiSpam = true;
+                    // délai de 1000 millisecondes (1 seconde)
+                    setTimeout(() => {
+                        document.getElementById('randomRegionButton').classList.remove("shake");
+                        this.wrongRegionAndAntiSpam = false;
+                    }, 1000);
+                }, 0);
+
+            }
+        },
+
+        stopGame() {
+            if (this.gameInProgress == false) {
+                return;
+            }
+
+            if (this.toursTimer < this.totalRotations)
+                this.$refs.menu.open('Vous avez abandonné', this.avalaibleMaps, 'JOUER');
+            else
+                this.$refs.menu.open('Fin de partie', this.avalaibleMaps, 'REJOUER', "SCORE : " + this.score + " / " + this.totalRotations);
+
+            // document.getElementById('scoreRegionsFound').textContent = "test";
+            // this.afficherPopup("EndGame");
+            this.toursTimer = 0; // Réinitialise le compteur de toursTimer après avoir trouvé la bonne région
+            this.gameInProgress = false;
+            clearInterval(this.timer);
+            this.rotation = 0;
+            document.getElementById('randomRegionButton').classList.add("bubble");
+            document.getElementById('stopButton').classList.add("hiddenStopButton");
+            document.getElementById("ProgressBar").style.setProperty('--nouvelle-largeur', 0 + '%');
+
+            // logique pour la fin du jeu
+
+            // Sélectionnez la div contenant l'élément SVG
+            var pathElements = document.getElementById("mapSVGHidden").getElementsByTagName("path");
+            for (var i = 0; i < pathElements.length; i++) {
+                pathElements[i].classList.remove("hovered");
+
+                // Uniquement visuel pour pouvoir hover la map pixelisée
+                pathElements[i].removeEventListener('mouseenter', (e) => {
+                    document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.add("hovered");
+                });
+                pathElements[i].removeEventListener('mouseout', (e) => {
+                    document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.remove("hovered");
+                });
+            }
+        },
+
+        pop(e) {
+            console.log(e.target);
+            if (!e.target.classList.contains("popDecoration")) {
+                setTimeout(() => {
+                    e.target.classList.add("popDecoration");
+                    setTimeout(() => {
+                        e.target.classList.remove("popDecoration");
+                    }, 400);
+                }, 0);
+            }
+        },
+    }
+}
+</script>
+
 
 <style>
 /* SVG */
@@ -275,7 +513,7 @@ svg image {
     letter-spacing: -0.95px;
     position: absolute;
     top: 62%;
-    left: 20%;
+    left: 23%;
     transform: translate(-50%, -50%);
     transition: 0.3s ease-out;
 }
@@ -531,243 +769,4 @@ svg image {
 
 
 /* ------------------- FONTS FACES ---------------------*/
-
 </style>
-
-<script>
-import MapsSvgJson from '@/assets/images/games/GeographieMaps/geographie_svg_map.json';
-
-export default {
-    name: "GeographieMapGamePage",
-
-    mounted() {
-        document.getElementById('randomRegionButton').addEventListener('click', this.startGame);
-        window.addEventListener('resize', this.adjustFontSize);
-    },
-
-    data() {
-        return {
-            rotation: 0,
-            timer: null,
-            gameInProgress: false,
-            score: 0,
-            totalRotations: 5, // Nombre total de toursTimer avant la fin du jeu
-            RegionsCliquables: [],
-            toursTimer: 0,
-            wrongRegionAndAntiSpam: false,
-            mapSVGPixeled: MapsSvgJson.svgMapFranceRegionsPixeled,
-            mapSVGHidden: MapsSvgJson.svgMapFranceRegionsHidden,
-            decoration_positions: [
-                {},
-                { top: '60%', left: '8%' },
-                { top: '20%', left: '9%' },
-                { top: '80%', left: '90%' },  // Ajusté à '90%'
-                { top: '29%', left: '10%' },  // Ajusté à '10%'
-                { top: '35%', left: '4%' }, // Ajusté à '5%'
-                { top: '50%', left: '95%' },  // Ajusté à '90%'
-                { top: '44.5%', left: '5%' }, // Ajusté à '5%'
-                { top: '12%', left: '97%' },  // Ajusté à '90%'
-            ],
-
-        };
-    },
-
-    methods: {
-        setRandomRegion() {
-            const randomIndex = Math.floor(Math.random() * this.RegionsCliquables.length);
-            const randomRegion = this.RegionsCliquables[randomIndex];
-
-            const buttonTextElement = document.getElementById('randomRegionButtonText');
-            buttonTextElement.textContent = randomRegion;
-            this.adjustFontSize();
-
-        },
-
-        adjustFontSize() {
-            var button = document.getElementById('randomRegionButtonText');
-            var text = button.innerText;
-
-            // You can customize these values as needed
-            var baseFontSize = 3; // Base font size in vw
-            var maxSize = 7; // Maximum font size in vw
-            var minSize = 2; // Minimum font size in vw
-            var maxLength = 10; // Maximum length before reducing font size
-
-            if (window.innerWidth < 510) {
-                baseFontSize += 10;
-            } else if (window.innerWidth < 920) {
-                baseFontSize += 3;
-            } // else: No need to explicitly mention baseFontSize here
-
-            var fontSize = baseFontSize - (text.length > maxLength ? (text.length - maxLength) * 0.1 : 0);
-            fontSize = Math.max(minSize, Math.min(maxSize, fontSize));
-
-            button.style.fontSize = fontSize + 'vw';
-        },
-
-        startGame() {
-            if (this.gameInProgress) {
-                return; // Empêche de démarrer un nouveau jeu pendant que le jeu est en cours
-            }
-
-            this.gameInProgress = true;
-            this.score = 0;
-            this.toursTimer = 0;
-
-            document.getElementById('randomRegionButton').classList.remove("bubble");
-            document.getElementById('stopButton').classList.remove("hiddenStopButton");
-            // document.getElementById('counterLeftQuestion').textContent = this.toursTimer + "/" + this.totalRotations;
-
-            this.loadClickablePath();
-            this.setRandomRegion();
-
-            this.timer = setInterval(() => {
-                this.rotation += 36;
-
-                // Mise à jour de la classe CSS pour l'angle de rotation
-                const percentage = (this.rotation % 360) / 360 * 100;
-                document.getElementById("ProgressBar").style.setProperty("--nouvelle-largeur", percentage + '%');
-
-                // Exécutez le code que vous souhaitez ici après chaque rotation complète
-                if (percentage === 0) {
-                    document.getElementById('randomRegionButton').classList.add("shake");
-                    this.nextTourTimer();
-                }
-            }, 1000);
-        },
-
-        afficherPopup(id) {
-            document.getElementById("overlayPopup").style.display = "block";
-            var popup = document.getElementById(id);
-            popup.style.display = 'block';
-        },
-
-        fermerPopup(id) {
-            document.getElementById("overlayPopup").style.display = "none";
-            var popup = document.getElementById(id);
-            popup.style.display = 'none';
-        },
-
-        nextTourTimer() {
-            this.toursTimer++;
-            console.log(this.toursTimer);
-            this.setRandomRegion();
-            document.getElementById('counterLeftQuestion').textContent = this.toursTimer + "/" + this.totalRotations;
-            if (this.toursTimer >= this.totalRotations) {
-                this.stopGame();
-            }
-        },
-
-        loadClickablePath() {
-            // Sélectionnez la div contenant l'élément SVG
-            var pathElements = document.getElementById("mapSVGHidden").getElementsByTagName("path");
-
-            for (var i = 0; i < pathElements.length; i++) {
-                var idValue = pathElements[i].getAttribute("id");
-                if (idValue) {
-                    if (/^[A-ZÀ-ÖØ-Ý]$/.test(idValue[0])) {
-                        pathElements[i].classList.add("hovered");
-
-                        // Uniquement visuel pour pouvoir hover la map pixelisée
-                        pathElements[i].addEventListener('mouseenter', (e) => {
-                            document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.add("hovered");
-                        });
-                        pathElements[i].addEventListener('mouseout', (e) => {
-                            document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.remove("hovered");
-                        });
-
-                        // la region va dans le tableau des regions
-                        this.RegionsCliquables.push(idValue);
-
-                        // Ajoutez un event listener à chaque région
-                        pathElements[i].addEventListener("click", this.clicSurUneRegion);
-                    }
-                }
-            }
-        },
-
-        clicSurUneRegion(event) {
-            if (!this.gameInProgress || this.wrongRegionAndAntiSpam) {
-                return; // Ignorer les clics si le jeu n'est pas en cours ou si le joueur a déjà cliquer très récemment
-            }
-
-            var clickedRegion = event.target.getAttribute("id");
-            console.log("Région cliquée :", clickedRegion);
-            // vérifier si la région cliquée est correcte
-            if (clickedRegion == document.getElementById('randomRegionButton').textContent) {
-                this.score++;
-                console.log("Score :", this.score);
-                this.nextTourTimer();
-                this.rotation = 0;
-                setTimeout(() => {
-                    document.getElementById('greenCheck').classList.remove("displayHidden");
-                    document.getElementById('mapSVGPixeled').classList.add("noirEtBlancFilter");
-
-                    // délai de 1000 millisecondes (1 seconde)
-                    setTimeout(() => {
-                        document.getElementById('greenCheck').classList.add("displayHidden");
-                        document.getElementById('mapSVGPixeled').classList.remove("noirEtBlancFilter");
-                    }, 800);
-                }, 0);
-            } else {
-                setTimeout(() => {
-                    document.getElementById('randomRegionButton').classList.add("shake");
-                    this.wrongRegionAndAntiSpam = true;
-                    // délai de 1000 millisecondes (1 seconde)
-                    setTimeout(() => {
-                        document.getElementById('randomRegionButton').classList.remove("shake");
-                        this.wrongRegionAndAntiSpam = false;
-                    }, 1000);
-                }, 0);
-
-            }
-        },
-
-        stopGame() {
-            if (this.gameInProgress == false) {
-                return;
-            }
-
-            // document.getElementById('scoreRegionsFound').textContent = "test";
-            // this.afficherPopup("EndGame");
-            this.toursTimer = 0; // Réinitialise le compteur de toursTimer après avoir trouvé la bonne région
-            this.gameInProgress = false;
-            clearInterval(this.timer);
-            this.rotation = 0;
-            document.getElementById('randomRegionButton').classList.add("bubble");
-            document.getElementById('stopButton').classList.add("hiddenStopButton");
-            document.getElementById("ProgressBar").style.setProperty('--nouvelle-largeur', 0 + '%');
-            document.getElementById('randomRegionButtonText').textContent = "COMMENCER";
-
-            document.getElementById('counterLeftQuestion').textContent = 0 + "/" + this.totalRotations;
-            // logique pour la fin du jeu
-
-            // Sélectionnez la div contenant l'élément SVG
-            var pathElements = document.getElementById("mapSVGHidden").getElementsByTagName("path");
-            for (var i = 0; i < pathElements.length; i++) {
-                pathElements[i].classList.remove("hovered");
-
-                // Uniquement visuel pour pouvoir hover la map pixelisée
-                pathElements[i].removeEventListener('mouseenter', (e) => {
-                    document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.add("hovered");
-                });
-                pathElements[i].removeEventListener('mouseout', (e) => {
-                    document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.remove("hovered");
-                });
-            }
-        },
-
-        pop(e) {
-            console.log(e.target);
-            if (!e.target.classList.contains("popDecoration")) {
-                setTimeout(() => {
-                    e.target.classList.add("popDecoration");
-                    setTimeout(() => {
-                        e.target.classList.remove("popDecoration");
-                    }, 400);
-                }, 0);
-            }
-        },
-    }
-}
-</script>
