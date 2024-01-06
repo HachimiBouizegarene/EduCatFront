@@ -2,11 +2,20 @@
     <NavBar></NavBar>
      <main>
         <div class="parameters-choice">
-            <section @click="selected_parameter = key" :class="{selected : key==selected_parameter}" v-for="(parameter, key) in parameters"  :key="key">
-                <h4>{{parameter}}</h4>
-            </section>
+            <img @click="showParameters = !showParameters" id="parameter-icon" src="@/assets/images/profile/arrow.png" >
+            <template   v-for="(parameter, key) in parameters"  :key="key">
+                <section :class="{selected : key ==selected_parameter}" @click="selected_parameter = key ; showParameters = false" v-if="key ==selected_parameter || showAllParameter" >
+                    <h4>{{parameter}}</h4>
+                </section>
+            </template>
+            <template   v-for="(parameter, key) in parameters"  :key="key">
+                <section @click="selected_parameter = key; showParameters = false" v-if="key !==selected_parameter && showParameters && !showAllParameter" >
+                    <h4>{{parameter}}</h4>
+                </section>
+            </template>
         </div>
         <div class="parameter-container">
+           
             <GeneralParameterComp @send_user_data="send_user_data" :data="user_data" ref="generalParameter" v-show="selected_parameter == 0"></GeneralParameterComp>
             <SecurityParameterComp @change_user_password="change_user_password"  ref="securityParameter" v-if="selected_parameter == 1"></SecurityParameterComp>
         </div>
@@ -28,12 +37,19 @@ export default {
         SecurityParameterComp
     },
     async mounted(){
-        
+        this.verifyWidth()
+        window.addEventListener('resize', this.verifyWidth);
     },
     async created(){
-        document.querySelector("body").style.backgroundColor = "#f8f8f8"
         //faire les verifications et rediriger si jws existe pas
-        const jws = this.$cookies.get("jws")
+       const jws = this.$cookies.get("jws")
+       if(!jws) {
+        this.$router.push("/login")
+        return
+    }
+       
+
+       document.querySelector("body").style.backgroundColor = "#f8f8f8"
         const data = await fetch("http://localhost:9090/getProfile", {
             method : "POST", 
             body : JSON.stringify({
@@ -48,21 +64,28 @@ export default {
         data.img_url = url
         this.user_data = data;
        this.initGeneralParameter()
+
     },
     
 
     beforeUnmount(){
         document.querySelector("body").style.backgroundColor = "";
+        window.removeEventListener('resize', this.verifyWidth);
     },
 
     data(){
         return {
             parameters : ["Paramètres généraux", "sécurité"],
             selected_parameter : 0,
-            user_data : Array
+            user_data : Array,
+            showParameters : false,
+            showAllParameter : true
         }
     },
     methods : {
+        verifyWidth(){
+            this.showAllParameter = window.innerWidth >= 1500
+        },
         async change_user_password(data){
             const jws = this.$cookies.get("jws")
             data.jws = jws;
@@ -102,12 +125,12 @@ export default {
         margin: auto;
         display: flex;
         flex-direction: row;
-        gap: 2vw;;
+        gap: 2vw;
+        position: relative;;
     }
 
     .parameters-choice{
         width: 30%;
-        height: 500px;
         height: auto;
     }
 
@@ -117,7 +140,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgb(255, 255, 255);
+        background: rgb(241, 241, 241);
         cursor: pointer;
         transition: 0.2s ease ;
         border-radius: 2px;
@@ -142,5 +165,61 @@ export default {
         background-color: rgb(255, 255, 255);
     }
 
+    #parameter-icon{
+        display: none;
+        cursor: pointer;
+        width: 3vw;
+        position: absolute;  
+        z-index: 99;
+        right: 3vw;
+        top: 7vw;
+    }
+
+    @media screen and (max-width: 1500px) {
+        
+        main{
+            padding-left: 0;
+            padding-right: 0;
+            padding-top: 37vw;
+        }
+        #parameter-icon{
+            display: block;
+        }
+        .parameter-container{
+            width: 100%;
+        }
+        .parameters-choice section{
+            height: 17vw;
+        }
+        .parameters-choice section h4{
+            font-size: 5.3vw;
+        }
+        .parameters-choice{
+            position: absolute;
+            top: 20.2vw;
+            right: 0vw;
+            z-index: 99;
+            width: 100%;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .parameters-choice section{
+            border-radius: 0;
+        }
+    }
+
+    @media screen and (min-width: 1920px) {
+        main{
+            padding: 7%;
+        }
+        .parameters-choice section{
+            width: 100%;
+            height: 80px;
+        }
+
+        .parameters-choice section h4{
+            font-size: 20px;
+        }
+    }
     
 </style>

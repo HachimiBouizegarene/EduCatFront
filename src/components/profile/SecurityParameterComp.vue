@@ -67,4 +67,9 @@ export default {
     box-sizing: border-box;
 }
 
+
+@media screen and (min-width: 1920px) {
+    
+}
+
 </style>
