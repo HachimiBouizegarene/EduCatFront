@@ -9,11 +9,11 @@
         <div id="mountain-container">
             <h1>EDUCAT</h1>
             <img id="mountain" src="@/assets/images/home/mountain.webp">
-            <img class="subject" id="math" src="@/assets/images/home/math.webp" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Mathématiques">
-            <img class="subject" id="french" src="@/assets/images/home/french.webp" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Français">
-            <img class="subject" id="culture" src="@/assets/images/home/culture.webp" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Culture">
-            <img class="subject" id="history" src="@/assets/images/home/history.webp" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Histoire">
-            <img class="subject" id="geo" src="@/assets/images/home/geo.webp" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Géographie" >
+            <img class="subject" id="math" src="@/assets/images/home/math.webp" @click="this.$router.push('/jeux')" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Mathématiques">
+            <img class="subject" id="french" src="@/assets/images/home/french.webp" @click="this.$router.push('/jeux')" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Français">
+            <img class="subject" id="culture" src="@/assets/images/home/culture.webp" @click="this.$router.push('/jeux')" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Culture">
+            <img class="subject" id="history" src="@/assets/images/home/history.webp" @click="this.$router.push('/jeux')" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Histoire">
+            <img class="subject" id="geo" src="@/assets/images/home/geo.webp" @click="this.$router.push('/jeux')" @mouseover="showAltText" @mouseleave="hideAltText" @mousemove="updateMousePosition" alt="Géographie" >
         </div>
         <img class="clouds" id="clouds_1" src="@/assets/images/home/clouds.webp">
         <img class="clouds" id="clouds_2" src="@/assets/images/home/clouds.webp">
@@ -41,14 +41,17 @@ export default {
 
     methods: {
         showAltText(event) {
+            console.log('test');
             this.isHovered = true;
             this.updateMousePosition(event);
             this.altText = event.target.alt || ''; // Récupérer le texte de l'attribut alt
         },
         hideAltText() {
+            console.log('test');
             this.isHovered = false;
         },
         updateMousePosition(event) {
+            console.log('test');
             this.mouseX = event.clientX;
             this.mouseY = event.clientY;
         },
