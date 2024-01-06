@@ -262,7 +262,7 @@ h1 {
     image-rendering: pixelated;
     text-align: center;
     color: #ffffff;
-    font-family: gamePage;
+    font-family: gamesPage;
     font-size: 20px;
 }
 
