@@ -1,6 +1,7 @@
 <template>
     <div class="parameter-comp container">
         <section class="title">
+            <h3>Paramètres généraux</h3>
             <p>Gérez les informations de votre compte.</p>
         </section>
 
@@ -266,7 +267,7 @@ img.edit-img:hover {
 }
 
 
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1300px) {
     form .line#profile-img-line {
         padding: 1vw;
         margin-bottom: 2.5vw;

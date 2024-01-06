@@ -40,15 +40,15 @@ export default {
         this.verifyWidth()
         window.addEventListener('resize', this.verifyWidth);
     },
+
     async created(){
         //faire les verifications et rediriger si jws existe pas
+        if (!this.$cookies.get("jws")) this.$router.push("/login")
        const jws = this.$cookies.get("jws")
        if(!jws) {
         this.$router.push("/login")
         return
-    }
-       
-
+        }
        document.querySelector("body").style.backgroundColor = "#f8f8f8"
         const data = await fetch("http://localhost:9090/getProfile", {
             method : "POST", 
@@ -175,7 +175,7 @@ export default {
         top: 7vw;
     }
 
-    @media screen and (max-width: 1500px) {
+    @media screen and (max-width: 1300px)  {
         
         main{
             padding-left: 0;

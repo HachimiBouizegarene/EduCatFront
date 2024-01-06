@@ -41,17 +41,14 @@ export default {
 
     methods: {
         showAltText(event) {
-            console.log('test');
             this.isHovered = true;
             this.updateMousePosition(event);
             this.altText = event.target.alt || ''; // Récupérer le texte de l'attribut alt
         },
         hideAltText() {
-            console.log('test');
             this.isHovered = false;
         },
         updateMousePosition(event) {
-            console.log('test');
             this.mouseX = event.clientX;
             this.mouseY = event.clientY;
         },

@@ -47,7 +47,7 @@ export default {
     text-align: center;
     animation: none;
     height: 100%;
-    width: fit-content;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,6 +55,7 @@ export default {
     pointer-events: none;
     opacity: 0;
     transition: 0.5s ease;
+    box-sizing: border-box;
 }
 #message.error{
     background-color: rgb(255, 0, 0);

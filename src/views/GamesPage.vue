@@ -62,6 +62,10 @@ export default {
     mounted() {
         this.getGamesInfos();
     },
+    created(){
+        if(!this.$cookies.get('jws')) this.$router.push("/login")
+        
+    },
 
     data() {
         return {

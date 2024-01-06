@@ -3,8 +3,8 @@
   <div class="container">
     <div class="left-part">
       <span></span>
-      <LogoDeco logo_url="login_page/logo_login.svg"></LogoDeco>
-      <router-link to="/signin">S'inscrire</router-link>
+      <LogoDeco logo_url="login_page/logo_login.png"></LogoDeco>
+      <router-link to="/signin">S'INSCRIRE</router-link>
     </div>
 
     <form @submit.prevent="onSubmit(e)">
@@ -12,9 +12,12 @@
       <input id="user_mail" placeholder="Mail" v-model="user_mail">
 
       <input id="user_password" placeholder="Mot de passe" v-model="user_password">
-      <button type="submit">Se connecter</button>
+      <button :class="{activated : verifyInputs()}" type="submit">Se connecter</button>
       <!-- <span id="message" ref="message">{{ message }}</span> -->
-      <messageContainer ref="messageContainer"></messageContainer>
+      <div id="message-container">
+        <messageContainer ref="messageContainer"></MessageContainer>
+      </div>
+    
     </form>
     <!-- <FooterComp></FooterComp> -->
   </div>
@@ -51,15 +54,13 @@ export default {
   },
 
   methods: {
+    verifyInputs(){
+      
+      if (this.user_mail == '' || this.user_password == "") return false
+      if(/^\w+([._-]?\w+)*@\w+([._-]?\w+)*(\.\w{2,3})+$/.test(this.user_mail) == false) return false;
+      return true
+    },
     async onSubmit() {
-      if (this.user_mail == '' || this.user_password == "") {
-        this.$refs.messageContainer.message({ error: "Veuillez entrer les informations demandées" })
-        return
-      }
-      if(/^\w+([._-]?\w+)*@\w+([._-]?\w+)*(\.\w{2,3})+$/.test(this.user_mail) == false) {
-        this.$refs.messageContainer.message({ error: "Le format du mail est incorrect" })
-        return
-      }
       try {
         const response = await fetch("http://localhost:9090/login", {
           method: "POST",
@@ -74,7 +75,7 @@ export default {
           this.$refs.messageContainer.message({ error: data['error'] })
         } else {
           this.$cookies.set('jws', data['jws'])
-          this.$router.push("/MembrePage")
+          this.$router.push("/jeux")
         }
       } catch (e) {
         this.$refs.messageContainer.message({ error: "Erreur lors de la connexion au serveur" })
@@ -151,23 +152,45 @@ body {
 }
 
 .container form button {
-  width: 40%;
+  width: 46%;
   color: rgb(53, 52, 52);
   background-color: rgb(197, 197, 241);
-  padding: 20px 5px;
+  padding: 17px 10px;
   border: none;
-  border-radius: 30px;
+  pointer-events: none;
   cursor: pointer;
   transition: 0.15s ease;
 }
 
-.container form button:hover {
+.container form button.activated{
+  background-color: rgb(150, 150, 255);
+  pointer-events: all;
+}
+.container form button.activated:hover {
   background-color: rgb(165, 165, 240);
 }
 
 .container form label {
   padding: 10px 0;
 }
+
+
+a {
+  color: #4f4e81;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "pixel";
+  font-size: 12px;
+  padding: 0;
+}
+
+#message-container{
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+}
+
 
 
 

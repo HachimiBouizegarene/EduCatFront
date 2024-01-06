@@ -14,13 +14,16 @@
         <input id="user_name" placeholder="Nom" v-model="user_name">
         <input id="user_name" placeholder="Prenom" v-model="user_forename">
       </div>
-      <input id="user_name" placeholder="Date de naissance" v-model="user_birthday">
+      <input id="user_name" placeholder="Classe" v-model="user_classe">
+      <input id="user_pseudo" placeholder="Pseudonyme unique" v-model="user_pseudo">
       <input id="user_mail" placeholder="Mail" v-model="user_mail">
-
       <input id="password" placeholder="Mot de passe" v-model="user_password">
       <input id="password_confirm" placeholder="Confirmer mot de passe" v-model="user_password_confirm">
-      <button type="submit">S'inscrire</button>
-      <MessageContainer ref="messageContainer"></MessageContainer>
+      <button :class="{activated : verifyInputs()}" type="submit">S'inscrire</button>
+      <div id="message-container">
+        <MessageContainer ref="messageContainer"></MessageContainer>
+      </div>
+    
     </form>
     <!-- <FooterComp></FooterComp> -->
   </div>
@@ -40,12 +43,17 @@ export default {
     return {
       user_forename: '',
       user_name: '',
-      user_birthday: '',
+      user_classe: '',
       user_mail: '',
       user_password: '',
       user_password_confirm: '',
-      error: ''
+      error: '',
+      user_pseudo : '',
     }
+  },
+
+  created(){
+    if (this.$cookies.get("jws")) this.$router.push("/Profil")
   },
 
   components: {
@@ -55,19 +63,15 @@ export default {
     // FooterComp
   },
   methods: {
-    async onSubmit() {
-      // verifier que tous les champs sont remplis
+    verifyInputs(){
       if (this.user_forename == '' || this.user_name == '' || this.user_birthday == '' ||
-        this.user_mail == '' || this.user_password == '' || this.user_password_confirm == '') {
-        this.$refs.messageContainer.message({ error: "Veuillez entrer les informations demandées" })
-        return
-      }
-      //verifier que le mail est un mail
-      if(/^\w+([._-]?\w+)*@\w+([._-]?\w+)*(\.\w{2,3})+$/.test(this.user_mail) == false) {
-        this.$refs.messageContainer.message({ error: "Le format du mail est incorrect" })
-        return
-      }
+        this.user_mail == '' || this.user_password == '' || this.user_password_confirm == '')  return false
+        if(/^\w+([._-]?\w+)*@\w+([._-]?\w+)*(\.\w{2,3})+$/.test(this.user_mail) == false)  return false
+        if(this.user_password != this.user_password_confirm) return false
+        return true
+    },
 
+    async onSubmit() {
       // verifier que les mots de passe correspondent
       if(this.user_password != this.user_password_confirm) {
         this.$refs.messageContainer.message({ error: "Les mot de passe ne correspondent pas" })
@@ -80,9 +84,10 @@ export default {
           body: JSON.stringify({
             "user_name": this.user_name,
             "user_forename": this.user_forename,
-            "user_birthday": this.user_birthday,
+            "user_classe": this.user_classe,
             "user_email": this.user_mail,
             "user_password": this.user_password,
+            "user_pseudo" : this.user_pseudo,
           })
         })
         const data = await response.json();
@@ -110,7 +115,6 @@ body {
 }
 
 .container {
-  
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   display: flex;
@@ -188,12 +192,16 @@ body {
   background-color: rgb(197, 197, 241);
   padding: 20px 5px;
   border: none;
-  border-radius: 30px;
   cursor: pointer;
   transition: 0.15s ease;
+  pointer-events: none;
 }
 
-.container form button:hover {
+.container form button.activated{
+  background-color: rgb(150, 150, 255);
+  pointer-events: all;
+}
+.container form button.activated:hover {
   background-color: rgb(165, 165, 240);
 }
 
@@ -223,6 +231,13 @@ a {
   padding: 0;
 }
 
+
+#message-container{
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+}
+
 @media screen and (max-width: 1300px) {
 
 
@@ -237,7 +252,6 @@ a {
   .container {
     height: 600px;
   }
-
 
   .container form button {
     width: 100%;
