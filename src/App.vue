@@ -29,7 +29,7 @@ export default {
 @font-face {
     font-family: 'gamePage';
     /* Nom de la police */
-    src: url('@/assets/fonts/gamePage.ttf') format('truetype');
+    src: url('@/assets/fonts/gamesPage.ttf') format('truetype');
     /* Chemin vers le fichier WOFF */
     /* Ajoute d'autres formats de fichiers de police si nécessaire */
 }
@@ -37,7 +37,7 @@ export default {
 * {
   padding: 0;
   margin: 0;
-  font-family: 'Roboto Condensed';
+  font-family: 'pixel2';
 }
 
 body {

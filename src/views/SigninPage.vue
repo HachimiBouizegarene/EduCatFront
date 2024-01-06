@@ -3,12 +3,12 @@
   <div class="container">
     <div class="left-part">
       <span></span>
-      <LogoDeco logo_url="login_page/logo_signin.svg"></LogoDeco>
-      <router-link to="/login">Se connecter</router-link>
+      <LogoDeco logo_url="login_page/logo_signin.png"></LogoDeco>
+      <router-link to="/login">SE CONNECTER</router-link>
     </div>
 
     <form @submit.prevent="onSubmit(e)">
-      <h1 id="login-title">Inscription</h1>
+      <h1 id="login-title">INSCRIPTION</h1>
 
       <div>
         <input id="user_name" placeholder="Nom" v-model="user_name">
@@ -110,6 +110,7 @@ body {
 }
 
 .container {
+  
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   display: flex;
@@ -162,6 +163,7 @@ body {
 }
 
 .container form h1 {
+  font-family: "pixel";
   padding: 30px 0;
   color: rgb(53, 52, 52);
 }
@@ -211,6 +213,16 @@ body {
   border-radius: 100px;
 }
 
+a {
+  color: #4f4e81;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "pixel";
+  font-size: 12px;
+  padding: 0;
+}
+
 @media screen and (max-width: 1300px) {
 
 
@@ -218,14 +230,7 @@ body {
     width: 40%;
   }
 
-  a {
-    color: #4f4e81;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 12px;
-    padding: 0;
-  }
+
 }
 
 @media screen and (max-width: 800px) {
