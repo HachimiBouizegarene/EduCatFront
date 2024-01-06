@@ -53,6 +53,10 @@ export default {
         this.$refs.menu.open('CHOISISSEZ VOTRE MAP', ['France', 'Europe'], 'JOUER', this.avalaibleLevels);
     },
 
+    beforeUnmount() {
+        this.unmounted();
+    },
+
     components: {
         MenuComponent,
     },
@@ -304,6 +308,31 @@ export default {
                 })
             })
             response;
+        },
+
+        unmounted() {
+            // Nettoyage des event listeners, intervals, etc.
+            clearInterval(this.timer);
+            if (document.getElementById("mapSVGHidden")) {
+                // Sélectionnez la div contenant l'élément SVG
+                var pathElements = document.getElementById("mapSVGHidden").getElementsByTagName("path");
+                for (var i = 0; i < pathElements.length; i++) {
+                    pathElements[i].classList.remove("hovered");
+
+                    // Uniquement visuel pour pouvoir hover la map pixelisée
+                    pathElements[i].removeEventListener('mouseenter', this.hoverEnterHandler);
+                    pathElements[i].removeEventListener('mouseout', this.hoverOutHandler);
+                    pathElements[i].removeEventListener("click", this.clicSurUneRegion);
+                }
+            }
+        },
+
+        hoverEnterHandler(e) {
+            document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.add("hovered");
+        },
+
+        hoverOutHandler(e) {
+            document.querySelector('g#' + e.target.getAttribute("id")).firstElementChild.classList.remove("hovered");
         }
     },
 
@@ -326,6 +355,7 @@ export default {
 
 #mapSVGHidden {
     opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
 }
 
 #mapSVGPixeled {

@@ -12,7 +12,7 @@
                 </div>
             </div>
 
-            <div id="gamesListBar">
+            <div class="gamesListBar">
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('left')">←</div> -->
                 <router-link v-for="(jeu, key) in jeux" :key="key" :to="{ name: jeu.NomJeu }">
                     <div class="gameButton">
@@ -23,16 +23,22 @@
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('right')">→</div> -->
             </div>
 
-            <div v-for="(matiere, key) in matieres" :key="key" id="gamesListBar">
+
+            <template v-for="(matiere, matiereIndex) in matieres" :key="matiereIndex">
+                <h3 class="gamesListBarTitle">{{ matiere }}</h3>
+
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('left')">←</div> -->
-                <!-- <router-link  v-for="(jeu, key) in jeux" v-if="jeu.matiere == matiere" :key="key" :to="{ name: jeu.NomJeu }">
-                    <div class="gameButton">
-                        <img :src="jeu.ImageJeu" :alt="jeu.NomJeu">
-                        <h5>{{ jeu.NomJeu }}</h5>
-                    </div>
-                </router-link> -->
+                <div class="gamesListBar">
+                    <router-link v-for="(jeu, jeuIndex) in filteredJeux(matiere)" :key="jeuIndex"
+                        :to="{ name: jeu.NomJeu }">
+                        <div class="gameButton">
+                            <img :src="jeu.ImageJeu" :alt="jeu.NomJeu">
+                            <h5>{{ jeu.NomJeu }}</h5>
+                        </div>
+                    </router-link>
+                </div>
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('right')">→</div> -->
-            </div>
+            </template>
 
         </div>
     </div>
@@ -61,7 +67,22 @@ export default {
         return {
             jeux: [],
             matieres: [],
+            matiere: undefined,
         };
+    },
+
+    computed: {
+        filteredJeux() {
+            return (matiere) => {
+                if (matiere === undefined) {
+                    return this.jeux;
+                } else {
+                    console.log(matiere);
+                    console.log(this.jeux.filter(jeu => jeu.matiere === matiere));
+                    return this.jeux.filter(jeu => jeu.NomMatiere === matiere);
+                }
+            };
+        }
     },
 
     methods: {
@@ -92,14 +113,13 @@ export default {
                 }
 
                 let matiere = jeu['NomMatiere'];
-                if(!this.matieres.includes(matiere))
+                if (!this.matieres.includes(matiere))
                     this.matieres.push(matiere);
             });
-
         },
 
         scrollGamesList(direction) {
-            const gamesListContainer = document.getElementById('gamesListBar');
+            const gamesListContainer = document.querySelector('gamesListBar');
             const scrollAmount = 200; // Ajustez la quantité de défilement selon vos préférences
             const currentScrollLeft = gamesListContainer.scrollLeft;
 
@@ -114,8 +134,11 @@ export default {
 </script>
 
 <style scoped>
+#header {
+    background-color: white;
+}
+
 #gamesPage {
-    height: 100vh;
     overflow: hidden;
     position: relative;
     -webkit-user-select: none;
@@ -147,19 +170,21 @@ export default {
     justify-content: space-between;
     width: 100%;
     padding: 12px;
-    height: 50px;
+    height: 35px;
     background-color: rgb(255, 187, 0);
 }
 
 #gameMenuTopBar h2 {
-    font-family: 'pixel', 'Roboto Condensed';
-    font-size: 31px;
+    font-family: 'gamesPage', 'Roboto Condensed';
+    font-size: 45px;
     text-align: center;
+    color: #313131;
+    font-weight: 100;
 }
 
 /* Game List Bar */
 
-#gamesListBar {
+.gamesListBar {
     display: flex;
     overflow-x: auto;
     /* display: grid;
@@ -168,9 +193,19 @@ export default {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); */
     width: 100%;
     padding: 12px;
-    background-color: #f0f0f0;
+    background-color: white;
     border-radius: 8px;
     margin-bottom: 30px;
+    position: relative;
+}
+
+.gamesListBarTitle {
+    font-family: 'gamesPage';
+    font-size: 29px;
+    width: 100%;
+    padding: 4px 0px;
+    color: #313131;
+    font-weight: 100;
 }
 
 .arrowScrollButton {
@@ -193,7 +228,6 @@ export default {
 
 .gameButton {
     width: 150px;
-    height: 182px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -201,26 +235,25 @@ export default {
     margin: auto;
     border: 2px solid rgba(22, 22, 22, 0);
     border-radius: 8px;
-    padding: 3px;
+    padding: 0px 3px;
 }
 
-.gameButton:hover {
-    border: 2px solid rgba(22, 22, 22, 0.40);
+.gameButton:hover img{
+    filter: brightness(0.9);
 }
 
 .gameButton img {
     border-radius: 8px;
     object-fit: contain;
-    width: 150px;
-    min-width: 110px;
+    transition: 0.2s;
 }
 
 .gameButton h5 {
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 100;
     line-height: 1em;
     overflow: hidden;
-    font-family: 'gamePage', 'Roboto Condensed';
+    font-family: 'gamesPage', 'Roboto Condensed';
 }
 
 /* Search bar */
@@ -228,21 +261,22 @@ export default {
 #searchBar {
     border: none;
     transition: 0.3s ease-out;
-    z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: text;
     width: 25vw;
     max-width: 200px;
+    min-width: 100px;
+    position: relative;
 }
 
 #searchBar input {
     all: unset;
     color: #000000;
     text-align: left;
-    font-family: 'gamePage', 'Roboto Condensed';
-    font-size: 20px;
+    font-family: 'gamesPage', 'Roboto Condensed';
+    font-size: 2.5vw;
     font-style: normal;
     font-weight: 700;
     letter-spacing: -0.48px;
@@ -254,6 +288,8 @@ export default {
     max-width: 180px;
     width: 100%;
     position: absolute;
+    padding: 0px 10px;
+    box-sizing: border-box;
 }
 
 #searchBar img {
@@ -270,6 +306,14 @@ export default {
     #gameMenuTopBar h2 {
         font-size: 5vw;
     }
+
+    .gameButton {
+        width: 118px;
+    }
+
+    .gameButton h5 {
+        font-size: 15px;
+    }
 }
 
 @media only screen and (max-width: 550px) {}
@@ -281,7 +325,11 @@ export default {
     }
 
     #gameMenuTopBar h2 {
-        font-size: 7vw;
+        font-size: 25px
+    }
+
+    #searchBar input {
+        font-size: 12px;
     }
 
 }

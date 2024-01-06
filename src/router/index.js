@@ -8,10 +8,11 @@ import GeographieMapGamePage from "@/views/games/GeographieMapGamePage.vue"
 import JeuTest from "@/views/games/JeuTest.vue"
 import GamesPage from "@/views/GamesPage.vue"
 import ProfilPage from "@/views/ProfilPage.vue"
+import StatistiquesPage from "@/views/StatistiquesPage.vue"
 
 const routes = [
     {
-        path: "/mazeRemake",
+        path: "/conjugue-pour-fuir",
         name: "Conjugue pour Fuir !",
         component: MazeRemake
     },
@@ -21,12 +22,12 @@ const routes = [
         component: ProfilPage
     },
     {
-        path: "/GamesPage",
+        path: "/jeux",
         name: "GamesPage",
         component: GamesPage
     },
     {
-        path: "/GeographieMapGamePage",
+        path: "/maitre-du-monde",
         name: "Maître du Monde !",
         component: GeographieMapGamePage
     },
@@ -54,6 +55,11 @@ const routes = [
         path: "/signin",
         name: "SiginPage",
         component: Signin
+    },
+    {
+        path: "/statistiques",
+        name: "StatistiquesPage",
+        component: StatistiquesPage
     }
 ]
 
