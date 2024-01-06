@@ -27,7 +27,7 @@ export default {
 }
 
 @font-face {
-    font-family: 'gamePage';
+    font-family: 'gamesPage';
     /* Nom de la police */
     src: url('@/assets/fonts/gamesPage.ttf') format('truetype');
     /* Chemin vers le fichier WOFF */
