@@ -9,6 +9,7 @@
             <p>DE NOMBREUX JEUX IMAGINES PAR DES ETUDIANTS, POUR DES ETUDIANTS AFIN DE REUSSIR AU MIEUX A COMPRENDRE TOUT EN
                 S'AMUSANT !</p>
         </section>
+        <FooterComp></FooterComp>
         <!-- <FooterComp></FooterComp> -->
     </main>
 </template>
@@ -16,6 +17,7 @@
 <script>
 import navBar from "@/components/all/NavBar.vue"
 import ParalaxComp from "@/components/home/ParalaxComp.vue";
+import FooterComp from "@/components/all/FooterCompRemake.vue";
 // import FooterComp from "@/components/all/FooterComp.vue"
 
 export default {
@@ -23,6 +25,7 @@ export default {
     components: {
         navBar,
         ParalaxComp,
+        FooterComp
         // FooterComp
     },
 }
@@ -45,11 +48,11 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 80px 50px;
+    padding: 3vw;
     background-color: #5cb7fd;
-    gap: 30px;
+    gap: 2vw;
     box-sizing: border-box;
-    margin-top: 50px;
+    margin-top: 3vw;
 }
 
 .accueil-section p,
@@ -61,14 +64,38 @@ main {
 }
 
 .accueil-section h3 {
-    font-size: 33PX;
+    font-size: 2vw;
     color: white;
 }
 
 .accueil-section p {
     color: white;
-    font-size: 19px;
+    font-size: 1.2vw;
     box-sizing: border-box;
 }
 
+
+@media screen and (min-width: 1920px) {
+    
+.accueil-section h3 {
+    font-size: 40px;
+}
+
+.accueil-section p {
+    color: white;
+    font-size: 25px
+    }
+
+    .accueil-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding:50px;
+        background-color: #5cb7fd;
+        gap: 25px;
+        box-sizing: border-box;
+        margin-top: 50px;
+        }
+}
 </style>

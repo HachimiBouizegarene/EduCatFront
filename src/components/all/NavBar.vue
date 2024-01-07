@@ -77,7 +77,7 @@ header nav {
     transition: 0.3s ease;
 }
 header nav.scrolled{
-    background-color: rgba(255, 255, 255, 0.801);
+    background-color: rgba(255, 255, 255, 0.911);
 }
 header nav div {
     width: 100%;
@@ -150,6 +150,9 @@ a#game-btn:hover {
     header nav {
         padding: 40px;
     }
+    header nav div {
+        gap: 60px;
+    }
 
     #NavBarLogo img {
         width: 100px
@@ -157,12 +160,20 @@ a#game-btn:hover {
 
     #profile-img {
         width: 50px;
+
+        border-radius: 100%;
+        transition: 0.3s ease;
+        border: 4px solid white;
+        box-shadow: 0px 0px 0px 3px #292929;
     }
 
     a.btn {
         font-size: 20px;
         padding: 5px 30px;
+
+    
     }
+ 
 }
 
 @media screen and (max-width: 1100px ) {

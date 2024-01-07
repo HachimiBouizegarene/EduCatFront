@@ -312,6 +312,7 @@ export default {
 
         unmounted() {
             // Nettoyage des event listeners, intervals, etc.
+            window.removeEventListener('resize', this.adjustFontSize);
             clearInterval(this.timer);
             if (document.getElementById("mapSVGHidden")) {
                 // Sélectionnez la div contenant l'élément SVG
