@@ -15,8 +15,7 @@
             </template>
         </div>
         <div class="parameter-container">
-           
-            <GeneralParameterComp @send_user_data="send_user_data" :data="user_data" ref="generalParameter" v-show="selected_parameter == 0"></GeneralParameterComp>
+            <GeneralParameterComp @send_user_data="send_user_data"  ref="generalParameter" v-show="selected_parameter == 0"></GeneralParameterComp>
             <SecurityParameterComp @change_user_password="change_user_password"  ref="securityParameter" v-if="selected_parameter == 1"></SecurityParameterComp>
         </div>
     
@@ -39,32 +38,21 @@ export default {
     async mounted(){
         this.verifyWidth()
         window.addEventListener('resize', this.verifyWidth);
+        this.$refs.generalParameter.init();
     },
 
     async created(){
         //faire les verifications et rediriger si jws existe pas
-        if (!this.$cookies.get("jws")) this.$router.push("/login")
+        if (!this.$cookies.get("jws")){
+            this.$router.push("/login")
+            return
+        }  
        const jws = this.$cookies.get("jws")
        if(!jws) {
-        this.$router.push("/login")
-        return
+            this.$router.push("/login")
+            return
         }
        document.querySelector("body").style.backgroundColor = "#f8f8f8"
-        const data = await fetch("http://localhost:9090/getProfile", {
-            method : "POST", 
-            body : JSON.stringify({
-                jws : jws
-            })
-        }).then((res)=>{
-            return res.json();
-        })  
-        //image
-        let blob = new Blob([new Uint8Array(data.PhotoProfil)], {type : "image/jpg"})
-        let url = URL.createObjectURL(blob);
-        data.img_url = url
-        this.user_data = data;
-       this.initGeneralParameter()
-
     },
     
 
@@ -77,7 +65,6 @@ export default {
         return {
             parameters : ["Paramètres généraux", "sécurité"],
             selected_parameter : 0,
-            user_data : Array,
             showParameters : false,
             showAllParameter : true
         }
@@ -97,9 +84,7 @@ export default {
             })
             this.$refs.securityParameter.response(body_res)
         },
-        initGeneralParameter(){
-            this.$refs.generalParameter.init(this.user_data);
-        },
+
         async send_user_data(data){
             const jws = this.$cookies.get("jws")
             data.jws = jws

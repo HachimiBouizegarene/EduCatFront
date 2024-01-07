@@ -41,17 +41,14 @@ export default {
 
     methods: {
         showAltText(event) {
-            console.log('test');
             this.isHovered = true;
             this.updateMousePosition(event);
             this.altText = event.target.alt || ''; // Récupérer le texte de l'attribut alt
         },
         hideAltText() {
-            console.log('test');
             this.isHovered = false;
         },
         updateMousePosition(event) {
-            console.log('test');
             this.mouseX = event.clientX;
             this.mouseY = event.clientY;
         },
@@ -65,22 +62,22 @@ h1 {
     left: 55%;
     transform: translateX(-50%);
     font-family: 'pixel';
-    font-size: 260px;
+    font-size: 17vw;
     color: rgb(44, 55, 75);
     text-align: right;
-    top: -20%;
-    z-index: -1;
+    top: -10vw;
+    z-index: 0;
 }
 
 .container {
     overflow: hidden;
-    height: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1920px;
-    height: 101%;
+    width:100vw;
+    max-width: 1920px;
+    height: 100vh;
+    position: relative;
+    min-height: 50vw;
     top: 0;
-    position: absolute;
+    max-height: 85vw;
     background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgba(154, 231, 245, 1) 100%, rgba(0, 212, 255, 1) 100%);
 
 }
@@ -95,16 +92,17 @@ h1 {
 }
 
 #mountain-container {
+    max-width: 100%;
     position: absolute;
-    bottom: -100px;
+    bottom: -7vw;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 #mountain {
-    transition: 0.5s ease;
-    width: 1920px;
+    width: 100vw;
+    z-index: 2;
 }
 
 
@@ -118,8 +116,9 @@ h1 {
     transform: translateX(-40%);
     left: 36%;
     bottom: 0;
-    width: 450px;
+    width:28vw;
     transition: 0.5s ease;
+    z-index: 2;
 }
 
 .birds {
@@ -183,7 +182,7 @@ h1 {
     cursor: pointer;
     box-sizing: border-box;
     border: none;
-    width: 8%;
+    width: 7vw;
     padding: 10px;
     transition: 0.5s ease;
 }
@@ -196,33 +195,31 @@ h1 {
 
 }
 
-
-
 #math {
-    left: 54.2%;
-    top: -160px;
+    left: 54vw;
+    top: -9vw;
     animation-delay: 0.1s;
 }
 
 #french {
-    left: 28%;
-    bottom: 35%;
+    left: 27vw;
+    bottom: 15vw;
     animation-delay: 0.3s;
 }
 
 #culture {
-    bottom: 65%;
-    left: 38%;
+    bottom: 28vw;
+    left: 37vw;
 }
 
 #history {
-    bottom: 35%;
-    right: 13%
+    bottom: 15vw;
+    right: 13vw;
 }
 
 #geo {
-    right: 23%;
-    bottom: 65%;
+    right: 21vw;
+    bottom: 28vw;
 
 }
 
@@ -242,8 +239,8 @@ h1 {
 #sun {
     z-index: -3;
     position: absolute;
-    left: 100px;
-    top: 120px;
+    left: 15vw;
+    top: 1vw;
 }
 
 .hover-text {
@@ -290,151 +287,87 @@ h1 {
     }
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1100px ) {
 
-    h1 {
-        left: 53.5%;
-        font-size: 150px;
+    .subject{
+        width: 10vw;
     }
-
+    #mountain{
+        margin-top: 20px;
+    }
     #mountain-container {
-        bottom: 0px;
+        bottom: 0;
     }
 
-
-    .container {
-        max-height: 1400px;
+    .container{
+        min-height: 67vw;
     }
+}
 
-    #mountain {
-        width: 73%;
-    }
+@media screen and (max-width: 600px ) {
 
-    .subject {
-        width: 110px
-    }
-
-    #math {
-        left: 53.2%;
-        top: -120px;
-    }
-
-    #french {
-        left: 34%;
-    }
-
-    #culture {
-        left: 42.3%
-    }
-
-    #history {
-        right: 24.5%
+    .subject{
+        width: 13vw;
     }
 
     #geo {
-        right: 31%;
+        right: 18vw;
     }
 
-    #man {
-        left: 37%;
-        width: 350px;
-    }
-
-
-
-    @media screen and (max-width: 900px) {
-        .bird {
-            width: 10px;
-        }
-
-        #bird_1 {
-            top: 50%;
-            width: 22px;
-            animation-duration: 30s;
-        }
-
-        h1 {
-            left: 52.3%;
-            font-size: 100px;
-        }
-
-        #mountain {
-            width: 47%;
-        }
-
-        #man {
-            width: 200px;
-            left: 42%;
-        }
-
-        .subject {
-            width: 80px
-        }
-
-        #math {
-            left: 52%;
-            top: -90px;
-        }
-
-        #french {
-            left: 40%;
-        }
-
-        #culture {
-            left: 44.5%
-        }
-
-        #history {
-            right: 33%
-        }
-
-        #geo {
-            right: 37.2%;
-        }
-
-    }
-
-
-    @media screen and (max-width: 550px) {
-
-        h1 {
-            left: 51.3%;
-            font-size: 60px;
-        }
-
-        #mountain {
-            width: 29%;
-        }
-
-        #man {
-            width: 150px;
-            left: 45%;
-        }
-
-        .subject {
-            width: 60px
-        }
-
-        #math {
-            left: 51.3%;
-            top: -65px;
-        }
-
-        #french {
-            left: 43.5%;
-        }
-
-        #culture {
-            left: 46.5%
-        }
-
-        #history {
-            right: 39%
-        }
-
-        #geo {
-            right: 41.5%;
-        }
+    #history {
+        bottom: 15vw;
+        right: 10vw;
     }
 }
+
+@media screen and (min-width: 1930px ) {
+    .subject{
+        width: 130px;
+    }
+    .container{
+        min-height: unset;
+        height: 1300px;
+    }
+
+    h1{
+        font-size: 220px;
+        top: -150px;
+    }
+    #mountain{
+        width: 100%;
+    }
+
+    #mountain-container{
+        bottom: 0;
+    }
+
+    #man{
+        width: 600px;
+    }
+
+    #math{
+        left: 1050px;
+        top: -200px;
+    }
+    #french{
+        left: 600px;
+        bottom: 350px;
+    }
+
+    #history {
+        bottom: 350px;
+        right: 330px;
+    }
+    #culture{
+        bottom: 600px;
+        left: 770px;
+    }
+
+    #geo[data-v-d1975d9c] {
+        right: 460px;
+        bottom: 600px;
+    }
+}
+
+
 </style>

@@ -10,7 +10,8 @@
             <h4>Informations personnelles</h4>
             <div class="line" id="profile-img-line">
                 <div id="profile-img-container">
-                    <img ref="profil_img" id="profile-img" :src="profil_img_url">
+
+                    <img  id="profile-img" :src="profil_img_url">
                     <img @click="clickFileInput" class="edit-img" src="@/assets/images/profile/edit.png">
                 </div>
                 <div id="pseudo-container">
@@ -56,7 +57,9 @@ export default {
     components: {
         messageContainer
     },
-    mounted() {
+    async created() {
+        await this.$store.dispatch("wait_user_pulled")
+        this.init()
     },
 
     data() {
@@ -69,21 +72,18 @@ export default {
             name: "",
             forename: "",
             classe: "",
-            profil_img_url: "",
+            profil_img_url: null,
             profil_imb_blob: Blob,
-            pseudo: "Hachimi",
+            pseudo: "Miaou",
             visble: false
         }
     },
 
     methods: {
-        response(data) {
+        async response(data) {
             if (data.success !== undefined) {
-                this.data_name = this.name
-                this.data_forename = this.forename
-                this.data_pseudo = this.pseudo
-                this.data_classe = this.classe
-                this.data_profil_img_url = this.profil_img_url
+                await this.$store.dispatch("fetchUser", {jws : this.$cookies.get('jws'), force : true} )
+                this.init()
             }
             this.$refs.res.message(data)
         },
@@ -106,42 +106,43 @@ export default {
             let url = URL.createObjectURL(blob)
             this.profil_img_url = url
             this.profil_imb_blob = blob
-
         },
         clickFileInput() {
             this.$refs.file_getter.click()
         },
         verifInfos() {
             let empty = (this.classe === "" || this.forename === "" || this.name === "" || this.pseudo === "")
-
-            let difference = (this.data_name !== this.name || this.pseudo !== this.data_pseudo ||
-                this.data_forename !== this.forename || this.classe !== this.data_classe || this.profil_img_url !== this.data_profil_img_url)
+            let difference = (this.name !== this.$store.state.user.name 
+            || this.pseudo !== this.$store.state.user.pseudo ||
+            this.forename !== this.$store.state.user.forename||
+            this.classe !== this.$store.state.user.classe ||
+            this.profil_img_url !==  this.$store.state.user.profile_image_url)
             return difference && !empty
 
-        }, init(data) {
-            this.profil_img_url = this.data_profil_img_url = data.img_url
-            this.data_name = this.name = data.Nom
-            this.data_forename = this.forename = data.Prenom
-            this.data_classe = this.classe = data.Classe
-            this.data_pseudo = this.pseudo = data.Pseudonyme == undefined || data.Pseudonyme == "" ? "Modifier pseudo" : data.Pseudonyme
+        },  async init() {
+   
+            this.profil_img_url  = this.$store.state.user.profile_image_url
+             this.name = this.$store.state.user.name
+            this.forename =  this.$store.state.user.forename
+            this.classe = this.$store.state.user.classe
+            this.pseudo = this.$store.state.user.pseudo == undefined || this.$store.state.user.pseudo == "" ?
+             "Modifier pseudo" : this.$store.state.user.pseudo
         },
 
         async send_user_data() {
             let ret = {};
-            const image_updated = this.data_profil_img_url !== this.profil_img_url
+            const image_updated = this.$store.state.user.profile_image_url !== this.profil_img_url
             if (image_updated) {
                 const data = await this.profil_imb_blob.arrayBuffer()
                 const arr = new Uint8Array(data);
                 const regularArr = Array.from(arr);
                 ret.PhotoProfil = regularArr
             }
-
-            ret.Nom = this.data_name !== this.name ? this.name : undefined
-            ret.Prenom = this.data_forename !== this.forename ? this.forename : undefined
-            ret.Classe = this.data_classe !== this.classe ? this.classe : undefined
-            ret.Pseudonyme = this.data_pseudo !== this.pseudo ? this.pseudo : undefined
+            ret.Nom = this.$store.state.user.name !== this.name ? this.name : undefined
+            ret.Prenom = this.$store.state.user.forename !== this.forename ? this.forename : undefined
+            ret.Classe = this.$store.state.user.classe!== this.classe ? this.classe : undefined
+            ret.Pseudonyme = this.$store.state.user.pseudo  !== this.pseudo ? this.pseudo : undefined
             this.$emit("send_user_data", ret)
-
         }
     },
 
@@ -244,10 +245,9 @@ img.edit-img {
     position: absolute;
     cursor: pointer;
     width: 1.8vw;
-    opacity: 0.6;
+    opacity: 0.7;
     padding: 0.5vw;
     border-radius: 100%;
-    overflow: visible;
 }
 
 section img.edit-img {
