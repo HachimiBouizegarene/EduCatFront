@@ -108,7 +108,6 @@ export default {
         padding: 5vw;
         padding-top: calc(100px + 2vw);
         height: 100%;
-        margin: auto;
         display: flex;
         flex-direction: row;
         gap: 2vw;

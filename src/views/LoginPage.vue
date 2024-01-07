@@ -21,12 +21,14 @@
     </form>
     <!-- <FooterComp></FooterComp> -->
   </div>
+  <FooterComp></FooterComp>
 </template>
 
 <script>
 import NavBar from "@/components/all/NavBar.vue"
 import LogoDeco from "@/components/log_sign/logoDeco.vue"
 import messageContainer from "@/components/log_sign/messageContainer.vue"
+import FooterComp from "@/components/all/FooterComp.vue";
 // import FooterComp from "@/components/all/FooterComp.vue"
 
 export default {
@@ -35,6 +37,7 @@ export default {
     NavBar,
     LogoDeco,
     messageContainer,
+    FooterComp
     // FooterComp
   },
   data() {
@@ -91,9 +94,7 @@ body {
 }
 
 .container {
-
   background-color: rgb(255, 255, 255);
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   display: flex;
   flex-direction: row;
   text-align: center;
@@ -101,9 +102,8 @@ body {
   margin: auto;
   height: 700px;
   margin-top: 100px;
-  position: absolute;
+  margin-bottom: 30px;
   left: 0;
-  transform: translateX(5%);
   border-radius: 10px;
   overflow: hidden;
 }

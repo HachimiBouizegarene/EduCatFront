@@ -38,6 +38,7 @@ footer{
     color: white;
     padding:  1.7vw;
     position: relative;
+    margin-top: auto;
 }
 
 
@@ -55,7 +56,7 @@ h3{
     margin-bottom: 0.5vw;
 }
 a{
-    font-size: 0.8vw;
+    font-size: 1vw;
     color: rgb(214, 214, 214);
 }
 

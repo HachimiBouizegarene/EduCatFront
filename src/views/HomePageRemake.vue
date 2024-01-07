@@ -53,8 +53,11 @@ export default {
             title_game_2 : ""
         }
     },
-
+    unmounted(){
+        document.querySelector("#app").style.backgroundColor = ""
+    },
     async mounted() {
+        document.querySelector("#app").style.backgroundColor = "#9dcdf5"
         let games;
         try {
             games = await fetch("http://localhost:9090/getGamesInfos", { method: "POST" })
@@ -157,13 +160,13 @@ main {
 }
 
 #best-games a{
-    height: 26.2vw;
+    height: 23.2vw;
     text-align: center;
     position: absolute;
     right: 5vw;
-    top: 58%;
+    top: 60%;
     transform: translateY(-50%);
-    font-size: 4vw;
+    font-size: 3.5vw;
     word-wrap: break-word;
     width: 5vw;
     border: 0;
@@ -184,7 +187,7 @@ main {
     position: relative;
     padding: 2vw ;
     box-sizing: border-box;
-    background-color: rgb(43, 43, 43);
+    background-color: #104268;
     margin-bottom: 3vw;
     border-radius: 0.3vw;
 }
@@ -217,14 +220,11 @@ main {
     width: 20vw;
     font-size: 1.5vw;
     text-align: center;
-
     border-radius: 0.1vw;
-
     margin-top: 2vw;
 }
 
 @media screen and (min-width: 1920px) {
-
     .accueil-section h3 {
         font-size: 40px;
     }
@@ -238,6 +238,54 @@ main {
         gap: 25px;
         margin-top: 50px;
         margin-bottom: 100px;
+    }
+
+    .game .img {
+        width: 300px;
+        border-radius: 0.1vw;
+        border: 0.2vw solid rgb(255, 208, 0);
+    }
+
+    .game .cadre{
+        width: 360px;
+        height: 445px;
+        transform: scale(1.1);
+        image-rendering: pixelated;
+        z-index: 2;
+    }
+
+    .game {
+        padding: 30px ;
+        margin-bottom: 80px;
+    }
+
+    .game h5 {
+        width: 300px;
+        font-size: 30px;
+        height: 52px;
+        margin-top: 30px;
+    }
+
+    #best-games{
+        margin-bottom: 60px;
+    }
+    
+    #best-games h3 {
+        font-family: 'pixel';
+        color: white;
+        width: 100%;
+        text-align: center;
+        font-size: 70px;
+        padding: 30px 0;
+        padding-bottom: 50px;
+    }
+
+    #best-games a{
+        height: 390px;
+        right: 150px;
+        top: 58%;
+        font-size: 60px;
+        width: 80px;
     }
 }
 </style>
