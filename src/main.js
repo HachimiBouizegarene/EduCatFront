@@ -51,9 +51,7 @@ const store = createStore({
             })
        },
     },
-
-
-
+    
     mutations : {
         setUser(state, data){
             state.user.profile_image_url = data.img_url

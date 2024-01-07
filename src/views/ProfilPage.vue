@@ -18,9 +18,8 @@
             <GeneralParameterComp @send_user_data="send_user_data"  ref="generalParameter" v-show="selected_parameter == 0"></GeneralParameterComp>
             <SecurityParameterComp @change_user_password="change_user_password"  ref="securityParameter" v-if="selected_parameter == 1"></SecurityParameterComp>
         </div>
-    
-
      </main>
+     <FooterComp></FooterComp>
 </template>
 
 <script>
@@ -28,12 +27,14 @@
 import NavBar from "@/components/all/NavBar.vue"
 import GeneralParameterComp from "@/components/profile/GeneralParameterComp.vue"
 import SecurityParameterComp from "@/components/profile/SecurityParameterComp.vue"
+import FooterComp from "@/components/all/FooterComp.vue";
 export default {
     name : "ProfilPage"
     ,
     components : {
         NavBar,GeneralParameterComp,
-        SecurityParameterComp
+        SecurityParameterComp,
+        FooterComp
     },
     async mounted(){
         this.verifyWidth()
@@ -71,7 +72,7 @@ export default {
     },
     methods : {
         verifyWidth(){
-            this.showAllParameter = window.innerWidth >= 1500
+            this.showAllParameter = window.innerWidth >= 1200
         },
         async change_user_password(data){
             const jws = this.$cookies.get("jws")
@@ -160,7 +161,7 @@ export default {
         top: 7vw;
     }
 
-    @media screen and (max-width: 1300px)  {
+    @media screen and (max-width: 1200px)  {
         
         main{
             padding-left: 0;

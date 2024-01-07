@@ -267,7 +267,7 @@ img.edit-img:hover {
 }
 
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1200px) {
     form .line#profile-img-line {
         padding: 1vw;
         margin-bottom: 2.5vw;

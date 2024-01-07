@@ -1,6 +1,6 @@
 <template>
+    <navBar></navBar>
     <main>
-        <navBar></navBar>
         <div class="paralaxe">
             <ParalaxComp></ParalaxComp>
         </div>
@@ -25,10 +25,9 @@
             <router-link to="/jeux">JOUER</router-link>
 
         </div>
-
-        <FooterComp></FooterComp>
-        <!-- <FooterComp></FooterComp> -->
+         <!-- <FooterComp></FooterComp> -->
     </main>
+    <FooterComp></FooterComp>
 </template>
 
 <script>
@@ -153,17 +152,21 @@ main {
     width: 100%;
     text-align: center;
     font-size: 3vw;
-    padding: 4vw 0;
+    padding: 2vw 0;
+    padding-bottom: 3vw;
 }
 
 #best-games a{
-    margin-top: 5vw;
+    height: 26.2vw;
     text-align: center;
-    font-size: 3vw;
+    position: absolute;
+    right: 5vw;
+    top: 58%;
+    transform: translateY(-50%);
+    font-size: 4vw;
     word-wrap: break-word;
-    width: 100%;
+    width: 5vw;
     border: 0;
-    padding: 1vw;
     background-color: orange;
     font-family: 'pixel';
     color: rgb(54, 54, 54);
@@ -189,7 +192,7 @@ main {
 .game .cadre{
     position: absolute;
     width: 24vw;
-    height: 28vw;
+    height: 27.7vw;
     top: 0;
     left: 0;
     transform: scale(1.1);
@@ -202,7 +205,8 @@ main {
     image-rendering: pixelated;
     z-index: 1;
     width: 20vw;
-    border-radius: 0.3vw;
+    border-radius: 0.1vw;
+    border: 0.2vw solid rgb(255, 208, 0);
 
 }
 

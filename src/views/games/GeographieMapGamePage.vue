@@ -319,7 +319,6 @@ export default {
                 var pathElements = document.getElementById("mapSVGHidden").getElementsByTagName("path");
                 for (var i = 0; i < pathElements.length; i++) {
                     pathElements[i].classList.remove("hovered");
-
                     // Uniquement visuel pour pouvoir hover la map pixelisée
                     pathElements[i].removeEventListener('mouseenter', this.hoverEnterHandler);
                     pathElements[i].removeEventListener('mouseout', this.hoverOutHandler);
