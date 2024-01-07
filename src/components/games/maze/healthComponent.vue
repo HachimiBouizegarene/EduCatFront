@@ -64,7 +64,6 @@
         align-items: center;
         justify-content: center;
         padding:0.6%;
-        background-color: rgba(236, 236, 236, 0.664);
         box-shadow: -6px 0 0 0 rgb(44, 44, 44), 6px 0 0 0 rgb(44, 44, 44), 0 -6px 0 0 rgb(44, 44, 44), 0 6px 0 0 rgb(44, 44, 44);
     }
 

@@ -126,7 +126,7 @@ body {
   width: 96%;
   margin-bottom: 3vw;
   height: 700px;
-  margin-top: 100px;
+  margin-top: 130px;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -272,6 +272,7 @@ a {
   .container {
     flex-direction: column;
     height: 700px;
+    margin-top: 90px;
   }
 
   .container .left-part {

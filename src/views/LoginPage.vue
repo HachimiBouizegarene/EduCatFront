@@ -101,7 +101,7 @@ body {
   width: 90%;
   margin: auto;
   height: 700px;
-  margin-top: 100px;
+  margin-top: 130px;
   margin-bottom: 30px;
   left: 0;
   border-radius: 10px;
@@ -234,6 +234,7 @@ a {
   .container {
     flex-direction: column;
     height: 600px;
+    margin-top: 90px;
   }
 
   .container .left-part {
