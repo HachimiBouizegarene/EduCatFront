@@ -127,7 +127,6 @@ body {
   margin-bottom: 3vw;
   height: 700px;
   margin-top: 130px;
-  border-radius: 10px;
   overflow: hidden;
 }
 
@@ -135,7 +134,7 @@ body {
   overflow: hidden;
   width: 50%;
   height: 100%;
-  background-color: #d4d4e7;
+  background-color: #ffd1a5;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -189,7 +188,7 @@ body {
 .container form button {
   width: 40%;
   color: rgb(53, 52, 52);
-  background-color: rgb(197, 197, 241);
+  background-color: #ffd1a5;
   padding: 20px 5px;
   border: none;
   cursor: pointer;
@@ -198,31 +197,20 @@ body {
 }
 
 .container form button.activated{
-  background-color: rgb(150, 150, 255);
+  background-color: #ffa450;
   pointer-events: all;
 }
 .container form button.activated:hover {
-  background-color: rgb(165, 165, 240);
+  background-color: #ffb167;
 }
 
 .container form label {
   padding: 10px 0;
 }
 
-#error {
-  opacity: 0;
-  transition: 0.15s ease;
-  color: rgb(85, 84, 84);
-  padding: 10px;
-  background-color: rgb(255, 75, 75);
-  font-size: 14px;
-  text-align: center;
-  margin-top: 10px;
-  border-radius: 100px;
-}
 
 a {
-  color: #4f4e81;
+  color: #b68252;
   background: none;
   border: none;
   cursor: pointer;

@@ -98,13 +98,12 @@ body {
   display: flex;
   flex-direction: row;
   text-align: center;
-  width: 90%;
+  width: 96%;
   margin: auto;
   height: 700px;
   margin-top: 130px;
   margin-bottom: 30px;
   left: 0;
-  border-radius: 10px;
   overflow: hidden;
 }
 
@@ -112,7 +111,7 @@ body {
   overflow: hidden;
   width: 50%;
   height: 100%;
-  background-color: #d4d4e7;
+  background-color: #ffd1a5;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -153,7 +152,7 @@ body {
 .container form button {
   width: 46%;
   color: rgb(53, 52, 52);
-  background-color: rgb(197, 197, 241);
+  background-color: #ffd1a5;
   padding: 17px 10px;
   border: none;
   pointer-events: none;
@@ -162,11 +161,11 @@ body {
 }
 
 .container form button.activated{
-  background-color: rgb(150, 150, 255);
+  background-color: #ffa450;
   pointer-events: all;
 }
 .container form button.activated:hover {
-  background-color: rgb(165, 165, 240);
+  background-color: #ffb167;
 }
 
 .container form label {
@@ -175,7 +174,7 @@ body {
 
 
 a {
-  color: #4f4e81;
+  color: #b68252;
   background: none;
   border: none;
   cursor: pointer;
