@@ -1,105 +1,84 @@
 <template>
-    <!-------------------------------Pied de la Page------------------------------->
-    <footer id="Pied_de_Page">
-        <div id="Contenu_Pied_Page">
-            <!-- <div id="Les_Listes_du_Footer">
-                <ul class="ListeStyle">
-                    <li><a href="#" class="Premier_de_Liste">AIDE</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Statut de commande</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Expédition et livraison</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Retours</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Modes de paiement</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Nous contacter</a></li>
-                </ul>
-                <ul class="ListeStyle">
-                    <li><a href="#" class="Premier_de_Liste">A PROPOS</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Conditions d'utilisation</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Conditions générales de vente</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Mentions légales</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Paramètres des cookies</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Politique de Confidentialité</a></li>
-                </ul>
-                <ul class="ListeStyle">
-                    <li><a href="#" class="Premier_de_Liste">INFORMATIONS D'ENTREPRISE</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Qui sommes-nous?</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Emploi</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Presse</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Mobile Apps</a></li>
-                    <li><a href="#" class="Reste_de_Liste">Creators Club</a></li>
-                </ul>
-            </div>
-            <p id="Copyright_Alerte">&copy; Tout droits réservés. Mahydine - 2021</p> -->
-        </div>
+    <footer>
+        <img id="logo" src="@/assets/images/all/Educat_Logo_footer.webp">
+        <section>
+            <h3>NAVIGATION</h3>
+            <router-link to="/">Acceuil</router-link>
+            <router-link to="/jeux">Jeux</router-link>
+            <router-link to="/profil">Profil</router-link>
+            <router-link to="/signin">Inscription</router-link>
+        </section>
+
+        <section>
+            <h3>L'ENTREPRISE</h3>
+            <router-link to="/jeux">Qui sommes nous ?</router-link>
+            <router-link to="/jeux">Nous contacter</router-link>
+        </section>
+
+        <section>
+            <router-link to="/jeux">Mentions legales</router-link>
+        </section>
     </footer>
 </template>
 
 <script>
 export default {
-    name: "FooterComp"
+    name : "FooterComp"
 }
 </script>
 
+
 <style scoped>
-/* Pied de la Page */
-
-
-#Pied_de_Page {
-    background-color: #161616;
+footer{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    gap: 17vw;
+    background-color: rgb(32, 32, 32);
+    color: white;
+    padding:  1.7vw;
+    position: relative;
 }
 
-#Contenu_Pied_Page {
-    margin-top: 3em;
+
+#logo{
+    width: 10vw;
+}
+
+
+section {
     display: flex;
     flex-direction: column;
-    width: 88em;
 }
-
-#Les_Listes_du_Footer {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 2em;
+h3{
+    font-size: 1.1vw;
+    margin-bottom: 0.5vw;
 }
-
-.ListeStyle {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    margin-right: 10px;
-    margin-left: 6em;
-}
-
-.Premier_de_Liste {
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 1.1em;
-    color: rgb(255, 255, 255);
-    font-family: Bebas, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-.Premier_de_Liste:hover {
+a{
+    font-size: 0.8vw;
     color: rgb(214, 214, 214);
 }
 
-.Reste_de_Liste {
-    text-decoration: none;
-    font-size: 1em;
-    color: rgb(121, 121, 121);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
 
-.Reste_de_Liste:hover {
-    color: white;
-}
+@media screen and (min-width: 1920px ) {
+    footer{
+        padding: 30px;
+        gap: 320px;
+    }
 
-#Copyright_Alerte {
-    color: white;
-    margin: 1em;
-    font-family: LGC_Fin;
-    font-size: 13px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    h3{
+        font-size: 25px;
+        margin-bottom:10px;
+    }
+    a{
+        font-size: 15px;
+        color: rgb(214, 214, 214);
+    }
+
+    
+#logo{
+    width: 200px;
+}
+    
 }
 </style>

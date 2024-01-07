@@ -176,7 +176,7 @@ h1 {
     filter: blur(0px) brightness(1) drop-shadow(0rem 0rem 1rem rgba(255, 155, 61, 0.747));
     display: block;
     animation: idle 1s ease infinite;
-    z-index: 1;
+    z-index: 3;
     position: absolute;
     transform: translateX(-50%);
     cursor: pointer;
@@ -254,13 +254,14 @@ h1 {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    width: 198px;
-    height: 78px;
+    width: 13vw;
+    height: 5vw;
     image-rendering: pixelated;
     text-align: center;
     color: #ffffff;
     font-family: gamesPage;
-    font-size: 20px;
+    font-size: 1.2vw;
+    z-index: 5;
 }
 
 @keyframes clouds {

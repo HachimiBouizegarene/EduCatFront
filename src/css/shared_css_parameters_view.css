@@ -154,6 +154,9 @@ div#res-container{
 }
 
 @media screen and (min-width: 1920px) {
+    .parameter-comp.container {
+        padding: 50px 50px;
+    }
     .parameter-comp .title h3 {
         font-size: 33px;
         padding-bottom: 20px;

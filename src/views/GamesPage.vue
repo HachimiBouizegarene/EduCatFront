@@ -37,18 +37,18 @@
                         </div>
                     </router-link>
                 </div>
-                <!-- <div class="arrowScrollButton" @click="scrollGamesList('right')">→</div> -->
             </template>
 
         </div>
     </div>
 
-    <!-- <FooterComp></FooterComp> -->
+    <FooterComp></FooterComp>
 </template>
 
 
 <script>
 import NavBar from "@/components/all/NavBar.vue"
+import FooterComp from "@/components/all/FooterComp.vue";
 // import FooterComp from "@/components/all/FooterComp.vue"
 
 export default {
@@ -56,7 +56,7 @@ export default {
 
     components: {
         NavBar,
-        // FooterComp   
+        FooterComp
     },
 
     mounted() {

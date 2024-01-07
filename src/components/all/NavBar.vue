@@ -1,7 +1,7 @@
 <template>
     <header>
         <nav ref="nav" :class="{scrolled : scrolled}">
-            <router-link id="NavBarLogo" to="/"><img src="@/assets/images/navbar/Educat_Logo.webp"
+            <router-link id="NavBarLogo" to="/"><img src="@/assets/images/all/Educat_Logo.webp"
                     alt="logo Educat"></router-link>
             <div v-if="!user_connected">
                 <router-link class="btn" id="sign-btn" to="/signin">S'INSCRIRE</router-link>
@@ -73,7 +73,7 @@ header nav {
     align-items: center;
     justify-content: left;
     box-sizing: border-box;
-    padding: 2vw;
+    padding: 1.3vw;
     transition: 0.3s ease;
 }
 header nav.scrolled{
@@ -148,19 +148,19 @@ a#game-btn:hover {
 @media screen and (min-width: 1920px ) {
 
     header nav {
-        padding: 40px;
+        padding: 20px 60px;
     }
     header nav div {
         gap: 60px;
     }
 
     #NavBarLogo img {
-        width: 100px
+        width: 170px;
+
     }
 
     #profile-img {
         width: 50px;
-
         border-radius: 100%;
         transition: 0.3s ease;
         border: 4px solid white;
