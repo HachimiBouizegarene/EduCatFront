@@ -19,13 +19,8 @@ export default {
     name: "mazeComp",
 
     mounted() {
-        document.querySelector("body").style.backgroundColor = "#8ea7c5";
-        window.addEventListener("resize", this.sizeSquares);
-
-        this.generate(27, 0);
-
+        document.querySelector("body").style.backgroundColor = "#8ea7c5";       
         this.$nextTick(() => {
-            this.sizeSquares();
             window.addEventListener("keydown", (e) => {
                 if (e.key == "d" || e.key == "D") {
                     this.movePlayer("right");
@@ -42,20 +37,17 @@ export default {
             });
         });
     },
-
     methods: {
         scroll(dir) {
-            const directions = {right : this.square_size, left : -this.square_size}
-            const direction = directions[dir]
-            if (
-                !direction || this.player_x <2 ||  this.scroll_left + direction >
-                this.square_size * (this.x_squares - this.y_squares + 1) || this.scroll_left + direction < 0
-            ) return
-            else{               
-                this.scroll_left += direction;
-                this.$refs.maze.style.transform =
-                    "translateX(-" + this.scroll_left + "px)";
-            }
+            const directions = {right : Math.min(this.y_squares_scrolled -1  + this.y_squares, this.y_squares_scrolled + (this.x_squares - this.player_x - 1)),
+            left : Math.max(this.y_squares_scrolled + 1  - this.y_squares, this.y_squares)}
+            if((dir === "right" &&  this.player_x % this.y_squares_scrolled  == this.y_squares_scrolled -1 ) ||
+            (dir == "left" && this.player_x % ( this.y_squares_scrolled - this.y_squares) == this.y_squares_scrolled - this.y_squares - 1 )  
+            ){
+                this.y_squares_scrolled = directions[dir]
+                this.scroll_left = (this.y_squares_scrolled - this.y_squares ) * this.square_size ;
+                this.$refs.maze.style.transform = "translateX(-" + this.scroll_left + "px)";
+            } 
         },
         generate(x, nb_obstacles) {
             this.maze = new Maze(x, this.y_squares);
@@ -63,17 +55,26 @@ export default {
             nb_obstacles;
             this.x_squares = x;
             this.verifieOstacle();
+            window.addEventListener("resize", this.sizeSquares);
             this.moving_player = false;
+            this.sizeSquares();
+        },
+        destroyObstacle(x, y) {
+            this.maze.set_node(x, y, this.air)
         },
         sizeSquares() {
             const mazeHeight = this.$refs.maze.offsetHeight;
             const squaredimesion = mazeHeight / this.maze.getYSize();
             this.square_size = squaredimesion;
-            const lines = document.querySelectorAll(".square");
-            lines.forEach((square) => {
-                square.style.width = squaredimesion + "px";
-                square.style.height = squaredimesion + "px";
-            });
+            this.$nextTick(() => {
+                const lines = document.querySelectorAll(".square");
+                lines.forEach((square) => {
+                    square.style.width = squaredimesion + "px";
+                    square.style.height = squaredimesion + "px";
+                });
+
+            })
+          
         },
 
         wall_top(cell, x, y) {
@@ -129,7 +130,6 @@ export default {
                 this.player_x + direction.x >= 0 &&
                 this.player_x + direction.x < this.x_squares
             ) {
-                this.scroll(dir)
                 this.moving_player = true;
                 this.maze.remove_obstacle_cible();
 
@@ -137,6 +137,7 @@ export default {
                 setTimeout(() => {
                     this.player_x += direction.x;
                     this.player_y += direction.y;
+                    this.scroll(dir)
                     this.verifieOstacle();
                     if (
                         this.player_x == this.maze.getXSize() - 1 &&
@@ -186,6 +187,7 @@ export default {
             x_squares: 0,
             player_x: 0,
             player_y: 1,
+            y_squares_scrolled : 7,
             moving_player: true,
         };
     },

@@ -82,10 +82,9 @@ export default {
             this.$refs.menu.open('VICTOIRE',  this.difficultys, 'REJOUER')
         },
         menuClicked(message, level_choosen_index){
-   
             this.difficulty = level_choosen_index;
             if(message== 'CONJUGAISON' || message == "GAME OVER" || message == "VICTOIRE"){
-                this.$refs.maze.generate(7, 3);
+                this.$refs.maze.generate(23, 10);
                 this.health = 3
             }
         },
@@ -136,8 +135,7 @@ export default {
         document.querySelector("body").style.backgroundColor= "#8ea7c5"
         document.querySelector("body").style.minHeight= "350px"
         document.querySelector("body").style.height= "100vh"
-
-        // this.$refs.menu.open('CONJUGAISON',  this.difficultys, 'LANCER')
+        this.$refs.menu.open('CONJUGAISON',  this.difficultys, 'LANCER')
     },
     beforeUnmount() {
         window.removeEventListener('resize', this.handleResizeMaze);
@@ -201,6 +199,7 @@ h1 img {
 
 
 .maze-container {
+    border: 0.5dvw solid rgba(0, 0, 0, 0.466);
     overflow: hidden;
     width: 35%;
     height: 100px;
