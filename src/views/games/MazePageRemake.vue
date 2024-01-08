@@ -39,7 +39,7 @@
 
 <script>
 import MenuComponent from "@/components/games/maze/MenuComponent.vue";
-import MazeComponent from "@/components/games/maze/MazeComponent.vue";
+import MazeComponent from "@/components/games/maze/MazeComponentRemake.vue";
 import PopupCompRemake from "@/components/games/maze/PopupCompRemake.vue";
 import healthComponent from "@/components/games/maze/healthComponent.vue";
 
@@ -138,7 +138,6 @@ export default {
         document.querySelector("body").style.height= "100vh"
 
         // this.$refs.menu.open('CONJUGAISON',  this.difficultys, 'LANCER')
-        this.$refs.maze.generate(7, 3);
     },
     beforeUnmount() {
         window.removeEventListener('resize', this.handleResizeMaze);
@@ -202,10 +201,11 @@ h1 img {
 
 
 .maze-container {
+    overflow: hidden;
     width: 35%;
     height: 100px;
     position: absolute;
-    left: 50%;
+    left: 53%;
     transform: translateX(-50%) translateY(-50%);
     top: 26vw;
 }

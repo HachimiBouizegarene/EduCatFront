@@ -248,7 +248,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 div.lab {
   width: 100%;
   box-sizing: border-box;

@@ -1,14 +1,15 @@
 export default class Maze {
-  constructor(maze_size) {
-    this.maze_size = maze_size;
-    this.grid = new Array(maze_size)
+  constructor(maze_size_x, maze_size_y) {
+    this.maze_size_y = maze_size_y;
+    this.maze_size_x = maze_size_x
+    this.grid = new Array(maze_size_x)
       .fill(0)
-      .map(() => new Array(maze_size).fill(0));
+      .map(() => new Array(maze_size_y).fill(0));
     this.path_list = []
     this.my_interval;
     this.generating = true;
-    this.start_pos = [1, 0];
-    this.target_pos = [this.maze_size - 2, this.maze_size - 1];
+    this.start_pos = [0, 1];
+    this.target_pos = [maze_size_x - 1, this.maze_size_y - 2];
     this.kruskal_algorithm();
     this.solve()
   }
@@ -19,8 +20,12 @@ export default class Maze {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-  getSize() {
-    return this.maze_size;
+  getYSize() {
+    return this.maze_size_y;
+  }
+
+  getXSize() {
+    return this.maze_size_x;
   }
 
 
@@ -31,8 +36,8 @@ export default class Maze {
     this.grid[x][y] = -1;
   }
   fill_walls() {
-    for (let x = 0; x < this.maze_size; x++)
-      for (let y = 0; y < this.maze_size; y++)
+    for (let x = 0; x < this.maze_size_x; x++)
+      for (let y = 0; y < this.maze_size_y; y++)
         if (x % 2 == 0 || y % 2 == 0) this.grid[x][y] = -1;
   }
 
@@ -42,8 +47,8 @@ export default class Maze {
     let nb_areas = 0;
     let wall_list = [];
 
-    for (let i = 1; i < this.grid.length - 1; i++)
-      for (let j = 1; j < this.grid[0].length - 1; j++) {
+    for (let i = 1; i < this.maze_size_x - 1; i++)
+      for (let j = 1; j < this.maze_size_y - 1; j++) {
         if (i % 2 == 1 && j % 2 == 1) {
           nb_areas++;
           this.grid[i][j] = nb_areas;
@@ -103,6 +108,13 @@ export default class Maze {
   get_node(x, y) {
     if (x >= 0 && x < this.grid.length && y >= 0 && y < this.grid[0].length)
       return this.grid[x][y];
+
+    return -10
+  }
+
+  set_node(x, y, value) {
+    if (x >= 0 && x < this.grid.length && y >= 0 && y < this.grid[0].length)
+      this.grid[x][y] = value;
 
     return -2;
   }
