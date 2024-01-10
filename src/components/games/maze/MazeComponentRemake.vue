@@ -41,9 +41,11 @@ export default {
         scroll(dir) {
             const directions = {right : Math.min(this.y_squares_scrolled -1  + this.y_squares, this.y_squares_scrolled + (this.x_squares - this.player_x - 1)),
             left : Math.max(this.y_squares_scrolled + 1  - this.y_squares, this.y_squares)}
-            if((dir === "right" &&  this.player_x % this.y_squares_scrolled  == this.y_squares_scrolled -1 ) ||
-            (dir == "left" && this.player_x % ( this.y_squares_scrolled - this.y_squares) == this.y_squares_scrolled - this.y_squares - 1 )  
+
+            if((dir === "right" &&  this.player_x == this.y_squares_scrolled  -1  ) ||
+            (dir == "left" && this.player_x < this.y_squares_scrolled - this.y_squares )  
             ){
+                
                 this.y_squares_scrolled = directions[dir]
                 this.scroll_left = (this.y_squares_scrolled - this.y_squares ) * this.square_size ;
                 this.$refs.maze.style.transform = "translateX(-" + this.scroll_left + "px)";
@@ -195,12 +197,7 @@ export default {
 </script>
 
 <style>
-/* .maze-container {
-    height: 20vw;
-    width: 20vw;
-    margin: 10vw;
-    overflow: hidden; 
-} */
+
 
 .maze {
     transition: 0.4s ease;

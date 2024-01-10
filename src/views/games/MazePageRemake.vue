@@ -1,5 +1,6 @@
 <template>
     <MenuComponent ref="menu" @menu-clicked="menuClicked"></MenuComponent>
+    <LevelAnnounceComp ref="level_announce"></LevelAnnounceComp>
     <main>
         <PopupCompRemake @reset="reset()"  @correct_answer="destroyObstacle()" @wrong_answer="loseHeath()" ref="popup"></PopupCompRemake>
         <healthComponent :health="health"></healthComponent>
@@ -42,14 +43,15 @@ import MenuComponent from "@/components/games/maze/MenuComponent.vue";
 import MazeComponent from "@/components/games/maze/MazeComponentRemake.vue";
 import PopupCompRemake from "@/components/games/maze/PopupCompRemake.vue";
 import healthComponent from "@/components/games/maze/healthComponent.vue";
-
+import LevelAnnounceComp from "@/components/games/maze/LevelAnnounceComp.vue";
 export default {
     name: "MazePageRemake",
     components: {
         MazeComponent,
         PopupCompRemake,
         healthComponent,
-        MenuComponent
+        MenuComponent,
+        LevelAnnounceComp
     },
     data() {
         return {
