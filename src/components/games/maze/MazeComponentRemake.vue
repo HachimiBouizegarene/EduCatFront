@@ -19,6 +19,7 @@ export default {
     name: "mazeComp",
 
     mounted() {
+        this. y_squares_scrolled = this.y_squares;
         document.querySelector("body").style.backgroundColor = "#8ea7c5";       
         this.$nextTick(() => {
             window.addEventListener("keydown", (e) => {
@@ -44,8 +45,7 @@ export default {
 
             if((dir === "right" &&  this.player_x == this.y_squares_scrolled  -1  ) ||
             (dir == "left" && this.player_x < this.y_squares_scrolled - this.y_squares )  
-            ){
-                
+            ){  
                 this.y_squares_scrolled = directions[dir]
                 this.scroll_left = (this.y_squares_scrolled - this.y_squares ) * this.square_size ;
                 this.$refs.maze.style.transform = "translateX(-" + this.scroll_left + "px)";
@@ -77,6 +77,14 @@ export default {
 
             })
           
+        },
+
+        reset(){
+            this.player_x = 0;
+            this.player_y = 1;
+            this.moving_player = false;
+            this.$refs.maze.style.transform = "translateX(0px)";
+            this. y_squares_scrolled = this.y_squares;
         },
 
         wall_top(cell, x, y) {
@@ -189,7 +197,7 @@ export default {
             x_squares: 0,
             player_x: 0,
             player_y: 1,
-            y_squares_scrolled : 7,
+            y_squares_scrolled : 0,
             moving_player: true,
         };
     },
