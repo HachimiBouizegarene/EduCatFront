@@ -70,12 +70,14 @@ export default {
 
             if(res !== this.reponse_index){
                 this.$emit("wrong_answer")
+            }else{
+                setTimeout(()=>{
+                    this.$emit("correct_answer")
+                },2000)
+                
             }
             setTimeout(()=>{
                 this.hidden = true;
-                if(res === this.reponse_index){
-                    this.$emit("correct_answer")
-                }
                 this.$emit("reset_attack")
                 this.reset()
             }, 2000)

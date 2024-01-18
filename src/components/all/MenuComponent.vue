@@ -6,7 +6,7 @@
             <h3>MENU</h3>
 
             <div id="level-container">
-                <LevelComponent></LevelComponent>
+                <LevelComponent ref="levelComp"></LevelComponent>
             </div>
             
             <h4 class="message">{{ message }}</h4>
@@ -55,9 +55,14 @@ export default {
         }
     },
 
-    mounted(){
-       
+    created(){
+        if (!this.$cookies.get("jws")){
+            this.$router.push("/login")
+            return
+        }  
     },
+
+    
 
     methods: {
         close() {
@@ -70,6 +75,10 @@ export default {
             this.score = score
             this.closed = false
             this.levels = levels
+        },
+
+        xp(xp){
+          this.$refs.levelComp.xp(xp)
         },
         emitClicked() {
             if (!(this.difficulties !== undefined && this.difficulty_choosen === undefined)) {
