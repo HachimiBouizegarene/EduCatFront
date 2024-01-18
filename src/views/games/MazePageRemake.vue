@@ -2,8 +2,8 @@
     <MenuComponent ref="menu" @menu-clicked="menuClicked"></MenuComponent>
     <LevelAnnounceComp ref="level_announce"></LevelAnnounceComp>
     <main>
-        <PopupCompRemake @reset_attack="reset_attack()"  @correct_answer="destroyObstacle()" @wrong_answer="loseHeath()" ref="popup"></PopupCompRemake>
-        <healthComponent :health="health"></healthComponent>
+        <PopupCompRemake @reset_attack="reset_attack()"  @correct_answer="correctAnswer()" @wrong_answer="loseHeath()" ref="popup"></PopupCompRemake>
+        <InfosComponent :score="score" :health="health"></InfosComponent>
   
         <div class="decor">
             <img id="fracture-1" class="fracture" src="@/assets/images/games/Maze/decor/fracture.png">
@@ -42,14 +42,14 @@
 import MenuComponent from "@/components/all/MenuComponent.vue";
 import MazeComponent from "@/components/games/maze/MazeComponentRemake.vue";
 import PopupCompRemake from "@/components/games/maze/PopupCompRemake.vue";
-import healthComponent from "@/components/games/maze/healthComponent.vue";
+import InfosComponent from "@/components/games/maze/InfosComponent.vue";
 import LevelAnnounceComp from "@/components/games/maze/LevelAnnounceComp.vue";
 export default {
     name: "MazePageRemake",
     components: {
         MazeComponent,
         PopupCompRemake,
-        healthComponent,
+        InfosComponent,
         MenuComponent,
         LevelAnnounceComp
     },
@@ -72,23 +72,28 @@ export default {
                 { top: '25vw', left: '90%' },
             ],
             health : 3,
+            score : 0,
+            scores : [5,10,25 ],
             x_attacking_ostacle : undefined,
             y_attacking_ostacle: undefined,
             difficulty : undefined,
             difficultys : ["FACILE", "MOYEN", "DIFFICILE"],
             manche : 0 ,
-            manches : [{length : 7, obstacles : 3}, {length : 11, obstacles : 5}, {length : 13, obstacles : 7},
-             {length : 15, obstacles : 8}, { length : 19, obstacles : 9}]
+            manches : [{length : 7, obstacles : 1}, {length : 11, obstacles : 2}, {length : 13, obstacles : 7},
+        {length : 15, obstacles : 8}, { length : 19, obstacles : 9}]
         }
     },
     methods: {
         win(){
-            console.log("won");
-            if(this.manche >= this.manches.length -1) this.$refs.menu.open('VICTOIRE',  this.difficultys, 'REJOUER')
+            if(this.manche >= this.manches.length -1){
+                this.$refs.menu.open('VICTOIRE',  this.difficultys, 'REJOUER')
+                this.$refs.menu.xp(this.score);
+            } 
             else this.nextManche()
         },
         menuClicked(message, level_choosen_index){
             this.difficulty = level_choosen_index;
+            this.score = 0
             if(message== 'CONJUGAISON' || message == "GAME OVER" || message == "VICTOIRE"){
                 this.manche = 0;
                 this.$refs.maze.generate(this.manches[0].length, this.manches[0].obstacles);
@@ -146,6 +151,12 @@ export default {
         destroyObstacle(){
             this.$refs.maze.destroyObstacle(this. x_attacking_ostacle,  this.y_attacking_ostacle)
         },
+
+        correctAnswer(){
+            this.destroyObstacle();
+            console.log(this.difficulty);
+            this.score += this.scores[this.difficulty];
+        },
         handleResizeMaze(){
         const mazeContainer = document.querySelector('.maze-container')
         mazeContainer.style.height = mazeContainer.offsetWidth + "px";
@@ -158,7 +169,7 @@ export default {
         document.querySelector("body").style.backgroundColor= "#8ea7c5"
         document.querySelector("body").style.minHeight= "350px"
         document.querySelector("body").style.height= "100vh"
-        this.$refs.menu.open('CONJUGAISON',  this.difficultys, 'LANCER', undefined, 20)
+        this.$refs.menu.open('CONJUGAISON',  this.difficultys, 'LANCER', undefined)
     },
     beforeUnmount() {
         window.removeEventListener('resize', this.handleResizeMaze);
