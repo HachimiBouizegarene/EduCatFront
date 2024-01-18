@@ -41,7 +41,7 @@
 
 <script>
 import MapsSvgJson from '@/assets/images/games/GeographieMaps/geographie_svg_map.json';
-import MenuComponent from "@/components/games/maze/MenuComponent.vue";
+import MenuComponent from "@/components/all/MenuComponent.vue";
 
 export default {
     name: "GeographieMapGamePage",

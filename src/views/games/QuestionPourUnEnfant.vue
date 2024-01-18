@@ -39,7 +39,7 @@
   
 <script>
 import Swal from 'sweetalert2';
-import MenuComponent from "@/components/games/maze/MenuComponent.vue";
+import MenuComponent from "@/components/all/MenuComponent.vue";
 
 export default {
   name: 'QuestionPourUnEnfant',

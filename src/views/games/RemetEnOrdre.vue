@@ -20,7 +20,7 @@
   import SliderPuzzlemedium from './components/SliderPuzzlemedium.vue';
   import SliderPuzzlehard from './components/SliderPuzzlehard.vue';
   import Puzzles from './components/Menu.vue';
-  import MenuComponent from "@/components/MenuComponent.vue";
+  import MenuComponent from "@/components/all/MenuComponent.vue";
   
   export default {
     name: 'App',

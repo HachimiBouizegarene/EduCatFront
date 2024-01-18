@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import MenuComponent from "@/components/games/maze/MenuComponent.vue";
+import MenuComponent from "@/components/all/MenuComponent.vue";
 import MazeComponent from "@/components/games/maze/MazeComponentRemake.vue";
 import PopupCompRemake from "@/components/games/maze/PopupCompRemake.vue";
 import healthComponent from "@/components/games/maze/healthComponent.vue";

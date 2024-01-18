@@ -46,7 +46,7 @@
 </template>
   
 <script>
-import MenuComponent from "@/components/games/maze/MenuComponent.vue";
+import MenuComponent from "@/components/all/MenuComponent.vue";
 
 export default {
   name: "CalculsMentaux",
