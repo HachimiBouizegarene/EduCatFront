@@ -83,7 +83,6 @@ export default {
 
         },
         elapsedTime() {
-
             return moment.utc(this.elapsedDiff).format('HH:mm:ss');
         }
     },
@@ -127,9 +126,8 @@ export default {
                 this.currentDateTime = new Date();
 
                 if (this.isWinning) {
-
+                    this.$emit("finished", this.elapsedTime);
                     this.stop();
-
                 }
             }, 1000);
         },

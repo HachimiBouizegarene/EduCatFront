@@ -1,17 +1,7 @@
 <template>
   <MenuComponent ref="menu" @menu-clicked="menuClicked"></MenuComponent>
   <h1 id="gameTitle">Mathématiques</h1>
-  <v-dialog v-model="isRestartModalOpen" max-width="900px" persistent>
-    <v-card>
-      <v-card-title class="headline">Voulez-vous rejouer?</v-card-title>
-      <v-card-subtitle v-if="isGameFinished">Votre score est de {{ score }} sur
-        {{ totalQuestionsToAnswer }}</v-card-subtitle>
-      <v-card-actions>
-        <v-btn @click="restartGame">Oui</v-btn>
-        <v-btn @click="isRestartModalOpen = false">Non</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+
   <img id="clock" src="@/assets/images/games/CalculsMentaux/horloge.png" />
   <img id="symbol" src="@/assets/images/games/CalculsMentaux/symbole.png" />
   <div id="math-game">
@@ -22,7 +12,7 @@
       </p>
     </div>
   </div>
-  <br/>²²
+  <br />
   <div class="answers-container">
     <div id="options">
       <button v-for="option in options" :key="option" @click="checkAnswer(option)" :data-answer="option">
@@ -84,9 +74,8 @@ export default {
     this.$refs.menu.open("CHOISISSEZ UNE DIFFICULTÉ", difficultys, "LANCER");
   },
   methods: {
-    menuClicked(message, difficulty_choosen, difficulty_label) {
+    menuClicked(message, difficulty_choosen) {
       this.difficulty_choosen = difficulty_choosen;
-      this.difficulty_label = difficulty_label;
       this.startGame();
     },
 
@@ -103,12 +92,10 @@ export default {
       this.options = this.shuffleArray([ans, ...incorrectAnswers]);
 
       this.resetGame();
-
       this.updateCounterText();
     },
 
-    generateQuestion(difficulty) {
-      difficulty;
+    generateQuestion() {
       let num1, num2, operator, ans;
 
       do {
@@ -171,7 +158,7 @@ export default {
       }
 
       if (this.currentQuestionNumber >= this.totalQuestionsToAnswer) {
-        this.showGameOverPopup();
+        this.restartGame();
       }
 
       document.querySelectorAll("button").forEach((button) => {
@@ -197,10 +184,7 @@ export default {
       });
 
       if (this.currentQuestionNumber >= this.totalQuestionsToAnswer) {
-        // Le jeu est terminé
-        alert("Le jeu est terminé! Voulez-vous rejouer?");
-
-        this.resetGame();
+        this.restartGame();
         return;
       }
 
@@ -257,23 +241,27 @@ export default {
     },
 
     updateCounterText() {
-      this.counterText = `${this.currentQuestionNumber}/${this.totalQuestions}`;
-    },
-
-    showGameOverPopup() {
-      this.isGameFinished = true;
-      this.isRestartModalOpen = true;
-      this.registerPartie();
-    },
-
-    closeRestartModal() {
-      this.isRestartModalOpen = false;
+      this.counterText = `${this.currentQuestionNumber}/${this.totalQuestionsToAnswer}`;
     },
 
     restartGame() {
+      let difficultys = [
+        "ADDITION",
+        "SOUSTRACTION",
+        "MULTIPLICATION",
+        "DIVISION",
+      ];
+      let scoreText = `Votre score est de ${this.score}/${this.totalQuestionsToAnswer}`;
+      this.$refs.menu.open(
+        "Voulez-vous rejouer ?",
+        difficultys,
+        "Rejouer",
+        undefined,
+        scoreText
+      );
+      this.isGameFinished = true;
       this.resetGame();
       this.score = 0;
-      this.closeRestartModal();
     },
     resetGame() {
       this.currentQuestionNumber = 0;
@@ -283,7 +271,6 @@ export default {
       this.isCrossVisible = false;
       this.generateNewQuestion();
     },
-
     async registerPartie() {
       const response = await fetch("http://localhost:9090/insertPartie", {
         method: "POST",
@@ -336,24 +323,33 @@ export default {
 <style scoped>
 #gameTitle {
   font-size: 44px;
-  font-family: "Perfect DOS VGA 437 Win", monospace;
-  color: #333333;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 1%;
+    font-family: "Perfect DOS VGA 437 Win", monospace;
+    color: #333333;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 1%;
+    position: absolute;
+    left: 50%;
+    top: 2%;
+    transform: translate(-50%, -50%);
 }
 
 #clock {
-  width: 10%;
+  width: 20%;
+  position: absolute;
   height: 10%;
-  padding-top: 2%;
-  margin-left: 7%;
+  right: 80%;
+  top: 20%;
+  object-fit: contain;
 }
 
 #symbol {
-  width: 10%;
+  width: 20%;
+  position: absolute;
   height: 10%;
-  margin-left: 65%;
+  left: 80%;
+  object-fit: contain;
+  top: 20%;
 }
 
 p {
@@ -394,7 +390,11 @@ p img {
   justify-content: center;
   align-items: center;
   grid-gap: 40px;
-  margin-top: 20%;
+}
+
+#math-game{
+  margin: auto;
+  padding: 10% 0 0 0;
 }
 
 button {
@@ -420,6 +420,7 @@ button img {
 #bottomGamePage {
   display: block;
   text-align: center;
+  margin-bottom: 4%;
 }
 
 #bottomGamePage img {

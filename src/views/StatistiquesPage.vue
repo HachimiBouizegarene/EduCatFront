@@ -12,7 +12,7 @@
                         <p>Level: 0</p>
                     </div>
                 </div>
-                <h1>Vos Statistiques</h1>
+                <h1>VOS STATISTIQUES</h1>
             </div>
 
             <div id="dixDernieresParties">
@@ -234,6 +234,7 @@ main {
     color: white;
     text-align: center;
     font-weight: 100;
+    font-family: 'pixel';
     font-size: 40px;
 }
 
@@ -254,6 +255,7 @@ main {
 #playerCard {
     width: 285px;
     height: 100px;
+    /* border-radius: 5px; */
     background-color: #101823;
     display: flex;
     align-items: center;

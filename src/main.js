@@ -4,9 +4,10 @@ import VueCookies from 'vue-cookies'
 import App from './App.vue'
 import router from './router'
 // Vuetify
-import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/lib/components';
-import * as directives from 'vuetify/lib/directives';
+import "vuetify/styles";
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
 
 const vuetify = createVuetify({
   components,
@@ -77,8 +78,6 @@ const store = createStore({
         },
     }
 })
+
 const Vue = createApp(App)
 Vue.use(router).use(store).use(VueCookies).use(vuetify).mount('#app')
-
-
-

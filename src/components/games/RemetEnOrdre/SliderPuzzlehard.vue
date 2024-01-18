@@ -121,7 +121,7 @@ export default {
             this.timer = setInterval(() => {
                 this.currentDateTime = new Date();
                 if (this.isWinning) {
-
+                    this.$emit("finished", this.elapsedTime);
                     this.stop();
 
                 }
@@ -129,8 +129,8 @@ export default {
         },
 
         stop() {
-            clearInterval(this.timer);
 
+            clearInterval(this.timer);
         },
         resetTime() {
             this.startDateTime = new Date();
@@ -199,4 +199,5 @@ p {
     box-shadow:
         inset -2px -2px 3px rgba(255, 255, 255, 0.6),
         inset 2px 2px 3px rgba(0, 0, 0, 0.6);
-}</style>
+}
+</style>

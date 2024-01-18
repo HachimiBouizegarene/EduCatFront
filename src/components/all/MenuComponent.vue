@@ -185,6 +185,7 @@ h5 {
     font-size: 1.5vw;
     font-family: 'pixel';
     padding: 1vw 2vw;
+    background-color: rgb(236, 236, 236);
 }
 
 .difficulties button.choosen, .levels button.choosen {

@@ -63,9 +63,8 @@ export default {
     this.$refs.menu.open('CHOISISSEZ UNE DIFFICULTÉ', difficultys, 'LANCER');
   },
   methods: {
-    menuClicked(message, difficulty_choosen, difficulty_label) {
+    menuClicked(rejouer, difficulty_choosen) {
       this.difficulty_choosen = difficulty_choosen;
-      this.difficulty_label = difficulty_label;
       this.startGame();
     },
     startGame() {
@@ -86,20 +85,22 @@ export default {
         }, 1000);
         this.showDifficultyButtons = false;
       } else {
-        Swal.fire({
-          title: 'Terminé',
-          text: `Bravo tu a fini , Ton score est ${this.score} sur ${this.currentQuestionIndex}`,
-          customClass: {
-            popup: 'custom-swal',
-          },
-        });
         this.gameStarted = false;
         this.gameOver = true;
         this.showDifficultyButtons = false;
-        this.registerPartie();
+        this.restartGame();
+        // Envoi du score à la base de données
+        /*    axios.post('url de la base', {
+              score: this.score
+            })
+            .then(response => {
+              console.log(response.data);
+            })
+            .catch(error => {
+              console.error('Le score ne s'est pas enregistrées );
+            });*/
       }
     },
-
     handleAnswer(selectedOption) {
       clearInterval(this.timer);
       const currentQuestion = this.questions[this.currentQuestionIndex];
@@ -109,7 +110,7 @@ export default {
         Swal.fire({
           icon: 'success',
           title: 'Bonne réponse!',
-          text: `Votre score est de ${this.score} sur ${this.currentQuestionIndex + 1}`,
+          text: `Votre score est de ${this.score} / ${this.currentQuestionIndex + 1}`,
           customClass: {
             popup: 'custom-swal',
           },
@@ -119,7 +120,7 @@ export default {
         Swal.fire({
           icon: 'error',
           title: 'Mauvaise réponse',
-          text: `Votre score est de ${this.score} sur ${this.currentQuestionIndex + 1}\nLa bonne réponse était : "${correctOption}"`,
+          text: `Votre score est de ${this.score} / ${this.currentQuestionIndex + 1}\nLa bonne réponse était : "${correctOption}"`,
           customClass: {
             popup: 'custom-swal',
           },
@@ -128,6 +129,12 @@ export default {
 
       this.currentQuestionIndex++;
       this.displayQuestion();
+    },
+
+    restartGame() {
+      let difficultys = ["FACILE", "MOYEN", "DIFFICILE"];
+      let score = `${this.score} / ${this.currentQuestionIndex}`;
+      this.$refs.menu.open('Voulez-vous rejouer ?', difficultys, 'REJOUER', undefined, score);
     },
 
     getQuestions(difficulty_choosen) {
@@ -235,10 +242,10 @@ export default {
             answer: 2,
           },
           {
-            text: "Quel est-il indiqué sur l'horloge ?",
+            text: "Quelle heure est-il indiqué sur l'horloge ?",
             image:
               "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTHqHxlvnzFAHZABVPx6Tb5Rl3VIfHDp_tOMSsI4rAik50CGCeH",
-            options: ["16h15", "12h45", "14h00", "18h15"],
+            options: ["16h15", "12h45", "14h00", "13h15"],
             answer: 3,
           },
           {

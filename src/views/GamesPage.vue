@@ -173,7 +173,7 @@ export default {
     justify-content: space-between;
     width: 100%;
     padding: 12px;
-    height: 35px;
+    height: 66px;
     background-color: rgb(255, 187, 0);
 }
 
