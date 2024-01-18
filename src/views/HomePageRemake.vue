@@ -53,9 +53,11 @@ export default {
             title_game_2 : ""
         }
     },
+    
     unmounted(){
         document.querySelector("#app").style.backgroundColor = ""
     },
+
     async mounted() {
         document.querySelector("#app").style.backgroundColor = "#9dcdf5"
         let games;

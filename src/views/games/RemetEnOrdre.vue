@@ -16,10 +16,10 @@
   </template>
   
   <script>
-  import SliderPuzzleeasy from './components/SliderPuzzleeasy.vue';
-  import SliderPuzzlemedium from './components/SliderPuzzlemedium.vue';
-  import SliderPuzzlehard from './components/SliderPuzzlehard.vue';
-  import Puzzles from './components/Menu.vue';
+  import SliderPuzzleeasy from '@/components/games/RemetEnOrdre/SliderPuzzleeasy.vue';
+  import SliderPuzzlemedium from '@/components/games/RemetEnOrdre/SliderPuzzlemedium.vue';
+  import SliderPuzzlehard from '@/components/games/RemetEnOrdre/SliderPuzzlehard.vue';
+  import Puzzles from '@/components/games/RemetEnOrdre/Menu.vue';
   import MenuComponent from "@/components/all/MenuComponent.vue";
   
   export default {
