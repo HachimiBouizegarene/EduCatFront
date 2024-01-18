@@ -3,7 +3,7 @@
         <img id="logo" src="@/assets/images/all/Educat_Logo_footer.webp">
         <section>
             <h3>NAVIGATION</h3>
-            <router-link to="/">Acceuil</router-link>
+            <router-link to="/">Accueil</router-link>
             <router-link to="/jeux">Jeux</router-link>
             <router-link to="/profil">Profil</router-link>
             <router-link to="/signin">Inscription</router-link>

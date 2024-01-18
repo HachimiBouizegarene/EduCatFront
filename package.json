@@ -18,7 +18,11 @@
     "vue-cookies": "^1.8.3",
     "vue-router": "^4.0.13",
     "vuetify": "^3.4.10",
+<<<<<<< HEAD
     "vuex": "^4.1.0"
+=======
+    "vuex": "^4.0.2"
+>>>>>>> 3d442012dd7c0d49509f777b6537d9f1be5c194a
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

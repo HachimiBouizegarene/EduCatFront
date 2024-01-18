@@ -102,7 +102,7 @@ body {
   margin: auto;
   height: 700px;
   margin-top: 130px;
-  margin-bottom: 30px;
+  margin-bottom: 70px;
   left: 0;
   overflow: hidden;
 }

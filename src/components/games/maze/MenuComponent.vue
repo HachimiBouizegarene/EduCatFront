@@ -4,6 +4,11 @@
             <router-link id="home-icon" to="/"><img src="@/assets/images/menu-home.png"></router-link>
             <router-link id="home-icon" to="/"><img src="@/assets/images/menu-home.png"></router-link>
             <h3>MENU</h3>
+
+            <div id="level-container">
+                <LevelComponent></LevelComponent>
+            </div>
+            
             <h4 class="message">{{ message }}</h4>
 
             <h5 class="score">{{ score }}</h5>
@@ -27,10 +32,14 @@
 
 <script>
 
+import LevelComponent from '@/components/all/LevelComponent.vue'
 export default {
     name: 'menuComponenent',
     props: {
 
+    },
+    components : {
+        LevelComponent
     },
 
     data() {
@@ -44,6 +53,10 @@ export default {
             button_text: undefined,
             closed: true,
         }
+    },
+
+    mounted(){
+       
     },
 
     methods: {
@@ -88,7 +101,7 @@ export default {
     width: 100vw;
     height: 100vh;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.87);
+    background-color: rgba(39, 39, 39, 0.87);
     z-index: 9999;
     display: flex;
     flex-direction: column;
@@ -111,17 +124,18 @@ export default {
     align-items: center;
     justify-content: space-between;
     background-color: #252525;
-
 }
 
 h3 {
+    background-color: rgb(19, 19, 19);
     box-sizing: border-box;
     text-transform: uppercase;
-    padding: 1VW;
+    padding: 1VW 3vw; 
     font-size: 5vw;
+    margin-bottom: 3vw;
     width: 100%;
     font-family: 'pixel';
-    text-align: center;
+    text-align: left;
     color: rgb(255, 174, 0);
 }
 
@@ -196,5 +210,14 @@ h5 {
     top: 2.9vw;
     width: 3vw;
     cursor: pointer;
+}
+
+
+#level-container{
+    width: 20vw;
+    height: 2vw;
+    position: absolute;
+    right: 10vw;
+    top: 3.5vw;
 }
 </style>
