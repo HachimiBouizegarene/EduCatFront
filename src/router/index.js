@@ -16,7 +16,7 @@ import CalculsMentaux from "@/views/games/CalculsMentaux.vue"
 import GamesPage from "@/views/GamesPage.vue"
 import RemetEnOrdre from "@/views/games/RemetEnOrdre.vue"
 import JeuDuSimon from "@/views/games/JeuDuSimon.vue"
-// import TrouveLesPaires from "@/views/games/TrouveLesPaires.vue"
+import TrouveLesPaires from "@/views/games/TrouveLesPaires.vue"
 
 const routes = [
     {
@@ -58,6 +58,11 @@ const routes = [
         path: "/calculs-mentaux",
         name: "Calculs Mentaux !",
         component: CalculsMentaux
+    },
+    {
+        path: "/trouve-les-paires",
+        name: "Trouve les Paires !",
+        component: TrouveLesPaires
     },
     {
         path: "/",

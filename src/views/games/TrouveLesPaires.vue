@@ -1,5 +1,5 @@
 <script>
-import HeaderComponent from "@/components/games/TrouveLesPaires/HeaderComponent.vue";
+// import HeaderComponent from "@/components/games/TrouveLesPaires/HeaderComponent.vue";
 import GameComponent from "@/components/games/TrouveLesPaires/GameComponent.vue";
 import MenuComponent from "@/components/all/MenuComponent.vue";
 

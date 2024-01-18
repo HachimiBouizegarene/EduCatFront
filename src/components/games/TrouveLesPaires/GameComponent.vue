@@ -66,6 +66,7 @@ export default {
       }
     },
     resetGame(difficulty) {
+      difficulty;
       this.startGame = false;
       this.reloadGame = false;
       this.selectState = false;
