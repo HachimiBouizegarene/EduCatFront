@@ -71,8 +71,8 @@ const store = createStore({
             state.user.email = data.Email
             state.user.classe = data.Classe
             state.user.pseudo = data.Pseudonyme
-            state.user.level = data.level
-            state.user.percentage = data.percentage
+            state.user.level = data.Niveau
+            state.user.percentage = data.Pourcentage
             state.user_pulled = true
         },
     }

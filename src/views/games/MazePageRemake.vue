@@ -2,7 +2,7 @@
     <MenuComponent ref="menu" @menu-clicked="menuClicked"></MenuComponent>
     <LevelAnnounceComp ref="level_announce"></LevelAnnounceComp>
     <main>
-        <PopupCompRemake @reset="reset()"  @correct_answer="destroyObstacle()" @wrong_answer="loseHeath()" ref="popup"></PopupCompRemake>
+        <PopupCompRemake @reset_attack="reset_attack()"  @correct_answer="destroyObstacle()" @wrong_answer="loseHeath()" ref="popup"></PopupCompRemake>
         <healthComponent :health="health"></healthComponent>
   
         <div class="decor">
@@ -105,6 +105,10 @@ export default {
             this.$refs.maze.generate(this.manches[this.manche].length, this.manches[this.manche].obstacles);
             this.$refs.maze.reset()
             this.reset()
+        },
+
+        reset_attack(){
+            this.attacking = false
         },
 
         reset(){

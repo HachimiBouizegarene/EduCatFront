@@ -1,7 +1,7 @@
 <template>
     <div class="level-content">
-        <p>{{$store.state.user.level}}</p>
-        <span id="progress-bar"></span>
+        <p >{{$store.state.user.level}}</p>
+        <span :style="{ '--percentage':  currentPercentage + '%' }" ref="progressBar" id="progress-bar"></span>
     </div>
 </template>
 
@@ -11,9 +11,22 @@ export default {
     name : "LevelComp",
 
 
-    mounted(){
+    async mounted(){
         this.$store.dispatch("fetchUser", {jws : this.$cookies.get('jws'), force : false})
-    }
+        await this.$store.dispatch("wait_user_pulled")
+        console.log(this.$store.state.user.percentage);
+        this.currentPercentage = this.$store.state.user.percentage
+
+        fetch("http://localhost:9090/updateScore", {
+            method : "POST"
+        })
+    },
+
+    data() {
+        return {
+            currentPercentage : 0
+        }
+    },
 }
 
 </script>

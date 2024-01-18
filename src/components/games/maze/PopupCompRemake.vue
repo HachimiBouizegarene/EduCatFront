@@ -76,7 +76,7 @@ export default {
                 if(res === this.reponse_index){
                     this.$emit("correct_answer")
                 }
-                this.$emit("reset")
+                this.$emit("reset_attack")
                 this.reset()
             }, 2000)
         },
