@@ -22,7 +22,7 @@
       </p>
     </div>
   </div>
-  <br />
+  <br/>²²
   <div class="answers-container">
     <div id="options">
       <button v-for="option in options" :key="option" @click="checkAnswer(option)" :data-answer="option">
@@ -62,8 +62,8 @@ export default {
       correctAnswer: 0,
       options: [],
       currentQuestionNumber: 0,
-      totalQuestions: 3,
-      totalQuestionsToAnswer: 3,
+      totalQuestions: 5,
+      totalQuestionsToAnswer: 5,
       isGameFinished: false,
       isRestartModalOpen: false,
       score: 0,
@@ -199,7 +199,7 @@ export default {
       if (this.currentQuestionNumber >= this.totalQuestionsToAnswer) {
         // Le jeu est terminé
         alert("Le jeu est terminé! Voulez-vous rejouer?");
-        
+
         this.resetGame();
         return;
       }
@@ -263,6 +263,7 @@ export default {
     showGameOverPopup() {
       this.isGameFinished = true;
       this.isRestartModalOpen = true;
+      this.registerPartie();
     },
 
     closeRestartModal() {
@@ -298,6 +299,36 @@ export default {
   },
   created() {
     this.resetGame();
+  },
+
+  beforeUnmount() {
+    this.unmounted();
+  },
+
+  handleClick() {
+    // Vérifier si le composant est toujours actif avant d'afficher la popup
+    if (this._isDestroyed !== true) {
+      // Exemple d'une fonction d'événement
+    }
+  },
+
+  unmounted() {
+    // Supprimer les écouteurs d'événements globaux
+    window.removeEventListener("click", this.handleClick);
+
+    // Supprimer les écouteurs d'événements spécifiques du composant
+    if (this.$el) {
+      this.$el.querySelectorAll("*").forEach((element) => {
+        element.removeEventListener("click", this.handleClick);
+        // Ajoutez d'autres types d'événements au besoin
+      });
+    }
+
+    // Annuler toutes les boucles ou timers
+    clearInterval(this.timerId);
+
+    // Nettoyer les éléments DOM
+    this.$destroy(); // détruire le composant Vue
   },
 };
 </script>
