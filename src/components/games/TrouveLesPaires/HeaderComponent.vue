@@ -1,10 +1,14 @@
-<script setup>
-defineProps({
-  titre: {
-    type: String,
-    required: true
+<script>
+export default {
+  name: "HeaderComponent",
+
+  props: {
+    titre: {
+      type: String,
+      required: true
+    }
   }
-})
+}
 </script>
 
 <template>
@@ -18,34 +22,34 @@ defineProps({
         </div>
         <p class="big">EDUCAT</p>
       </article>
-      <h1>{{titre}}</h1>
+      <h1>{{ titre }}</h1>
     </nav>
   </header>
 </template>
 <style>
-:root{
+:root {
   --menu-size: 240px;
 }
 </style>
 
 <style scoped>
-
-header{
+header {
   height: 150px;
 }
 
-nav{
+nav {
   display: flex;
   align-items: center;
   height: 100%;
 }
 
-article{
+article {
   /*width: var(--menu-size);*/
   display: inline-flex;
   /*align-items: center;*/
 }
-.burger{
+
+.burger {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,7 +58,7 @@ article{
   margin: 0 32px;
 }
 
-.burger span{
+.burger span {
   display: block;
   width: 100%;
   height: 3px;
@@ -62,17 +66,19 @@ article{
   margin: 3px 0;
 }
 
-.big{
+.big {
   margin: 0;
   font-size: 32px;
   font-weight: 300;
 }
-h1{
+
+h1 {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
   font-size: 38px;
 }
+
 @media screen and (max-width: 768px) {
   header nav h1 {
     left: inherit;

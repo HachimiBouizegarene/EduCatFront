@@ -1,10 +1,17 @@
-<script setup>
+<script>
 
-defineProps({
-  value: String,
-  isFlipped: Boolean,
-  isMatched: Boolean,
-})
+export default {
+
+  name : "CardsComponent", 
+  props: {
+    value: String,
+    isFlipped: Boolean,
+    isMatched: Boolean,
+  }
+
+}
+
+
 
 </script>
 
