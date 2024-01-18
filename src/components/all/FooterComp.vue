@@ -11,8 +11,8 @@
 
         <section>
             <h3>L'ENTREPRISE</h3>
-            <router-link to="/jeux">Qui sommes nous ?</router-link>
-            <router-link to="/jeux">Nous contacter</router-link>
+            <a>Qui sommes nous ?</a>
+            <a href="mailto:educat@contact.fr">Nous contacter</a>
         </section>
 
         <section>
