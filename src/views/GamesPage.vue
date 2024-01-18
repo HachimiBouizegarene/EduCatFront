@@ -62,6 +62,7 @@ export default {
     mounted() {
         this.getGamesInfos();
     },
+
     created(){
         if(!this.$cookies.get('jws')) this.$router.push("/login")
     },
@@ -95,7 +96,6 @@ export default {
                 await fetch("http://localhost:9090/getGamesInfos", { method: "POST" })
                     .then((res) => res.json())
                     .then((jeuxData) => { if (Array.isArray(jeuxData)) this.jeux = jeuxData; });
-
             } catch (error) {
                 console.error("Erreur d'accès à l'API", error);
             }
@@ -209,6 +209,8 @@ export default {
     padding: 4px 0px;
     color: #313131;
     font-weight: 100;
+    background-color: #ffbb00;
+    padding: 12px;
 }
 
 .arrowScrollButton {
@@ -228,7 +230,6 @@ export default {
 .arrowScrollButton:nth-child(2) {}
 
 /* Game Button */
-
 .gameButton {
     width: 150px;
     overflow: hidden;
@@ -257,6 +258,7 @@ export default {
     line-height: 1em;
     overflow: hidden;
     font-family: 'gamesPage', 'Roboto Condensed';
+    color: #2c374b;
 }
 
 /* Search bar */
@@ -279,7 +281,7 @@ export default {
     color: #000000;
     text-align: left;
     font-family: 'gamesPage', 'Roboto Condensed';
-    font-size: 2.5vw;
+    font-size: 17px;
     font-style: normal;
     font-weight: 700;
     letter-spacing: -0.48px;

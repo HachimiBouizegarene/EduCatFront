@@ -116,7 +116,7 @@ h1 {
     transform: translateX(-40%);
     left: 36%;
     bottom: 0;
-    width:28vw;
+    width: 23vw;
     transition: 0.5s ease;
     z-index: 2;
 }

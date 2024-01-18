@@ -3,7 +3,15 @@ import { createStore } from 'vuex'
 import VueCookies from 'vue-cookies'
 import App from './App.vue'
 import router from './router'
+// Vuetify
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/lib/components';
+import * as directives from 'vuetify/lib/directives';
 
+const vuetify = createVuetify({
+  components,
+  directives,
+});
 
 const store = createStore({
     state(){
@@ -66,7 +74,7 @@ const store = createStore({
     }
 })
 const Vue = createApp(App)
-Vue.use(router).use(store).use(VueCookies).mount('#app')
+Vue.use(router).use(store).use(VueCookies).use(vuetify).mount('#app')
 
 
 

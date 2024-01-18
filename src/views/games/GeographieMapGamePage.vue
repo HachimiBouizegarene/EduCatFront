@@ -51,6 +51,7 @@ export default {
         window.addEventListener('resize', this.adjustFontSize);
 
         this.$refs.menu.open('CHOISISSEZ VOTRE MAP', ['France', 'Europe'], 'JOUER', this.avalaibleLevels);
+
     },
 
     beforeUnmount() {
@@ -303,13 +304,13 @@ export default {
                 body: JSON.stringify({
                     "ScorePartie": (this.score + "/" + this.nbTours).toString(),
                     "LibelleDifficultePartie": this.mapChoisie,
-                    "IdUser": "1",
-                    "IdJeu": "1"
+                    "jws": this.$cookies.get('jws'),
+                    "NomJeu": this.$route.name,
                 })
             })
             response;
         },
-
+        
         unmounted() {
             // Nettoyage des event listeners, intervals, etc.
             window.removeEventListener('resize', this.adjustFontSize);

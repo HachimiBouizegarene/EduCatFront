@@ -5,9 +5,12 @@ import Signin from "@/views/SigninPage.vue"
 import HomeRemake from '@/views/HomePageRemake.vue'
 import MazeRemake from "@/views/games/MazePageRemake.vue"
 import GeographieMapGamePage from "@/views/games/GeographieMapGamePage.vue"
-import JeuTest from "@/views/games/JeuTest.vue"
+import QuestionPourUnEnfant from "@/views/games/QuestionPourUnEnfant.vue"
+import CalculsMentaux from "@/views/games/CalculsMentaux.vue"
 import GamesPage from "@/views/GamesPage.vue"
 import ProfilPage from "@/views/ProfilPage.vue"
+import MentionsLegales from "@/views/MentionsLegales.vue"
+import PolitiqueConfidentialite from "@/views/PolitiqueConfidentialite.vue"
 import StatistiquesPage from "@/views/StatistiquesPage.vue"
 import MazeComponentRemake from "@/components/games/maze/MazeComponentRemake.vue"
 
@@ -38,6 +41,11 @@ const routes = [
         component: GeographieMapGamePage
     },
     {
+        path: "/calculs-mentaux",
+        name: "Calculs Mentaux !",
+        component: CalculsMentaux
+    },
+    {
         path: "/",
         name: "HomePageRemake",
         component: HomeRemake
@@ -53,14 +61,24 @@ const routes = [
         component: Membre
     },
     {
-        path: "/JeuTest",
-        name: "JeuTest",
-        component: JeuTest
+        path: "/question-pour-un-enfant",
+        name: "Question Pour Un Enfant !",
+        component: QuestionPourUnEnfant
     },
     {
         path: "/signin",
         name: "SiginPage",
         component: Signin
+    },
+    {
+        path: "/mentions-legales",
+        name: "MentionsLegales",
+        component: MentionsLegales
+    },
+    {
+        path: "/politique-confidentialite",
+        name: "PolitiqueConfidentialite",
+        component: PolitiqueConfidentialite
     },
     {
         path: "/statistiques",

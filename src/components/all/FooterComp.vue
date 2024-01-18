@@ -16,7 +16,8 @@
         </section>
 
         <section>
-            <router-link to="/jeux">Mentions legales</router-link>
+            <router-link to="/mentions-legales">Mentions legales</router-link>
+            <router-link to="/politique-confidentialite">Politique Confidentialite</router-link>
         </section>
     </footer>
 </template>
@@ -54,6 +55,7 @@ section {
 h3{
     font-size: 1.1vw;
     margin-bottom: 0.5vw;
+    font-weight: 100;
 }
 a{
     font-size: 1vw;

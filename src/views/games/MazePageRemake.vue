@@ -1,5 +1,6 @@
 <template>
     <MenuComponent ref="menu" @menu-clicked="menuClicked"></MenuComponent>
+    <LevelAnnounceComp ref="level_announce"></LevelAnnounceComp>
     <main>
         <PopupCompRemake @reset="reset()"  @correct_answer="destroyObstacle()" @wrong_answer="loseHeath()" ref="popup"></PopupCompRemake>
         <healthComponent :health="health"></healthComponent>
@@ -42,14 +43,15 @@ import MenuComponent from "@/components/games/maze/MenuComponent.vue";
 import MazeComponent from "@/components/games/maze/MazeComponentRemake.vue";
 import PopupCompRemake from "@/components/games/maze/PopupCompRemake.vue";
 import healthComponent from "@/components/games/maze/healthComponent.vue";
-
+import LevelAnnounceComp from "@/components/games/maze/LevelAnnounceComp.vue";
 export default {
     name: "MazePageRemake",
     components: {
         MazeComponent,
         PopupCompRemake,
         healthComponent,
-        MenuComponent
+        MenuComponent,
+        LevelAnnounceComp
     },
     data() {
         return {
@@ -73,25 +75,41 @@ export default {
             x_attacking_ostacle : undefined,
             y_attacking_ostacle: undefined,
             difficulty : undefined,
-            difficultys : ["FACILE", "MOYEN", "DIFFICILE"]
+            difficultys : ["FACILE", "MOYEN", "DIFFICILE"],
+            manche : 0 ,
+            manches : [{length : 7, obstacles : 3}, {length : 11, obstacles : 5}, {length : 13, obstacles : 7},
+             {length : 15, obstacles : 8}, { length : 19, obstacles : 9}]
         }
     },
     methods: {
         win(){
             console.log("won");
-            this.$refs.menu.open('VICTOIRE',  this.difficultys, 'REJOUER')
+            if(this.manche >= this.manches.length -1) this.$refs.menu.open('VICTOIRE',  this.difficultys, 'REJOUER')
+            else this.nextManche()
         },
         menuClicked(message, level_choosen_index){
-   
             this.difficulty = level_choosen_index;
             if(message== 'CONJUGAISON' || message == "GAME OVER" || message == "VICTOIRE"){
-                this.$refs.maze.generate(7, 3);
+                this.manche = 0;
+                this.$refs.maze.generate(this.manches[0].length, this.manches[0].obstacles);
+                this.$refs.level_announce.announce(1)
+                this.reset()
                 this.health = 3
             }
         },
 
+        nextManche(){
+            this.manche ++
+            this.$refs.level_announce.announce(this.manche + 1)
+            console.log( this.manches[this.manche].obstacles);
+            this.$refs.maze.generate(this.manches[this.manche].length, this.manches[this.manche].obstacles);
+            this.$refs.maze.reset()
+            this.reset()
+        },
+
         reset(){
             this.attacking = false
+            this.$refs.maze.reset()
             this.$refs.maze.verifieOstacle()
         },
         async attack() {
@@ -136,8 +154,7 @@ export default {
         document.querySelector("body").style.backgroundColor= "#8ea7c5"
         document.querySelector("body").style.minHeight= "350px"
         document.querySelector("body").style.height= "100vh"
-
-        // this.$refs.menu.open('CONJUGAISON',  this.difficultys, 'LANCER')
+        this.$refs.menu.open('CONJUGAISON',  this.difficultys, 'LANCER', undefined, 20)
     },
     beforeUnmount() {
         window.removeEventListener('resize', this.handleResizeMaze);
@@ -201,6 +218,7 @@ h1 img {
 
 
 .maze-container {
+    border: 0.5dvw solid rgba(0, 0, 0, 0.466);
     overflow: hidden;
     width: 35%;
     height: 100px;

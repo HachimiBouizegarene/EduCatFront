@@ -12,12 +12,12 @@
 
         <div id="best-games">
             <h3>NOS DERNIERS JEUX !</h3>
-            <div class="game">
+            <div class="game" @click="this.$router.push('/maitre-du-monde')">
                 <img class="cadre" src="@/assets/images/home/cadre_best_games.webp">
                 <img class="img" :src="url_game_1">
                 <h5>{{title_game_1}}</h5>
             </div>
-            <div class="game">
+            <div class="game" @click="this.$router.push('/conjugue-pour-fuir')">
                 <img class="cadre" src="@/assets/images/home/cadre_best_games.webp">
                 <img class="img" :src="url_game_2">
                 <h5>{{title_game_2}}</h5>
@@ -189,6 +189,7 @@ main {
     box-sizing: border-box;
     background-color: #104268;
     margin-bottom: 3vw;
+    cursor: pointer;
     border-radius: 0.3vw;
 }
 

@@ -103,14 +103,13 @@ header nav div {
     width: 3vw;
     border-radius: 100%;
     transition: 0.3s ease;
-    border: 0.2vw solid white;
-    box-shadow: 0px 0px 0px 0.2vw #292929;
+    border: 0.14vw solid white;
+    box-shadow: 0px 0px 0px 0.14vw #292929;
 }
 
 #a-profile-img{
     display: flex;
 }
-
 
 #profile-img:hover {
     filter: brightness(0.8);
@@ -163,8 +162,6 @@ a#game-btn:hover {
         width: 50px;
         border-radius: 100%;
         transition: 0.3s ease;
-        border: 4px solid white;
-        box-shadow: 0px 0px 0px 3px #292929;
     }
 
     a.btn {
