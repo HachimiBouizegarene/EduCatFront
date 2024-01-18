@@ -122,7 +122,7 @@ export default {
         },  async init() {
    
             this.profil_img_url  = this.$store.state.user.profile_image_url
-             this.name = this.$store.state.user.name
+            this.name = this.$store.state.user.name
             this.forename =  this.$store.state.user.forename
             this.classe = this.$store.state.user.classe
             this.pseudo = this.$store.state.user.pseudo == undefined || this.$store.state.user.pseudo == "" ?
@@ -226,8 +226,9 @@ form .line#profile-img-line::after {
 
 #profile-img-container img.edit-img {
     position: absolute;
+    overflow: visible;
     bottom: 0;
-    right: 0;
+    left: 3.5vw;
     filter: invert(1);
     background-color: rgb(255, 255, 255);
     transition: 0.3s ease;
@@ -298,6 +299,8 @@ img.edit-img:hover {
     }
     #profile-img-container img.edit-img{
         width: 3.5vw;
+        padding: 0.9vw;
+        left: 8vw;
     }
 
     section img.edit-img{
@@ -315,6 +318,11 @@ img.edit-img:hover {
         background-color: white;
         height: 80px;
         border: 3px solid rgb(255, 255, 255);
+    }
+
+    #profile-img-container img.edit-img{
+
+        left: 55px;
     }
 
     img.edit-img{

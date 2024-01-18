@@ -154,7 +154,7 @@ export default {
         document.querySelector("body").style.backgroundColor= "#8ea7c5"
         document.querySelector("body").style.minHeight= "350px"
         document.querySelector("body").style.height= "100vh"
-        this.$refs.menu.open('CONJUGAISON',  this.difficultys, 'LANCER')
+        this.$refs.menu.open('CONJUGAISON',  this.difficultys, 'LANCER', undefined, 20)
     },
     beforeUnmount() {
         window.removeEventListener('resize', this.handleResizeMaze);

@@ -15,7 +15,8 @@ const store = createStore({
                 forename : null,
                 email : null,
                 classe : null,
-                pseudo : null
+                pseudo : null,
+                xp  : null,
             }            
         }
     },
@@ -23,6 +24,7 @@ const store = createStore({
         user : state => state.user
     },
     actions : {
+
        async fetchUser({commit, state}, body){
         if (state.user_pulled && !body.force) return 
         const data = await fetch("http://localhost:9090/getProfile", {
@@ -54,13 +56,15 @@ const store = createStore({
     
     mutations : {
         setUser(state, data){
+            console.log(data);
             state.user.profile_image_url = data.img_url
             state.user.name =  data.Nom
             state.user.forename = data.Prenom
             state.user.email = data.Email
             state.user.classe = data.Classe
             state.user.pseudo = data.Pseudonyme
-
+            state.user.level = data.level
+            state.user.percentage = data.percentage
             state.user_pulled = true
         },
     }
