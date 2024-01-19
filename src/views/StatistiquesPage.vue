@@ -33,6 +33,10 @@
                 </ul>
             </div>
 
+            <div style="position: relative; width:300px; margin:200px;">
+                <canvas id="jeuxLesPlusJoueesChart"></canvas>
+            </div>
+
             <h2 id="gamesListBarTitle">Statistiques de tous les jeux :</h2>
             <div id="statistiques-par-jeux">
                 <template v-for="(jeu, key) in jeux" :key="key">
@@ -48,9 +52,7 @@
                 </template>
             </div>
 
-            <div style="position: relative; width:300px; margin:200px;">
-                <canvas id="jeuxLesPlusJoueesChart"></canvas>
-            </div>
+
 
 
         </div>
@@ -92,6 +94,10 @@ export default {
                 ]
             },
         });
+    },
+
+    created() {
+        if (!this.$cookies.get('jws')) this.$router.push("/login")
     },
 
     data() {
@@ -394,7 +400,7 @@ main {
 #dixDernieresParties {
     width: 100%;
     color: white;
-    margin-bottom: 80px;
+    /* margin-bottom: 80px; */
 }
 
 #dixDernieresParties li {

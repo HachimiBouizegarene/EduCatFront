@@ -1,9 +1,12 @@
-
 <template>
     <NavBar></NavBar>
 
     <div id="gamesPage">
         <div id="gameMenu">
+
+            <div id="stat-bar">
+                <router-link class="btn" id="stat-btn" to="/statistiques"> MES STATISTIQUES</router-link>
+            </div>
 
             <div id="gameMenuTopBar">
                 <h2>TOUS LES JEUX</h2>
@@ -23,8 +26,7 @@
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('right')">→</div> -->
             </div>
 
-
-            <template v-for="(matiere, matiereIndex) in matieres" :key="matiereIndex">
+            <template v-for="(matiere, matiereIndex) in sortedMatieres" :key="matiereIndex">
                 <h3 class="gamesListBarTitle">{{ matiere }}</h3>
 
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('left')">←</div> -->
@@ -63,8 +65,8 @@ export default {
         this.getGamesInfos();
     },
 
-    created(){
-        if(!this.$cookies.get('jws')) this.$router.push("/login")
+    created() {
+        if (!this.$cookies.get('jws')) this.$router.push("/login")
     },
 
     data() {
@@ -86,7 +88,16 @@ export default {
                     return this.jeux.filter(jeu => jeu.NomMatiere === matiere);
                 }
             };
-        }
+        },
+
+        sortedMatieres() {
+            // Triez les matières en fonction du nombre de jeux associés
+            return this.matieres.slice().sort((a, b) => {
+                const countA = this.filteredJeux(a).length;
+                const countB = this.filteredJeux(b).length;
+                return countB - countA;
+            });
+        },
     },
 
     methods: {
@@ -202,6 +213,23 @@ export default {
     position: relative;
 }
 
+#stat-bar {
+    width: 100%;
+    margin: 32px 0px;
+}
+
+#stat-btn {
+    font-family: 'pixel';
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    border: none;
+    background-color: rgb(65, 65, 65);
+    font-size: 1.1vw;
+    transition: 0.2s ease;
+    padding: 0.4vw 1.5vw;
+    border: 0.2vw solid rgba(255, 187, 0, 0);
+}
+
 .gamesListBarTitle {
     font-family: 'gamesPage';
     font-size: 29px;
@@ -242,7 +270,7 @@ export default {
     padding: 0px 3px;
 }
 
-.gameButton:hover img{
+.gameButton:hover img {
     filter: brightness(0.9);
 }
 
