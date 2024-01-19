@@ -11,7 +11,7 @@
             
             <h4 class="message">{{ message }}</h4>
 
-            <h5 class="score">{{ score }}</h5>
+            <h5 v-if="score" class="score">score : {{ score }}</h5>
 
             <div class="levels">
                 <button v-for="(level, key) in levels" :key="key" @click="level_choosen = key"
@@ -140,8 +140,8 @@ h3 {
     box-sizing: border-box;
     text-transform: uppercase;
     padding: 1VW 3vw; 
-    font-size: 5vw;
-    margin-bottom: 3vw;
+    font-size: 4vw;
+    margin-bottom: 1vw;
     width: 100%;
     font-family: 'pixel';
     text-align: left;
@@ -149,19 +149,18 @@ h3 {
 }
 
 h4 {
-    margin-top: 2%;
+    margin-top: 0%;
     text-transform: uppercase;
     color: rgb(255, 255, 255);
-    font-size: 4vw;
+    font-size: 3vw;
     font-family: 'pixel';
     text-align: center;
 }
 
 h5 {
-    margin-top: 2%;
     text-transform: uppercase;
     color: rgb(255, 174, 0);
-    font-size: 4vw;
+    font-size: 3vw;
     font-family: 'pixel';
     text-align: center;
 }
@@ -184,7 +183,7 @@ h5 {
     border: none;
     font-size: 1.5vw;
     font-family: 'pixel';
-    padding: 1vw 2vw;
+    padding: 0.5vw 1.5vw;
     background-color: rgb(236, 236, 236);
 }
 
@@ -197,7 +196,7 @@ h5 {
     text-transform: uppercase;
     border: none;
     font-size: 2vw;
-    padding: 1vw 3vw;
+    padding: 0.5vw 2vw;
     font-family: 'pixel';
     background-color: rgb(32, 216, 32);
     color: white;

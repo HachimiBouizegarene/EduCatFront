@@ -50,7 +50,7 @@ export default {
         document.getElementById('randomRegionButton').addEventListener('click', this.startGame);
         window.addEventListener('resize', this.adjustFontSize);
 
-        this.$refs.menu.open('CHOISISSEZ VOTRE MAP', ['France', 'Europe'], 'JOUER', this.avalaibleLevels);
+        this.$refs.menu.open('CHOISISSEZ VOTRE MAP', ['France', 'Europe'], 'JOUER', this.avalaibleLevels, 20);
 
     },
 
@@ -255,7 +255,7 @@ export default {
             if (this.toursTimer < this.nbTours)
                 this.$refs.menu.open('Vous avez abandonné', this.avalaibleMaps, 'JOUER', this.avalaibleLevels);
             else {
-                this.$refs.menu.open('Fin de partie', this.avalaibleMaps, 'REJOUER', this.avalaibleLevels, "SCORE : " + this.score + " / " + this.nbTours);
+                this.$refs.menu.open('Fin de partie', this.avalaibleMaps, 'REJOUER', this.avalaibleLevels, this.score + " / " + this.nbTours);
                 this.registerPartie();
             }
 

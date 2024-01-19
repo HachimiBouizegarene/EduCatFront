@@ -79,7 +79,7 @@ export default {
             difficulty : undefined,
             difficultys : ["FACILE", "MOYEN", "DIFFICILE"],
             manche : 0 ,
-            manches : [{length : 7, obstacles : 1}, {length : 11, obstacles : 2}, {length : 13, obstacles : 7},
+            manches : [{length : 7, obstacles : 3}, {length : 11, obstacles : 5}, {length : 13, obstacles : 7},
         {length : 15, obstacles : 8}, { length : 19, obstacles : 9}]
         }
     },

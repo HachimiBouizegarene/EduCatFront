@@ -43,7 +43,7 @@ export default {
     finished(score) {
 
       let difficultys = ["FACILE", "MOYEN", "DIFFICILE"];
-      this.$refs.menu.open('CHOISISSEZ UNE DIFFICULTÉ', difficultys, 'REJOUER', undefined, score);
+      this.$refs.menu.open('REJOUER', difficultys, 'REJOUER', undefined, score);
       this.registerPartie(score);
     },
 

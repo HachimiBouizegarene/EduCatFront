@@ -62,6 +62,10 @@ export default {
     let difficultys = ["FACILE", "MOYEN", "DIFFICILE"];
     this.$refs.menu.open('CHOISISSEZ UNE DIFFICULTÉ', difficultys, 'LANCER');
   },
+
+  unmounted(){
+    clearInterval(this.timer);
+  },
   methods: {
     menuClicked(rejouer, difficulty_choosen) {
       this.difficulty_choosen = difficulty_choosen;
