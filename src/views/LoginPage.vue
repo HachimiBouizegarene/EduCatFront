@@ -11,7 +11,7 @@
       <h1 id="login-title">Connexion</h1>
       <input id="user_mail" placeholder="Mail" v-model="user_mail">
 
-      <input id="user_password" placeholder="Mot de passe" v-model="user_password">
+      <input type="password" id="user_password" placeholder="Mot de passe" v-model="user_password">
       <button :class="{activated : verifyInputs()}" type="submit">Se connecter</button>
       <!-- <span id="message" ref="message">{{ message }}</span> -->
       <div id="message-container">

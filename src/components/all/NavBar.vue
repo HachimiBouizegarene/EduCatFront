@@ -96,11 +96,14 @@ header nav div {
 
 #NavBarLogo img {
     width: 10vw;
+    object-fit: cover;
     image-rendering: pixelated;
 }
 
 #profile-img {
     width: 3vw;
+    height: 3vw;
+    object-fit: cover;
     border-radius: 100%;
     transition: 0.3s ease;
     border: 0.14vw solid white;
@@ -155,13 +158,18 @@ a#game-btn:hover {
 
     #NavBarLogo img {
         width: 170px;
+        
 
     }
 
     #profile-img {
+        background-color: rgb(255, 255, 255);
         width: 50px;
+        height: 50px;
         border-radius: 100%;
         transition: 0.3s ease;
+        border: 2px solid white;
+        box-shadow: 0px 0px 0px 2px #292929;
     }
 
     a.btn {
@@ -180,6 +188,7 @@ a#game-btn:hover {
     
     #profile-img {
         width: 6vw;
+        height: 6vw;
     }
 
     a.btn {

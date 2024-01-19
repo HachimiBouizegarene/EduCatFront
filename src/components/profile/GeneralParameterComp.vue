@@ -191,7 +191,8 @@ form .line#profile-img-line {
     width: 2.5vw;
     position: absolute;
     right: 0;
-    top: -0.6vw;
+    top: -0.2vw;
+    z-index: 9;
 }
 
 
@@ -287,7 +288,7 @@ img.edit-img:hover {
         width:5.2vw;
         position: absolute;
         right: 0;
-        top: -1.5vw;
+        top: -1vw;
     }
 
     #profile-img-container{
@@ -345,7 +346,7 @@ img.edit-img:hover {
 
     #pseudo-container img{
         width: 40px;
-        top: -12px;
+        top: -4px;
     }
 
     section img.edit-img{

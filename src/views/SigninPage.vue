@@ -11,14 +11,14 @@
       <h1 id="login-title">INSCRIPTION</h1>
 
       <div>
-        <input id="user_name" placeholder="Nom" v-model="user_name">
-        <input id="user_name" placeholder="Prenom" v-model="user_forename">
+        <input placeholder="Nom" v-model="user_name">
+        <input placeholder="Prenom" v-model="user_forename">
       </div>
-      <input id="user_name" placeholder="Classe" v-model="user_classe">
+      <input placeholder="Classe" v-model="user_classe">
       <input id="user_pseudo" placeholder="Pseudonyme unique" v-model="user_pseudo">
       <input id="user_mail" placeholder="Mail" v-model="user_mail">
-      <input id="password" placeholder="Mot de passe" v-model="user_password">
-      <input id="password_confirm" placeholder="Confirmer mot de passe" v-model="user_password_confirm">
+      <input type="password" id="password" placeholder="Mot de passe" v-model="user_password">
+      <input type="password" id="password_confirm" placeholder="Confirmer mot de passe" v-model="user_password_confirm">
       <button :class="{activated : verifyInputs()}" type="submit">S'inscrire</button>
       <div id="message-container">
         <MessageContainer ref="messageContainer"></MessageContainer>
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     verifyInputs(){
-      if (this.user_forename == '' || this.user_name == '' || this.user_birthday == '' ||
+      if (this.user_forename == '' || this.user_name == ''  || this.user_classe == '' ||
         this.user_mail == '' || this.user_password == '' || this.user_password_confirm == '')  return false
         if(/^\w+([._-]?\w+)*@\w+([._-]?\w+)*(\.\w{2,3})+$/.test(this.user_mail) == false)  return false
         if(this.user_password != this.user_password_confirm) return false
@@ -95,6 +95,7 @@ export default {
         })
         const data = await response.json();
         if (Object.keys(data).includes('error')) {
+    
           this.$refs.messageContainer.message({ error: data['error'] })
         } else {
           this.$router.push({

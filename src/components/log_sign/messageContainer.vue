@@ -20,6 +20,7 @@ export default {
     methods: {
         message(messageJson) {
             if (messageJson['error']) {
+                console.log(messageJson['error']);
                 this.error = true
                 this.success = false
                 this.messageContent = messageJson['error']

@@ -207,7 +207,7 @@ main {
 
 h1 {
     position: absolute;
-    font-size: 2.5vw;
+    font-size: 2vw;
     top: 2%;
     left: 1%;
     color: white;
@@ -411,7 +411,7 @@ img.runner {
 
     h1 {
         position: absolute;
-        font-size: 50px
+        font-size: 35px
     }
 
     #runner-3 {
