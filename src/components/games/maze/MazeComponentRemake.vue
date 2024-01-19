@@ -22,8 +22,15 @@ export default {
         this. y_squares_scrolled = this.y_squares;
         document.querySelector("body").style.backgroundColor = "#8ea7c5";       
         this.$nextTick(() => {
-            window.addEventListener("keydown", (e) => {
-                if (e.key == "d" || e.key == "D") {
+            window.addEventListener("keydown", this.bindKeys);})
+    },
+    unmounted(){
+        window.removeEventListener("keydown", this.bindKeys);
+        window.removeEventListener("resize", this.sizeSquares);
+    },
+    methods: {
+        bindKeys(e){
+            if (e.key == "d" || e.key == "D") {
                     this.movePlayer("right");
                 }
                 if (e.key == "a" || e.key == "A") {
@@ -35,10 +42,7 @@ export default {
                 if (e.key == "w" || e.key == "W") {
                     this.movePlayer("top");
                 }
-            });
-        });
-    },
-    methods: {
+        },
         scroll(dir) {
             const directions = {right : Math.min(this.y_squares_scrolled -1  + this.y_squares, this.y_squares_scrolled + (this.x_squares - this.player_x - 1)),
             left : Math.max(this.y_squares_scrolled + 1  - this.y_squares, this.y_squares)}
