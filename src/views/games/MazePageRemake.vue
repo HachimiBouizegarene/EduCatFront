@@ -79,14 +79,14 @@ export default {
             difficulty : undefined,
             difficultys : ["FACILE", "MOYEN", "DIFFICILE"],
             manche : 0 ,
-            manches : [{length : 7, obstacles : 3}, {length : 11, obstacles : 5}, {length : 13, obstacles : 7},
-        {length : 15, obstacles : 8}, { length : 19, obstacles : 9}]
+            manches : [{length : 7, obstacles : 1}, /*{length : 11, obstacles : 5}, {length : 13, obstacles : 7},
+        {length : 15, obstacles : 8}, { length : 19, obstacles : 9}*/]
         }
     },
     methods: {
         win(){
             if(this.manche >= this.manches.length -1){
-                this.$refs.menu.open('VICTOIRE',  this.difficultys, 'REJOUER')
+                this.$refs.menu.open('VICTOIRE',  this.difficultys, 'REJOUER', undefined, this.score)
                 this.$refs.menu.xp(this.score);
             } 
             else this.nextManche()

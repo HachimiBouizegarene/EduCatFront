@@ -31,7 +31,6 @@
 .parameter-comp form .line {
     display: flex;
     flex-wrap: nowrap;
-    gap: 2.5vw;
     padding-top: 1vw;
     height: auto;
 }
