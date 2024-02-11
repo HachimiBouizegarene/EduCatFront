@@ -46,8 +46,7 @@ export default {
             && this.new_password_conf === this.new_password) 
         },
         change_user_password(){
-            this.$emit("change_user_password", {old_password : this.actual_password,
-                                             new_password : this.new_password })
+            this.$emit("change_user_password", this.actual_password, this.new_password)
         }
     },
 

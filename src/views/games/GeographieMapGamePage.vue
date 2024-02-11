@@ -299,13 +299,15 @@ export default {
         },
 
         async registerPartie() {
+            // A RESOUDRE PEUT ETRE
+
             const response = await fetch("http://localhost:9090/insertPartie", {
                 method: "POST",
                 body: JSON.stringify({
-                    "ScorePartie": (this.score + "/" + this.nbTours).toString(),
-                    "LibelleDifficultePartie": this.mapChoisie,
+                    "score": (this.score + "/" + this.nbTours).toString(),
+                    "difficultyLibelle": this.mapChoisie,
                     "jws": this.$cookies.get('jws'),
-                    "NomJeu": this.$route.name,
+                    "name": this.$route.name,
                 })
             })
             response;

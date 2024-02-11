@@ -136,12 +136,12 @@ export default {
                 const data = await this.profil_imb_blob.arrayBuffer()
                 const arr = new Uint8Array(data);
                 const regularArr = Array.from(arr);
-                ret.PhotoProfil = regularArr
+                ret.profileImage = regularArr
             }
-            ret.Nom = this.$store.state.user.name !== this.name ? this.name : undefined
-            ret.Prenom = this.$store.state.user.forename !== this.forename ? this.forename : undefined
-            ret.Classe = this.$store.state.user.classe!== this.classe ? this.classe : undefined
-            ret.Pseudonyme = this.$store.state.user.pseudo  !== this.pseudo ? this.pseudo : undefined
+            ret.name = this.$store.state.user.name !== this.name ? this.name : undefined
+            ret.forename = this.$store.state.user.forename !== this.forename ? this.forename : undefined
+            ret.classe = this.$store.state.user.classe!== this.classe ? this.classe : undefined
+            ret.pseudo = this.$store.state.user.pseudo  !== this.pseudo ? this.pseudo : undefined
             this.$emit("send_user_data", ret)
         }
     },

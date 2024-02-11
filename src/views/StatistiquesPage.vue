@@ -23,12 +23,12 @@
 
                 <ul>
                     <li v-for="(partie, index) in filteredParties" :key="index">
-                        <img :src="getGameImage(partie.NomJeu)" alt="Image du jeu">
+                        <img :src="getGameImage(partie.gameName)" alt="Image du jeu">
                         <div>
-                            <p class="NomJeuDixDernieresParties">{{ partie.NomJeu }}</p>
-                            <p class="DatedixDernieresParties">{{ partie.DatePartie }}</p>
+                            <p class="NomJeuDixDernieresParties">{{ partie.gameName }}</p>
+                            <p class="DatedixDernieresParties">{{ partie.date }}</p>
                         </div>
-                        <p class="ScoredixDernieresParties">Score : {{ partie.ScorePartie }}</p>
+                        <p class="ScoredixDernieresParties">Score : {{ partie.score }}</p>
                     </li>
                 </ul>
             </div>
@@ -42,11 +42,11 @@
                 <template v-for="(jeu, key) in jeux" :key="key">
                     <div class="gameButton" @mouseover="hoverCardVisible[key] = true"
                         @mouseleave="hoverCardVisible[key] = false">
-                        <img :src="jeu.ImageJeu" :alt="jeu.NomJeu">
-                        <h5>{{ jeu.NomJeu }}</h5>
+                        <img :src="jeu.image" :alt="jeu.name">
+                        <h5>{{ jeu.name }}</h5>
                         <div class="hover-card" :class="{ 'visible': hoverCardVisible[key] }">
-                            <h5>Parties jouées : {{ groupedByIdJeu[jeu.NomJeu] || 0 }}</h5>
-                            <router-link :to="{ name: jeu.NomJeu }">JOUER</router-link>
+                            <h5>Parties jouées : {{ groupedByIdJeu[jeu.name] || 0 }}</h5>
+                            <router-link :to="{ name: jeu.name }">JOUER</router-link>
                         </div>
                     </div>
                 </template>
@@ -113,7 +113,7 @@ export default {
     computed: {
         groupedByIdJeu() {
             return this.parties.reduce((result, partie) => {
-                const NomJeu = partie.NomJeu;
+                const NomJeu = partie.gameName;
 
                 // Vérifiez si NomJeu est défini avant d'accéder à result[NomJeu]
                 if (NomJeu !== undefined) {
@@ -127,14 +127,14 @@ export default {
 
         uniqueJeux() {
             // Obtenez la liste unique des noms de jeu
-            return [...new Set(this.parties.map(partie => partie.NomJeu))];
+            return [...new Set(this.parties.map(partie => partie.gameName))];
         },
         filteredParties() {
             let filtered = this.parties;
 
             // Filtrez les parties par le nom de jeu sélectionné
             if (this.selectedNomJeu) {
-                filtered = filtered.filter(partie => partie.NomJeu === this.selectedNomJeu);
+                filtered = filtered.filter(partie => partie.gameName === this.selectedNomJeu);
             }
 
             // Triez les parties filtrées par date de manière décroissante
@@ -157,7 +157,7 @@ export default {
                     })
                 })
                     .then((res) => res.json())
-                    .then((partiesData) => { if (Array.isArray(partiesData)) this.parties = partiesData; });
+                    .then((json) => { this.parties = json.data });
 
             } catch (error) {
                 console.error("Erreur d'accès à l'API", error);
@@ -176,24 +176,24 @@ export default {
 
             // remplacer l'ancienne valeur de l'image par l'url correcte !
             this.jeux.forEach(jeu => {
-                if (Array.isArray(jeu.ImageJeu)) {
+                if (Array.isArray(jeu.image)) {
                     try {
-                        const imageBlob = new Blob([new Uint8Array(jeu.ImageJeu)], { type: "image/webp" });
+                        const imageBlob = new Blob([new Uint8Array(jeu.image)], { type: "image/webp" });
                         const imageUrl = URL.createObjectURL(imageBlob);
-                        jeu.ImageJeu = imageUrl;
+                        jeu.image = imageUrl;
                     } catch (error) {
                         console.error("Erreur de convertion de l'image reçue en BD", error);
                     }
                 } else {
                     // Image par défaut
-                    jeu.ImageJeu = require("@/assets/images/games_menu/no_images.png");
+                    jeu.image = require("@/assets/images/games_menu/no_images.png");
                 }
             });
         },
 
         getGameImage(nomJeu) {
-            const jeu = this.jeux.find(j => j.NomJeu === nomJeu);
-            return jeu ? jeu.ImageJeu : require("@/assets/images/games_menu/no_images.png");
+            const jeu = this.jeux.find(j => j.name === nomJeu);
+            return jeu ? jeu.image : require("@/assets/images/games_menu/no_images.png");
         },
 
 

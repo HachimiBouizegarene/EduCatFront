@@ -85,12 +85,12 @@ export default {
         const response = await fetch("http://localhost:9090/signin", {
           method: "POST",
           body: JSON.stringify({
-            "user_name": this.user_name,
-            "user_forename": this.user_forename,
-            "user_classe": this.user_classe,
-            "user_email": this.user_mail,
-            "user_password": this.user_password,
-            "user_pseudo" : this.user_pseudo,
+            "name": this.user_name,
+            "forename": this.user_forename,
+            "classe": this.user_classe,
+            "email": this.user_mail,
+            "password": this.user_password,
+            "pseudo" : this.user_pseudo,
           })
         })
         const data = await response.json();

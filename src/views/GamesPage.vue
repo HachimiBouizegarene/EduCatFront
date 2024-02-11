@@ -17,10 +17,10 @@
 
             <div class="gamesListBar">
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('left')">←</div> -->
-                <router-link v-for="(jeu, key) in jeux" :key="key" :to="{ name: jeu.NomJeu }">
+                <router-link v-for="(jeu, key) in jeux" :key="key" :to="{ name: jeu.name }">
                     <div class="gameButton">
-                        <img :src="jeu.ImageJeu" :alt="jeu.NomJeu">
-                        <h5>{{ jeu.NomJeu }}</h5>
+                        <img :src="jeu.image" :alt="jeu.name">
+                        <h5>{{ jeu.name }}</h5>
                     </div>
                 </router-link>
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('right')">→</div> -->
@@ -32,10 +32,10 @@
                 <!-- <div class="arrowScrollButton" @click="scrollGamesList('left')">←</div> -->
                 <div class="gamesListBar">
                     <router-link v-for="(jeu, jeuIndex) in filteredJeux(matiere)" :key="jeuIndex"
-                        :to="{ name: jeu.NomJeu }">
+                        :to="{ name: jeu.name }">
                         <div class="gameButton">
-                            <img :src="jeu.ImageJeu" :alt="jeu.NomJeu">
-                            <h5>{{ jeu.NomJeu }}</h5>
+                            <img :src="jeu.image" :alt="jeu.name">
+                            <h5>{{ jeu.name }}</h5>
                         </div>
                     </router-link>
                 </div>
@@ -49,6 +49,9 @@
 
 
 <script>
+// TODO : REGLER PROBLEME CONSOLE [GET de nul part]
+
+
 import NavBar from "@/components/all/NavBar.vue"
 import FooterComp from "@/components/all/FooterComp.vue";
 // import FooterComp from "@/components/all/FooterComp.vue"
@@ -83,9 +86,9 @@ export default {
                 if (matiere === undefined) {
                     return this.jeux;
                 } else {
-                    console.log(matiere);
-                    console.log(this.jeux.filter(jeu => jeu.matiere === matiere));
-                    return this.jeux.filter(jeu => jeu.NomMatiere === matiere);
+                    // console.log(matiere);
+                    // console.log(this.jeux.filter(jeu => jeu.matiere === matiere));
+                    return this.jeux.filter(jeu => jeu.subjectName === matiere);
                 }
             };
         },
@@ -113,20 +116,20 @@ export default {
 
             // remplacer l'ancienne valeur de l'image par l'url correcte !
             this.jeux.forEach(jeu => {
-                if (Array.isArray(jeu.ImageJeu)) {
+                if (Array.isArray(jeu.image)) {
                     try {
-                        const imageBlob = new Blob([new Uint8Array(jeu.ImageJeu)], { type: "image/webp" });
+                        const imageBlob = new Blob([new Uint8Array(jeu.image)], { type: "image/webp" });
                         const imageUrl = URL.createObjectURL(imageBlob);
-                        jeu.ImageJeu = imageUrl;
+                        jeu.image = imageUrl;
                     } catch (error) {
                         console.error("Erreur de convertion de l'image reçue en BD", error);
                     }
                 } else {
                     // Image par défaut
-                    jeu.ImageJeu = require("@/assets/images/games_menu/no_images.png");
+                    jeu.image = require("@/assets/images/games_menu/no_images.png");
                 }
 
-                let matiere = jeu['NomMatiere'];
+                let matiere = jeu['subjectName'];
                 if (!this.matieres.includes(matiere))
                     this.matieres.push(matiere);
             });

@@ -67,8 +67,8 @@ export default {
         const response = await fetch("http://localhost:9090/login", {
           method: "POST",
           body: JSON.stringify({
-            "user_email": this.user_mail,
-            "user_password": this.user_password
+            "email": this.user_mail,
+            "password": this.user_password
           })
         })
         const data = await response.json();

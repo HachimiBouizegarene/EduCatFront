@@ -74,9 +74,12 @@ export default {
         verifyWidth(){
             this.showAllParameter = window.innerWidth >= 1200
         },
-        async change_user_password(data){
-            const jws = this.$cookies.get("jws")
-            data.jws = jws;
+        async change_user_password(oldPassword, newPassword){
+
+            const data = {newPassword : newPassword, 
+            oldPassword : oldPassword,
+            jws : this.$cookies.get("jws")}
+
             let body_res = await fetch("http://localhost:9090/updatePassword",{
                 method : "POST",
                 body : JSON.stringify(data)

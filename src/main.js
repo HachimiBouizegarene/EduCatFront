@@ -45,8 +45,8 @@ const store = createStore({
             return res.json();
         })  
         //image
-        if (data.PhotoProfil) {
-            let blob = new Blob([new Uint8Array(data.PhotoProfil)], {type : "image/jpg"})
+        if (data.profileImage) {
+            let blob = new Blob([new Uint8Array(data.profileImage)], {type : "image/png"})
             let url = URL.createObjectURL(blob);
             data.img_url = url
         }else{ 
@@ -65,15 +65,14 @@ const store = createStore({
     
     mutations : {
         setUser(state, data){
-            console.log(data);
             state.user.profile_image_url = data.img_url
-            state.user.name =  data.Nom
-            state.user.forename = data.Prenom
-            state.user.email = data.Email
-            state.user.classe = data.Classe
-            state.user.pseudo = data.Pseudonyme
-            state.user.level = data.Niveau
-            state.user.percentage = data.Pourcentage
+            state.user.name =  data.name
+            state.user.forename = data.forename
+            state.user.email = data.email
+            state.user.classe = data.classe
+            state.user.pseudo = data.pseudo
+            state.user.level = data.level
+            state.user.percentage = data.percentage
             state.user_pulled = true
         },
     }

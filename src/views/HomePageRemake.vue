@@ -64,7 +64,7 @@ export default {
         try {
             games = await fetch("http://localhost:9090/getGamesInfos", { method: "POST" })
                 .then((res) => res.json())
-                .then((jeuxData) => { if (Array.isArray(jeuxData)) return jeuxData });
+                .then((jeuxData) => {if (Array.isArray(jeuxData)) return jeuxData });
         } catch (error) {
             console.error("Erreur d'accès à l'API", error);
         }
@@ -72,9 +72,9 @@ export default {
 
         // // remplacer l'ancienne valeur de l'image par l'url correcte !
         games.forEach(jeu => {
-            if (Array.isArray(jeu.ImageJeu) && (jeu.IdJeu == 1 || jeu.IdJeu == 2)) {
+            if (Array.isArray(jeu.image) && (jeu.id == 1 || jeu.id == 2)) {
                 try {
-                    const imageBlob = new Blob([new Uint8Array(jeu.ImageJeu)], { type: "image/webp" });
+                    const imageBlob = new Blob([new Uint8Array(jeu.image)], { type: "image/webp" });
                     const imageUrl = URL.createObjectURL(imageBlob);
                     jeu.ImageUrl = imageUrl;
                 } catch (error) {
@@ -84,12 +84,12 @@ export default {
             } else {
                 jeu.ImageUrl = require("@/assets/images/games_menu/no_images.png");
             }
-            if(jeu.IdJeu == 1 ){
-                this.title_game_1 = jeu.NomJeu
+            if(jeu.id == 1 ){
+                this.title_game_1 = jeu.name
                 this.url_game_1 =  jeu.ImageUrl
             } 
-            if(jeu.IdJeu == 2 ){
-                this.title_game_2 = jeu.NomJeu
+            if(jeu.id == 2 ){
+                this.title_game_2 = jeu.name
                 this.url_game_2 =  jeu.ImageUrl
             } 
         });
@@ -162,7 +162,7 @@ main {
 }
 
 #best-games a{
-    height: 23.2vw;
+    height: 26.5vw;
     text-align: center;
     position: absolute;
     right: 5vw;
@@ -198,7 +198,7 @@ main {
 .game .cadre{
     position: absolute;
     width: 24vw;
-    height: 27.7vw;
+    height: 28vw;
     top: 0;
     left: 0;
     transform: scale(1.1);
@@ -284,11 +284,11 @@ main {
     }
 
     #best-games a{
-        height: 390px;
+        height: 455px;
         right: 150px;
         top: 58%;
         font-size: 60px;
-        width: 80px;
+        width: 85px;
     }
 }
 </style>
