@@ -2,102 +2,85 @@
   <NavBar></NavBar>
   <div class="container">
     <div class="left-part">
-      <span></span>
       <LogoDeco logo_url="login_page/logo_login.png"></LogoDeco>
-      <router-link to="/signin">S'INSCRIRE</router-link>
+      <router-link to="/login">SE CONNECTER</router-link>
     </div>
 
     <form @submit.prevent="onSubmit(e)">
-      <h1 id="login-title">Connexion</h1>
-      <input id="user_mail" placeholder="Mail" v-model="user_mail">
-
-      <input type="password" id="user_password" placeholder="Mot de passe" v-model="user_password">
-      <button id="connecter" :class="{activated : verifyInputs()}" type="submit">Se connecter</button>
-      <button id="mdp" :class="{activated : isValidEmail}" @click="this.$router.push('/mail-confirm')">Mot de passe oublié ?</button>
-      <!-- <span id="message" ref="message">{{ message }}</span> -->
+      <h1 id="login-title">Mot de passe oublié</h1>
+      <input id="user_mail" placeholder="Mail" v-model="user_mail" required />
+      <button id="btn_confirmer">
+        {{ sending ? "Envoi en cours..." : "Envoyer le mail" }}
+      </button>
       <div id="message-container">
-        <messageContainer ref="messageContainer"></MessageContainer>
+        <messageContainer ref="messageContainer"></messageContainer>
       </div>
     </form>
-    <!-- <FooterComp></FooterComp> -->
   </div>
   <FooterComp></FooterComp>
 </template>
 
 <script>
-import NavBar from "@/components/all/NavBar.vue"
-import LogoDeco from "@/components/log_sign/logoDeco.vue"
-import messageContainer from "@/components/log_sign/messageContainer.vue"
+import NavBar from "@/components/all/NavBar.vue";
+import LogoDeco from "@/components/log_sign/logoDeco.vue";
+import messageContainer from "@/components/log_sign/messageContainer.vue";
 import FooterComp from "@/components/all/FooterComp.vue";
-// import FooterComp from "@/components/all/FooterComp.vue"
-
 export default {
-  name: "LoginPage",
   components: {
     NavBar,
     LogoDeco,
+    FooterComp,
     messageContainer,
-    FooterComp
-    // FooterComp
   },
   data() {
     return {
-      user_mail: '',
-      user_password: '',
-    }
+      user_mail: "",
+    };
   },
-  created() {
-    if (this.$cookies.get("jws")) this.$router.push("/Profil")
-  },
-  mounted() {
-    if (this.$route.query.subscribe != undefined) {
-      this.$refs.messageContainer.message({ success: "Inscription reussie" })
-    }
-  },
-  computed: {
-    isValidEmail() {
-    return /^\w+([._-]?\w+)*@\w+([._-]?\w+)*(\.\w{2,3})+$/.test(this.user_mail);
-  }
-  },
-
   methods: {
-    verifyInputs(){
-      
-      if (this.user_mail == '' || this.user_password == "") return false  
-      if(/^\w+([._-]?\w+)*@\w+([._-]?\w+)*(\.\w{2,3})+$/.test(this.user_mail) == false) return false;
-      return true
-    },
     async onSubmit() {
       try {
-        const response = await fetch("http://localhost:9090/login", {
+        const response = await fetch("http://localhost:9090/mail-confirm", {
           method: "POST",
           body: JSON.stringify({
-            "email": this.user_mail,
-            "password": this.user_password
-          })
-        })
-        const data = await response.json();
-        if (Object.keys(data).includes('error')) {
-          this.error = true
-          this.$refs.messageContainer.message({ error: data['error'] })
+            email: this.user_mail,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok) {
+          const contentType = response.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            const data = await response.json();
+            this.$refs.messageContainer.message({
+              success: data.message,
+            });
+          } else {
+            const text = await response.text();
+            this.$refs.messageContainer.message({
+              success: text,
+            });
+          }
         } else {
-          this.$cookies.set('jws', data['jws'])
-          this.$router.push("/jeux")
+          const data = await response.json();
+          throw new Error(data.error);
         }
       } catch (e) {
-        this.$refs.messageContainer.message({ error: "Erreur lors de la connexion au serveur" })
+        this.$refs.messageContainer.message({
+          error: e.message,
+        });
       }
-    }
-  }
-
-}
-
+    },
+  },
+};
 </script>
+
 <style scoped>
 body {
   overflow: auto;
 }
-
 .container {
   background-color: rgb(255, 255, 255);
   display: flex;
@@ -125,7 +108,6 @@ body {
 }
 
 .container form {
-
   box-sizing: border-box;
   width: 20%;
   margin: auto;
@@ -138,6 +120,7 @@ body {
 .container form h1 {
   padding: 30px 0;
   color: rgb(53, 52, 52);
+  font-size: 35px;
 }
 
 .container form input {
@@ -153,14 +136,12 @@ body {
 .container form input:hover {
   border-color: black;
 }
-
 .container form button {
   width: 65%;
   color: rgb(53, 52, 52);
   background-color: #ffd1a5;
   padding: 17px 10px;
   border: none;
-  pointer-events: none;
   cursor: pointer;
   transition: 0.15s ease;
   margin-top: 5%;
@@ -169,19 +150,6 @@ body {
   margin-right: auto;
   margin-left: auto;
 }
-
-.container form button.activated{
-  background-color: #ffa450;
-  pointer-events: all;
-}
-.container form button.activated:hover {
-  background-color: #ffb167;
-}
-
-.container form label {
-  padding: 10px 0;
-}
-
 
 a {
   color: #b68252;
@@ -192,18 +160,13 @@ a {
   font-size: 12px;
   padding: 0;
 }
-
-#message-container{
+#message-container {
   margin-top: 20px;
   width: 100%;
   position: relative;
 }
 
-
-
-
 @media screen and (max-width: 1300px) {
-
   .container {
     height: 600px;
   }
@@ -211,7 +174,6 @@ a {
   .container form {
     width: 30%;
   }
-
 }
 
 @media screen and (max-width: 800px) {
@@ -236,7 +198,6 @@ a {
     font-size: 10px;
     border-bottom-width: 2px;
   }
-
 }
 
 @media screen and (max-width: 500px) {
@@ -266,5 +227,5 @@ a {
     height: 60%;
     width: 70%;
   }
-
-}</style>
+}
+</style>

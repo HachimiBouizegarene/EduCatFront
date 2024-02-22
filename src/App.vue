@@ -4,40 +4,39 @@
 
 <script>
 export default {
-  name: 'App',
-  components: {
-  }
-}
+  name: "App",
+  components: {},
+};
 </script>
 
 <style>
 @font-face {
-  font-family: 'pixel';
-  src: url('@/assets/fonts/pixel.ttf')
+  font-family: "pixel";
+  src: url("@/assets/fonts/pixel.ttf");
 }
 
 @font-face {
-  font-family: 'pixel2';
-  src: url('@/assets/fonts/pixel2.ttf')
+  font-family: "pixel2";
+  src: url("@/assets/fonts/pixel2.ttf");
 }
 
 @font-face {
-    font-family: 'VT323';
-    src: url('@/assets/fonts/VT323-Regular.ttf') format('truetype');
+  font-family: "VT323";
+  src: url("@/assets/fonts/VT323-Regular.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: 'gamesPage';
-    /* Nom de la police */
-    src: url('@/assets/fonts/gamesPage.ttf') format('truetype');
-    /* Chemin vers le fichier WOFF */
-    /* Ajoute d'autres formats de fichiers de police si nécessaire */
+  font-family: "gamesPage";
+  /* Nom de la police */
+  src: url("@/assets/fonts/gamesPage.ttf") format("truetype");
+  /* Chemin vers le fichier WOFF */
+  /* Ajoute d'autres formats de fichiers de police si nécessaire */
 }
 
 * {
   padding: 0;
   margin: 0;
-  font-family: 'pixel2';
+  font-family: "pixel2";
 }
 
 body {
@@ -54,8 +53,8 @@ body {
   flex-direction: column;
 }
 
-a{
-    text-decoration: none;
+a {
+  text-decoration: none;
 }
 
 /* SCROLLBAR */
