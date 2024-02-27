@@ -1,6 +1,6 @@
 <template>
     <header>
-        <nav ref="nav" :class="{scrolled : scrolled}">
+        <nav ref="nav" :class="{ scrolled: scrolled }">
             <router-link id="NavBarLogo" to="/"><img src="@/assets/images/all/Educat_Logo.webp"
                     alt="logo Educat"></router-link>
             <div v-if="!user_connected">
@@ -8,29 +8,39 @@
                 <router-link class="btn" id="log-btn" to="/login">SE CONNECTER</router-link>
             </div>
             <div v-if="user_connected">
+                <a class="btn" style="background-color: rgb(0 187 255); color: white;" id="game-btn"
+                    @click="toggleDefis">DEFIS</a>
                 <router-link class="btn" id="game-btn" to="/jeux">JEUX</router-link>
                 <span id="ecats">{{ $store.state.user.ecats }}<img src="@/assets/images/profile/ecat.png"></span>
                 <router-link id="a-profile-img" to="/profil">
                     <img id="profile-img" :src="image_url" alt="">
                 </router-link>
             </div>
-
+            <DefisComp v-if="showDefis" @close="toggleDefis" />
         </nav>
 
     </header>
 </template>
 
 <script>
+import DefisComp from "@/components/all/DefisComp.vue";
 export default {
+
     name: "NavBar",
     async created() {
         if (this.user_connected && !this.$store.state.user.user_pulled) {
             await this.$store.dispatch("fetchUser", { jws: this.$cookies.get('jws') })
         }
     },
-    data(){
+
+    components: {
+        DefisComp
+    },
+
+    data() {
         return {
-            scrolled : false
+            scrolled: false,
+            showDefis: false
         }
     },
     computed: {
@@ -39,18 +49,21 @@ export default {
         },
         user_connected() {
             return this.$cookies.get('jws')
-        }
+        },
     },
 
     mounted() {
         window.addEventListener('scroll', this.handleBackground);
-        this.scrolled = window.scrollY > 10 ;  
+        this.scrolled = window.scrollY > 10;
     },
 
-    methods : {
-        handleBackground(){
-            this.scrolled = window.scrollY > 10 ;  
-        }
+    methods: {
+        handleBackground() {
+            this.scrolled = window.scrollY > 10;
+        },
+        toggleDefis() {
+            this.showDefis = !this.showDefis;
+        },
     }
 }
 </script>
@@ -77,9 +90,11 @@ header nav {
     padding: 1.3vw;
     transition: 0.3s ease;
 }
-header nav.scrolled{
+
+header nav.scrolled {
     background-color: rgba(255, 255, 255, 0.911);
 }
+
 header nav div {
     width: 100%;
     height: 100%;
@@ -111,7 +126,7 @@ header nav div {
     box-shadow: 0px 0px 0px 0.14vw #292929;
 }
 
-#a-profile-img{
+#a-profile-img {
     display: flex;
 }
 
@@ -148,32 +163,19 @@ a#game-btn:hover {
     border-color: rgb(255, 255, 255);
 }
 
-#ecats{
-    font-size: 1.7vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap : 0.3vw;
-    color: #383838;
-}
-
-#ecats img{
-    width: 1.8vw;
-    image-rendering: pixelated;
-}
-
-@media screen and (min-width: 1920px ) {
+@media screen and (min-width: 1920px) {
 
     header nav {
         padding: 20px 60px;
     }
+
     header nav div {
         gap: 60px;
     }
 
     #NavBarLogo img {
         width: 170px;
-        
+
 
     }
 
@@ -191,16 +193,16 @@ a#game-btn:hover {
         font-size: 20px;
         padding: 5px 30px;
 
-    
+
     }
- 
+
 }
 
-@media screen and (max-width: 1100px ) {
+@media screen and (max-width: 1100px) {
     #NavBarLogo img {
         width: 17vw;
     }
-    
+
     #profile-img {
         width: 6vw;
         height: 6vw;
@@ -216,7 +218,7 @@ a#game-btn:hover {
 
     }
 
-    header nav div{
+    header nav div {
         gap: 3vw;
     }
 }
