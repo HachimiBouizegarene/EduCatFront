@@ -163,6 +163,19 @@ a#game-btn:hover {
     border-color: rgb(255, 255, 255);
 }
 
+#ecats{
+    font-size: 1.5vw;
+    display: flex;
+    gap: 0.7vw;
+}
+
+#ecats img{
+    image-rendering:pixelated;
+    width: 2.4vw;
+    object-fit: cover;
+    height: auto;
+}
+
 @media screen and (min-width: 1920px) {
 
     header nav {
@@ -192,7 +205,6 @@ a#game-btn:hover {
     a.btn {
         font-size: 20px;
         padding: 5px 30px;
-
 
     }
 
