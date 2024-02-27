@@ -26,6 +26,7 @@ const store = createStore({
                 classe : null,
                 pseudo : null,
                 xp  : null,
+                eCats : null
             }            
         }
     },
@@ -73,7 +74,9 @@ const store = createStore({
             state.user.pseudo = data.pseudo
             state.user.level = data.level
             state.user.percentage = data.percentage
+            state.user.ecats = data.ecats
             state.user_pulled = true
+
         },
     }
 })

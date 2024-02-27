@@ -9,6 +9,7 @@
             </div>
             <div v-if="user_connected">
                 <router-link class="btn" id="game-btn" to="/jeux">JEUX</router-link>
+                <span id="ecats">{{ $store.state.user.ecats }}<img src="@/assets/images/profile/ecat.png"></span>
                 <router-link id="a-profile-img" to="/profil">
                     <img id="profile-img" :src="image_url" alt="">
                 </router-link>
@@ -145,6 +146,20 @@ a#log-btn:hover,
 a#game-btn:hover {
     background-color: white;
     border-color: rgb(255, 255, 255);
+}
+
+#ecats{
+    font-size: 1.7vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap : 0.3vw;
+    color: #383838;
+}
+
+#ecats img{
+    width: 1.8vw;
+    image-rendering: pixelated;
 }
 
 @media screen and (min-width: 1920px ) {
