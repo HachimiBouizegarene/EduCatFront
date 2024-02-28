@@ -1,5 +1,6 @@
 <template>
     <NavBar></NavBar>
+    <PopupComp @no="popupNo" @yes="popupYes" ref="popup"></PopupComp>
 
     <main>
         <h1>BOUTIQUE</h1>
@@ -36,10 +37,8 @@
 
             <div class="products">
                 <template v-for="(product, key) in products" :key="key">
-                    <ProductComp  v-if="(all || categories[product.data.category] == true) && filter(product)" :possesses="product.possesses" :data="product.data"></ProductComp>
+                    <ProductComp @wantToBuy="wantToBuy"  v-if="(all || categories[product.data.category] == true) && filter(product)" :possesses="product.possesses" :data="product.data"></ProductComp>
                 </template>
-                
-
             </div>
         </div>
     </main>
@@ -50,11 +49,13 @@
 <script>
 import NavBar from '@/components/all/NavBar.vue';
 import ProductComp from '@/components/store/ProductComp.vue'
+import PopupComp from '@/components/all/PopupComp.vue';
 export default {
     name : "StorePage",
     components: {
         NavBar,
-        ProductComp
+        ProductComp,
+        PopupComp
     },
 
     data(){
@@ -64,11 +65,12 @@ export default {
             all : true,
             possessedFilter : false,
             notPossessedFilter : true, 
-
+            productWantedId : null
         }
     },
 
     async mounted() {
+        // this.$refs.popup.show("hello", "man")
         // TODO : Gerer les cas d'erreur
         fetch("http://localhost:9090/getProducts", {
             method : "POST", 
@@ -99,6 +101,39 @@ export default {
         filter(product){
             if(this.possessedFilter && product.possesses == true) return true
             if(this.notPossessedFilter && product.possesses == false) return true
+        },
+        popupNo(commandId){
+            //DO NOTHING FOR NOW
+            commandId
+        },
+        popupYes(commandId){
+            if(commandId == 1){
+                fetch("http://localhost:9090/buyProduct", {
+                method : "POST", 
+                body : JSON.stringify({
+                    jws : this.$cookies.get("jws"),
+                    idProduct : parseInt(this.productWantedId)
+                })
+                }).then(res=>{
+                    res.json().then(json=>{
+                        if(json.error == undefined){
+                            const productBought = this.products.find(element=> element.data.id == this.productWantedId)
+                            setTimeout(()=>{
+                                productBought.possesses= true
+                            }, 2000)
+                            this.$refs.popup.showMessage("FELICITATION !", "Le produit '" + productBought.data.name + "' a été debloqué !")
+                            this.$store.dispatch("updateEcats", {jws : this.$cookies.get("jws")})
+                        }
+                    })
+                })
+            }
+        },
+        wantToBuy(id){
+            this.productWantedId = id
+            const prodcutWanted = this.products.find(element=> element.data.id == this.productWantedId)
+            this.$refs.popup.showChoice("CONFIRMATION", "Êtes vous sur de vouloir debloquer le produit '" + prodcutWanted.data.name + 
+            "' pour " + prodcutWanted.data.price + " EC ?", 1)
+            
         }
     }
 }
@@ -108,13 +143,16 @@ export default {
 
 <style scoped>
     main {
-        padding-top: 5vw;
+     
     }
     h1{
         font-family: "pixel";
-        padding: 1.5vw 4vw;
+        padding: 1.5vw 1vw;
+        padding-top: 4.5vw;
+        border-bottom: 1vw solid rgb(180, 121, 10);
+        text-align: center;
         font-size: 2.5vw;
-        background: orange;
+        background: rgb(245, 172, 38);
         color: white;
     }
 
@@ -131,6 +169,7 @@ export default {
     }
 
     .left h4{
+        border-bottom: 0.2vw solid rgb(211, 161, 69);
         font-size: 1.3vw;
         background-color: rgb(253, 199, 98);
         color: white;
@@ -163,6 +202,7 @@ export default {
     }
 
     .products{
+        border-bottom: 0.2vw solid rgb(211, 161, 69);
         width:  80%;
         padding: 3vw;
         display: flex; 

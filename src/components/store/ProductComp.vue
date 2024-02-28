@@ -22,27 +22,16 @@ export default {
         data : Object,
         possesses : Boolean
     },
+    emits : ['wantToBuy'],
 
     mounted (){
   
     },
     methods : {
         async BuyProduct(id){
-            if(!this.$props.possesses){
-                fetch("http://localhost:9090/buyProduct", {
-                method : "POST", 
-                body : JSON.stringify({
-                    jws : this.$cookies.get("jws"),
-                    idProduct : parseInt(id)
-                })
-                }).then(res=>{
-                    res.json().then(json=>{
-                        console.log(json);
-                    })
-                })
+            if(!this.$props.possesses && this.$store.state.user.ecats >=  parseInt(this.data.price)){
+                this.$emit("wantToBuy", id)
             }
-
-           
         }
     }
 }
@@ -53,10 +42,10 @@ export default {
 
 .product{
     border: 0.2vw solid rgb(131, 71, 15);
+    border-bottom: 0.5vw solid rgb(131, 71, 15);
     overflow: hidden;
     background-color: rgb(255, 233, 184);
     width: 20%;
-    height: 100%;
 
     object-fit: cover;
 }

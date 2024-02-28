@@ -13,7 +13,7 @@
 }
 
 
-.parameter-comp form {
+.parameter-comp form, div#div-info {
     padding-top: 4vw;
     font-size: 1vw;
     flex-wrap: wrap;
@@ -22,7 +22,9 @@
     position: relative;
 }
 
-.parameter-comp form h4 {
+
+
+ h4 {
     font-size: 1.1vw;
     margin-bottom: 0.4vw;
 }
@@ -116,7 +118,7 @@ div#res-container{
     .parameter-comp .title p {
         font-size: 3.2vw
     }
-    .parameter-comp form h4 {
+     h4 {
         font-size: 4vw;
         margin-top: 3vw;
         margin-bottom: 0.8vw;
@@ -164,7 +166,7 @@ div#res-container{
         font-size: 20px
     }
 
-    .parameter-comp form h4{
+    h4{
         font-size: 20px;
     }
 
