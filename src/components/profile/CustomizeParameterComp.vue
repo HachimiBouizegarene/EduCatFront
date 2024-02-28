@@ -89,7 +89,6 @@ export default {
 <style>
 
 
-
 #avatars-container{
     margin-bottom: 1vw;
     display: flex;

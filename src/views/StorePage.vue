@@ -143,13 +143,16 @@ export default {
 
 <style scoped>
     main {
-        padding-top: 5vw;
+     
     }
     h1{
         font-family: "pixel";
-        padding: 1.5vw 4vw;
+        padding: 1.5vw 1vw;
+        padding-top: 4.5vw;
+        border-bottom: 1vw solid rgb(180, 121, 10);
+        text-align: center;
         font-size: 2.5vw;
-        background: orange;
+        background: rgb(245, 172, 38);
         color: white;
     }
 
@@ -166,6 +169,7 @@ export default {
     }
 
     .left h4{
+        border-bottom: 0.2vw solid rgb(211, 161, 69);
         font-size: 1.3vw;
         background-color: rgb(253, 199, 98);
         color: white;
@@ -198,6 +202,7 @@ export default {
     }
 
     .products{
+        border-bottom: 0.2vw solid rgb(211, 161, 69);
         width:  80%;
         padding: 3vw;
         display: flex; 

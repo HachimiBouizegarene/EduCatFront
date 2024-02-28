@@ -11,6 +11,7 @@
                 <a class="btn" style="background-color: rgb(0 187 255); color: white;" id="game-btn"
                     @click="toggleDefis">DEFIS</a>
                 <router-link class="btn" id="game-btn" to="/jeux">JEUX</router-link>
+                <router-link class="btn" id="game-btn" to="/store">BOUTQIUE</router-link>
                 <span id="ecats">{{ $store.state.user.ecats }}<img src="@/assets/images/profile/ecat.png"></span>
                 <router-link id="a-profile-img" to="/profil">
                     <img id="profile-img" :src="image_url" alt="">
@@ -142,6 +143,7 @@ a.btn {
     border: none;
     background: none;
     font-size: 1.1vw;
+    cursor: pointer;
     transition: 0.2s ease;
     padding: 0.4vw 1.5vw;
     border: 0.2vw solid rgba(255, 187, 0, 0);

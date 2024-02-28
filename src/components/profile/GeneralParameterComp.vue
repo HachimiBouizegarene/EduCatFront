@@ -109,7 +109,7 @@ export default {
             this.profil_imb_blob = blob
         },
         clickFileInput() {
-            this.$refs.file_getter.click()
+            this.$emit("go_customize")
         },
         verifInfos() {
             let empty = (this.classe === "" || this.forename === "" || this.name === "" || this.pseudo === "")

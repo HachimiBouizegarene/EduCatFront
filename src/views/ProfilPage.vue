@@ -16,7 +16,7 @@
         </div>
         <div class="parameter-container">
             
-            <GeneralParameterComp @send_user_data="send_user_data"  ref="generalParameter" v-if="selected_parameter == 0"></GeneralParameterComp>
+            <GeneralParameterComp @go_customize="go_customize" @send_user_data="send_user_data"  ref="generalParameter" v-if="selected_parameter == 0"></GeneralParameterComp>
             <CustomizeParameterComp @send_user_data="send_user_data" ref="customizePrameter"  v-if="selected_parameter == 1"></CustomizeParameterComp>
             <SecurityParameterComp @change_user_password="change_user_password"  ref="securityParameter" v-if="selected_parameter == 2"></SecurityParameterComp>
         </div>
@@ -75,6 +75,9 @@ export default {
         }
     },
     methods : {
+        go_customize(){
+            this.selected_parameter = 1
+        },
         verifyWidth(){
             this.showAllParameter = window.innerWidth >= 1200
         },

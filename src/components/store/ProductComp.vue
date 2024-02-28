@@ -29,7 +29,7 @@ export default {
     },
     methods : {
         async BuyProduct(id){
-            if(!this.$props.possesses ){
+            if(!this.$props.possesses && this.$store.state.user.ecats >=  parseInt(this.data.price)){
                 this.$emit("wantToBuy", id)
             }
         }
@@ -42,10 +42,10 @@ export default {
 
 .product{
     border: 0.2vw solid rgb(131, 71, 15);
+    border-bottom: 0.5vw solid rgb(131, 71, 15);
     overflow: hidden;
     background-color: rgb(255, 233, 184);
     width: 20%;
-    height: 100%;
 
     object-fit: cover;
 }
