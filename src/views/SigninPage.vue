@@ -19,11 +19,11 @@
       <input id="user_mail" placeholder="Mail" v-model="user_mail">
       <input type="password" id="password" placeholder="Mot de passe" v-model="user_password">
       <input type="password" id="password_confirm" placeholder="Confirmer mot de passe" v-model="user_password_confirm">
-      <button :class="{activated : verifyInputs()}" type="submit">S'inscrire</button>
+      <button :class="{ activated: verifyInputs() }" type="submit">S'inscrire</button>
       <div id="message-container">
         <MessageContainer ref="messageContainer"></MessageContainer>
       </div>
-    
+
     </form>
     <!-- <FooterComp></FooterComp> -->
   </div>
@@ -50,11 +50,11 @@ export default {
       user_password: '',
       user_password_confirm: '',
       error: '',
-      user_pseudo : '',
+      user_pseudo: '',
     }
   },
 
-  created(){
+  created() {
     if (this.$cookies.get("jws")) this.$router.push("/Profil")
   },
 
@@ -66,17 +66,17 @@ export default {
     // FooterComp
   },
   methods: {
-    verifyInputs(){
-      if (this.user_forename == '' || this.user_name == ''  || this.user_classe == '' ||
-        this.user_mail == '' || this.user_password == '' || this.user_password_confirm == '')  return false
-        if(/^\w+([._-]?\w+)*@\w+([._-]?\w+)*(\.\w{2,3})+$/.test(this.user_mail) == false)  return false
-        if(this.user_password != this.user_password_confirm) return false
-        return true
+    verifyInputs() {
+      if (this.user_forename == '' || this.user_name == '' || this.user_classe == '' ||
+        this.user_mail == '' || this.user_password == '' || this.user_password_confirm == '') return false
+      if (/^\w+([._-]?\w+)*@\w+([._-]?\w+)*(\.\w{2,3})+$/.test(this.user_mail) == false) return false
+      if (this.user_password != this.user_password_confirm) return false
+      return true
     },
 
     async onSubmit() {
       // verifier que les mots de passe correspondent
-      if(this.user_password != this.user_password_confirm) {
+      if (this.user_password != this.user_password_confirm) {
         this.$refs.messageContainer.message({ error: "Les mot de passe ne correspondent pas" })
         return
       }
@@ -90,12 +90,12 @@ export default {
             "classe": this.user_classe,
             "email": this.user_mail,
             "password": this.user_password,
-            "pseudo" : this.user_pseudo,
+            "pseudo": this.user_pseudo,
           })
         })
         const data = await response.json();
         if (Object.keys(data).includes('error')) {
-    
+
           this.$refs.messageContainer.message({ error: data['error'] })
         } else {
           this.$router.push({
@@ -108,6 +108,15 @@ export default {
       } catch (e) {
         this.$refs.messageContainer.message({ error: "Erreur lors de la connexion au serveur" })
       }
+
+      //set defis
+      const defis = await fetch("http://localhost:9090/setDefis", {
+        method: "POST",
+        body: JSON.stringify({
+          "jws": this.$cookies.get('jws'),
+        })
+      })
+      defis;
     }
   }
 }
@@ -197,10 +206,11 @@ body {
   pointer-events: none;
 }
 
-.container form button.activated{
+.container form button.activated {
   background-color: #ffa450;
   pointer-events: all;
 }
+
 .container form button.activated:hover {
   background-color: #ffb167;
 }
@@ -221,7 +231,7 @@ a {
 }
 
 
-#message-container{
+#message-container {
   margin-top: 20px;
   width: 100%;
   position: relative;

@@ -299,7 +299,6 @@ export default {
         },
 
         async registerPartie() {
-            // A RESOUDRE PEUT ETRE
 
             const response = await fetch("http://localhost:9090/insertPartie", {
                 method: "POST",

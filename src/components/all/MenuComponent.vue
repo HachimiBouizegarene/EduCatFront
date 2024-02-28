@@ -8,7 +8,7 @@
             <div id="level-container">
                 <LevelComponent ref="levelComp"></LevelComponent>
             </div>
-            
+
             <h4 class="message">{{ message }}</h4>
 
             <h5 v-if="score" class="score">score : {{ score }}</h5>
@@ -23,8 +23,18 @@
                     :class="{ choosen: difficulty_choosen == key }">{{ difficulty }}</button>
             </div>
 
-            <button :class="{ unabled: (difficulties !== undefined && difficulty_choosen === undefined) || (levels !== undefined && level_choosen === undefined) }" @click="emitClicked"
-                id="launch">{{ button_text }}</button>
+            <button
+                :class="{ unabled: (difficulties !== undefined && difficulty_choosen === undefined) || (levels !== undefined && level_choosen === undefined) }"
+                @click="emitClicked" id="launch">{{ button_text }}</button>
+
+            <div v-if="showChallenges && completedChallenges.length > 0" style="width: 100%; background-color: #252525;">
+                <h3 style="color: white;">Completed Challenges</h3>
+                <ul style="list-style: none;">
+                    <li v-for="challenge in completedChallenges" :key="challenge.Defi" style="color: white; background-color: ;">
+                        {{ challenge.Defi }} - <span style="color: #27ff00;">XP: {{ challenge.XP }} E-CAT: {{ challenge['E-CAT'] }}</span>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -38,7 +48,7 @@ export default {
     props: {
 
     },
-    components : {
+    components: {
         LevelComponent
     },
 
@@ -52,17 +62,23 @@ export default {
             score: undefined,
             button_text: undefined,
             closed: true,
+            completedChallenges: [],
+            showChallenges: false,
         }
     },
 
-    created(){
-        if (!this.$cookies.get("jws")){
+    created() {
+        if (!this.$cookies.get("jws")) {
             this.$router.push("/login")
             return
-        }  
+        }
     },
 
-    
+    mounted() {
+        this.verifierParties();
+    },
+
+
 
     methods: {
         close() {
@@ -77,23 +93,51 @@ export default {
             this.levels = levels
         },
 
-        xp(xp){
-          this.$refs.levelComp.xp(xp)
+        xp(xp) {
+            this.$refs.levelComp.xp(xp)
         },
         emitClicked() {
             if (!(this.difficulties !== undefined && this.difficulty_choosen === undefined)) {
                 if (!(this.levels !== undefined && this.level_choosen === undefined)) {
-                    this.$emit('menu-clicked', 
-                    this.message, 
-                    this.difficulty_choosen,
-                    this.difficulties === undefined ? undefined : this.difficulties[this.difficulty_choosen], 
-                    this.level_choosen === undefined ? undefined : this.levels[this.level_choosen], 
-                    this.score);
-                    
+                    this.$emit('menu-clicked',
+                        this.message,
+                        this.difficulty_choosen,
+                        this.difficulties === undefined ? undefined : this.difficulties[this.difficulty_choosen],
+                        this.level_choosen === undefined ? undefined : this.levels[this.level_choosen],
+                        this.score);
+
                     this.close()
                 }
             }
+        },
+
+        async verifierParties() {
+            try {
+                const response = await fetch("http://localhost:9090/verifierDefis", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        "jws": this.$cookies.get('jws'),
+                    }),
+                });
+
+                if (response.ok) {
+                    const challenges = await response.json();
+                    // Assuming 'completedChallenges' is a data property to store the fetched data
+                    this.completedChallenges = challenges;
+
+                    // Optionally, trigger a view update to show challenges
+                    this.showChallenges = true; // Assuming you have 'showChallenges' data property to control the view
+                } else {
+                    console.error('Failed to fetch completed challenges');
+                }
+            } catch (error) {
+                console.error('Error fetching completed challenges:', error);
+            }
         }
+
     },
 
 }
@@ -139,7 +183,7 @@ h3 {
     background-color: rgb(19, 19, 19);
     box-sizing: border-box;
     text-transform: uppercase;
-    padding: 1VW 3vw; 
+    padding: 1VW 3vw;
     font-size: 4vw;
     margin-bottom: 1vw;
     width: 100%;
@@ -165,7 +209,8 @@ h5 {
     text-align: center;
 }
 
-.difficulties, .levels {
+.difficulties,
+.levels {
     flex-wrap: wrap;
     display: flex;
     gap: 2.2vw;
@@ -175,7 +220,8 @@ h5 {
     margin-bottom: 3vw;
 }
 
-.difficulties button, .levels button {
+.difficulties button,
+.levels button {
     cursor: pointer;
     text-transform: uppercase;
     cursor: pointer;
@@ -187,7 +233,8 @@ h5 {
     background-color: rgb(236, 236, 236);
 }
 
-.difficulties button.choosen, .levels button.choosen {
+.difficulties button.choosen,
+.levels button.choosen {
     background-color: rgb(255, 153, 0);
 }
 
@@ -222,7 +269,7 @@ h5 {
 }
 
 
-#level-container{
+#level-container {
     width: 20vw;
     height: 2vw;
     position: absolute;

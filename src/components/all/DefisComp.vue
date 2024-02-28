@@ -2,15 +2,17 @@
     <div id="backdrop" @click.self="closeDefis">
         <div id="container">
             <h1>Vos Defis !</h1>
-            <div v-for="defi in defis" :key="defi.id" class="defi-container">
-                <h3 class="defiTitle">{{ defi.DescriptionDefi }}</h3>
-                <div class="bottom">
-                    <div class="recompenses">
-                        <p>{{ defi.defiData.recompenseXP }} XP <img src="@/assets/images/all/xp-orb.png"></p>
-                        <p>{{ defi.defiData.recompenseECats }} ECAT <img src="@/assets/images/all/ecat-coin.png"></p>
+            <div class="defis-box">
+                <div v-for="defi in defis" :key="defi.id" class="defi-container" :class="{ 'defi-completed': defi.defiData.statut === 1 }">
+                    <h3 class="defiTitle">{{ defi.DescriptionDefi }}</h3>
+                    <div class="bottom">
+                        <div class="recompenses">
+                            <p>{{ defi.defiData.recompenseXP }} XP <img src="@/assets/images/all/xp-orb.png"></p>
+                            <p>{{ defi.defiData.recompenseECats }} ECAT <img src="@/assets/images/all/ecat-coin.png"></p>
+                        </div>
+                        <router-link :class="{ 'completed': defi.defiData.statut === 1 }" class="play-button"
+                            :to="{ name: defi.NomJeu ? defi.NomJeu : 'GamesPage' }">JOUER</router-link>
                     </div>
-                    <router-link :class="{ 'active': defi.defiData.statut === 0 }" class="play-button"
-                        :to="{ name: defi.NomJeu ? defi.NomJeu : 'GamesPage' }">JOUER</router-link>
                 </div>
             </div>
         </div>
@@ -69,6 +71,11 @@ export default {
     margin-bottom: 30px;
 }
 
+.defis-box {
+    height: 70vh;
+    width: 80%;
+}
+
 .defi-container {
     display: flex;
     flex-direction: column;
@@ -76,7 +83,7 @@ export default {
     background-color: rgb(0, 187, 255);
     box-sizing: content-box;
     padding: 10px;
-    width: 90%;
+    width: 100%;
     margin-bottom: 10px;
 }
 
@@ -89,7 +96,6 @@ export default {
 .play-button {
     font-family: 'pixel';
     text-decoration: none;
-    color: rgb(49, 49, 49);
     border: none;
     background: none;
     font-size: clamp(16px, 1.1vw, 24px);
@@ -98,6 +104,8 @@ export default {
     border: 0.2vw solid rgba(255, 187, 0, 0);
     width: fit-content;
     height: fit-content;
+    background-color: rgba(8, 241, 36, 0.761);
+    color: white;
 }
 
 .recompenses {
@@ -146,9 +154,12 @@ a {
     font-family: 'gamesPage', 'Roboto Condensed';
 }
 
-.active {
-    background-color: rgba(8, 241, 36, 0.761);
-    color: white;
+.completed {
+    background-color: rgba(8, 8, 8, 0.336);
+}
+
+.defi-completed {
+    background-color: rgba(7, 178, 240, 0.616);
 }
 
 #backdrop {
