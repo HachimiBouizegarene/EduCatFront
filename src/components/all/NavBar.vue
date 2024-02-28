@@ -11,6 +11,7 @@
                 <a class="btn" style="background-color: rgb(0 187 255); color: white;" id="game-btn"
                     @click="toggleDefis">DEFIS</a>
                 <router-link class="btn" id="game-btn" to="/jeux">JEUX</router-link>
+                <span id="ecats">{{ $store.state.user.ecats }}<img src="@/assets/images/profile/ecat.png"></span>
                 <router-link id="a-profile-img" to="/profil">
                     <img id="profile-img" :src="image_url" alt="">
                 </router-link>
@@ -162,6 +163,19 @@ a#game-btn:hover {
     border-color: rgb(255, 255, 255);
 }
 
+#ecats{
+    font-size: 1.5vw;
+    display: flex;
+    gap: 0.7vw;
+}
+
+#ecats img{
+    image-rendering:pixelated;
+    width: 2.4vw;
+    object-fit: cover;
+    height: auto;
+}
+
 @media screen and (min-width: 1920px) {
 
     header nav {
@@ -191,7 +205,6 @@ a#game-btn:hover {
     a.btn {
         font-size: 20px;
         padding: 5px 30px;
-
 
     }
 

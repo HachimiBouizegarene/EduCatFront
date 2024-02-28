@@ -19,8 +19,14 @@ import GamesPage from "@/views/GamesPage.vue";
 import RemetEnOrdre from "@/views/games/RemetEnOrdre.vue";
 import JeuDuSimon from "@/views/games/JeuDuSimon.vue";
 import TrouveLesPaires from "@/views/games/TrouveLesPaires.vue";
+import StorePage from "@/views/StorePage.vue"
 
 const routes = [
+  {
+    path : "/store",
+    name : "StorePage",
+    component : StorePage
+  },
   {
     path: "/remake",
     name: "MazeComponentRemake",

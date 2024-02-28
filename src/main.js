@@ -17,17 +17,18 @@ const vuetify = createVuetify({
 const store = createStore({
     state() {
         return {
-            user_pulled: false,
-            user: {
-                profile_image_url: null,
-                name: null,
-                forename: null,
-                email: null,
-                classe: null,
-                pseudo: null,
-                xp: null,
+            user_pulled  : false, 
+            user : {
+                profile_image_url : null,
+                name : null,
+                forename : null,
+                email : null,
+                classe : null,
+                pseudo : null,
+                xp  : null,
+                eCats : null,
                 defis: []
-            },
+            }            
         }
     },
     getters: {
@@ -89,6 +90,7 @@ const store = createStore({
             state.user.pseudo = data.pseudo
             state.user.level = data.level
             state.user.percentage = data.percentage
+            state.user.ecats = data.ecats
             state.user_pulled = true
             
         },
