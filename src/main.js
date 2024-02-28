@@ -27,7 +27,8 @@ const store = createStore({
                 pseudo : null,
                 xp  : null,
                 eCats : null,
-                defis: []
+                defis: [],
+                avatarId : null
             }            
         }
     },
@@ -35,7 +36,6 @@ const store = createStore({
         user: state => state.user,
     },
     actions: {
-
         async fetchUser({ commit, state }, body) {
             if (state.user_pulled && !body.force) return
             const data = await fetch("http://localhost:9090/getProfile", {
@@ -47,8 +47,8 @@ const store = createStore({
                 return res.json();
             })
             //image
-            if (data.profileImage) {
-                let blob = new Blob([new Uint8Array(data.profileImage)], { type: "image/png" })
+            if (data.avatar) {
+                let blob = new Blob([new Uint8Array(data.avatar)], { type: "image/png" })
                 let url = URL.createObjectURL(blob);
                 data.img_url = url
             } else {
@@ -68,6 +68,21 @@ const store = createStore({
                 return res.json();
             })
             commit('setDefis', data)
+        },
+
+        async updateEcats({ commit }, body){
+            await fetch("http://localhost:9090/getEcats", {
+                method: "POST",
+                body: JSON.stringify({
+                    jws: body.jws
+                })
+            }).then((res) => {
+                res.json().then(json =>{
+                    if (json.error == undefined){
+                        commit("setEcats", json.ecats)
+                    }
+                }) 
+            })
         },
 
 
@@ -91,12 +106,16 @@ const store = createStore({
             state.user.level = data.level
             state.user.percentage = data.percentage
             state.user.ecats = data.ecats
+            state.user.avatarId = data.avatarId
             state.user_pulled = true
             
         },
         setDefis(state, data) {
             state.user.defis = data
         },
+        setEcats(state, ecats){
+            state.user.ecats = ecats
+        }
     }
 })
 

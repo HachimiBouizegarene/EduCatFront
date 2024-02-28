@@ -81,6 +81,7 @@ export default {
 
     methods: {
         async response(data) {
+            // TODO : Remplacer sans le fetch
             if (data.success !== undefined) {
                 await this.$store.dispatch("fetchUser", {jws : this.$cookies.get('jws'), force : true} )
                 this.init()
@@ -142,7 +143,7 @@ export default {
             ret.forename = this.$store.state.user.forename !== this.forename ? this.forename : undefined
             ret.classe = this.$store.state.user.classe!== this.classe ? this.classe : undefined
             ret.pseudo = this.$store.state.user.pseudo  !== this.pseudo ? this.pseudo : undefined
-            this.$emit("send_user_data", ret)
+            this.$emit("send_user_data", ret, "general parameter")
         }
     },
 

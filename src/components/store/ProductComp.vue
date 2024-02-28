@@ -22,27 +22,16 @@ export default {
         data : Object,
         possesses : Boolean
     },
+    emits : ['wantToBuy'],
 
     mounted (){
   
     },
     methods : {
         async BuyProduct(id){
-            if(!this.$props.possesses){
-                fetch("http://localhost:9090/buyProduct", {
-                method : "POST", 
-                body : JSON.stringify({
-                    jws : this.$cookies.get("jws"),
-                    idProduct : parseInt(id)
-                })
-                }).then(res=>{
-                    res.json().then(json=>{
-                        console.log(json);
-                    })
-                })
+            if(!this.$props.possesses ){
+                this.$emit("wantToBuy", id)
             }
-
-           
         }
     }
 }

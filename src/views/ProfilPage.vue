@@ -15,8 +15,10 @@
             </template>
         </div>
         <div class="parameter-container">
-            <GeneralParameterComp @send_user_data="send_user_data"  ref="generalParameter" v-show="selected_parameter == 0"></GeneralParameterComp>
-            <SecurityParameterComp @change_user_password="change_user_password"  ref="securityParameter" v-if="selected_parameter == 1"></SecurityParameterComp>
+            
+            <GeneralParameterComp @send_user_data="send_user_data"  ref="generalParameter" v-if="selected_parameter == 0"></GeneralParameterComp>
+            <CustomizeParameterComp @send_user_data="send_user_data" ref="customizePrameter"  v-if="selected_parameter == 1"></CustomizeParameterComp>
+            <SecurityParameterComp @change_user_password="change_user_password"  ref="securityParameter" v-if="selected_parameter == 2"></SecurityParameterComp>
         </div>
      </main>
      <FooterComp></FooterComp>
@@ -28,14 +30,16 @@ import NavBar from "@/components/all/NavBar.vue"
 import GeneralParameterComp from "@/components/profile/GeneralParameterComp.vue"
 import SecurityParameterComp from "@/components/profile/SecurityParameterComp.vue"
 import FooterComp from "@/components/all/FooterComp.vue";
+import CustomizeParameterComp from "@/components/profile/CustomizeParameterComp.vue";
 export default {
     name : "ProfilPage"
     ,
     components : {
-        NavBar,GeneralParameterComp,
-        SecurityParameterComp,
-        FooterComp
-    },
+    NavBar, GeneralParameterComp,
+    SecurityParameterComp,
+    FooterComp,
+    CustomizeParameterComp
+},
     async mounted(){
         this.verifyWidth()
         window.addEventListener('resize', this.verifyWidth);
@@ -64,7 +68,7 @@ export default {
 
     data(){
         return {
-            parameters : ["Paramètres généraux", "sécurité"],
+            parameters : ["Paramètres généraux","Personnalisation", "sécurité"],
             selected_parameter : 0,
             showParameters : false,
             showAllParameter : true
@@ -75,6 +79,7 @@ export default {
             this.showAllParameter = window.innerWidth >= 1200
         },
         async change_user_password(oldPassword, newPassword){
+            // PEUT etre combinee par send_user_data
 
             const data = {newPassword : newPassword, 
             oldPassword : oldPassword,
@@ -89,7 +94,7 @@ export default {
             this.$refs.securityParameter.response(body_res)
         },
 
-        async send_user_data(data){
+        async send_user_data(data, sender){
             const jws = this.$cookies.get("jws")
             data.jws = jws
             let body_res = await fetch("http://localhost:9090/updateProfile", {
@@ -98,7 +103,9 @@ export default {
             }).then((res)=>{
                 return res.json();
             })  
-            this.$refs.generalParameter.response(body_res)
+
+            if(sender == "general parameter") this.$refs.generalParameter.response(body_res)
+            if(sender == "customize parameter") this.$refs.customizePrameter.response(body_res)
         }
     }
 }
